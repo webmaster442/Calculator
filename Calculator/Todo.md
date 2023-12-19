@@ -1,5 +1,4 @@
 ﻿- Keymap command to display keymaps
-- Intro, when starting program
 - ArcSin, ArcCos, ArcTan functions
 - Commands to save variables to json and load from json
 - Render manual to html

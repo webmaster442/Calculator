@@ -2,45 +2,42 @@
 
 using CalculatorShell.Core;
 
+
 namespace Calculator;
 
-using LineReader = CalculatorShell.Core.Readline.ReadLine;
-
-internal sealed class TerminalInput : ITerminalInput, CalculatorShell.Core.Readline.IAutoCompleteHandler
+internal sealed class TerminalInput : ITerminalInput
 {
-    public string Prompt { get; set; }
+    public string Prompt
+    {
+        get => _configuration.Prompt.ToString() ?? string.Empty;
+        set => _configuration.Prompt = value;
+    }
     public CultureInfo CultureInfo { get; set; }
     public char[] Separators { get; set; }
 
-    private string[] _suggestions;
+    private readonly PrettyPrompt.Prompt _reader;
+    private readonly PrettyPrompt.PromptConfiguration _configuration;
+    private readonly Callbacks _callbacks;
 
     public TerminalInput()
     {
-        _suggestions = Array.Empty<string>();
+        _configuration = new PrettyPrompt.PromptConfiguration();
+        _callbacks = new Callbacks();
+        _reader = new PrettyPrompt.Prompt(null, _callbacks, null, _configuration);
+
         Prompt = string.Empty;
         Separators = [' '];
         CultureInfo = CultureInfo.InvariantCulture;
-        LineReader.HistoryEnabled = true;
-        LineReader.HistorySize = 100;
-        LineReader.UndoEnabled = true;
-        LineReader.AutoCompletionEnabled = true;
-        LineReader.AutoCompletionHandler = this;
     }
 
     public (string cmd, Arguments Arguments) ReadLine()
     {
-        string line = LineReader.Read(Prompt);
-        return ArgumentsFactory.Create(line, CultureInfo);
-    }
-
-    public string[] GetSuggestions(string text, int index)
-    {
-        string key = text[index..];
-        return _suggestions.Where(x => x.StartsWith(key, StringComparison.OrdinalIgnoreCase)).ToArray();
+        var result = _reader.ReadLineAsync().GetAwaiter().GetResult();
+        return ArgumentsFactory.Create(result.Text, CultureInfo);
     }
 
     internal void SetCommands(IEnumerable<string> keys, HashSet<string> exitCommands)
     {
-        _suggestions = keys.Concat(exitCommands).Order().ToArray();
+        _callbacks.Data = keys.Concat(exitCommands).ToArray();
     }
 }
