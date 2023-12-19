@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Calculator.Tests" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Readline\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\CalculatorShell.Engine\CalculatorShell.Engine.csproj" />
+  </ItemGroup>
+
+</Project>
