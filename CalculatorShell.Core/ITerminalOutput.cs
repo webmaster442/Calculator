@@ -8,4 +8,5 @@ public interface ITerminalOutput
     void Error(string message);
     void List(string header, IEnumerable<string> data);
     void Result(string message);
+    void MarkupLine(string markup);
 }
