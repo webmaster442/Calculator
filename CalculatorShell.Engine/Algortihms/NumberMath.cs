@@ -95,4 +95,11 @@ internal static class NumberMath
     [EngineFunction]
     public static Number Percent(Number number, Number percent)
         => new(Doubles.Percent(number.ToDouble(), percent.ToDouble()));
+
+    [EngineFunction]
+    public static Number IsPrime(Number number)
+    {
+        bool result = Integers.IsPrime(number.ToInt128());
+        return new(result ? Int128.One : Int128.Zero);
+    }
 }

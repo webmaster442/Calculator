@@ -130,6 +130,10 @@ The following functions can be used in expression, when using the `eval` command
     
     Returns the largest integral value less than or equal to the specified number. Works on numbers that can be converted to double.
 
+* `IsPrime(x)`
+
+    Returns 1, if the parameter number is a prime number. Returns 0, if it's not.
+
 * `Ln(x)`
 
     Returns the natural (base e) logarithm of a specified number. Works on numbers that can be converted to double.

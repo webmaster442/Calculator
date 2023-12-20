@@ -65,9 +65,15 @@ internal static class Doubles
         return SinCorrected(angle, angleSystem) / CosCorrected(angle, angleSystem);
     }
 
-    public static double AtanCorrected(double angle, AngleSystem angleSystem)
+    public static double AtanCorrected(double value, AngleSystem angleSystem)
     {
-        return AsinCorrected(angle, angleSystem) / AcosCorrected(angle, angleSystem);
+        return angleSystem switch
+        {
+            AngleSystem.Rad => Math.Round(Math.Atan(value), 14),
+            AngleSystem.Deg => Math.Round(RadToDeg(Math.Atan(value)), 14),
+            AngleSystem.Grad => Math.Round(RadToGrad(Math.Atan(value)), 14),
+            _ => throw new UnreachableException(),
+        };
     }
 
     public static double Percent(double number, double percent)

@@ -33,6 +33,7 @@ Bx1010 | 10
 (1/3)/(2*4) | 1/24
 abs(-2) | 2
 cplx(1; 0) | real: 1 imaginary: 0
+cplx(1/2; 1) | real: 0.5 imaginary: 1
 abs(-1) | 1
 abs(1) | 1
 floor(3.5) | 3
@@ -55,3 +56,8 @@ factorial(1) | 1
 factorial(0) | 0
 percent(3000; 20) | 600
 percent(100; 120) | 120
+isprime(7) | 1
+isprime(8) | 0
+asin(1) | 90
+acos(0) | 90
+atan(1) | 45
