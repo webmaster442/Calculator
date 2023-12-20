@@ -84,17 +84,77 @@ Example: `unset x`
 
 # Functions 
 
-* `Pow(x; y)` - Returns a specified number raised to the specified power. Works on complex and numbers that can be converted to double.
-* `Abs(x)` - Returns the absolute value of a number. Works on complex and numbers that can be converted to double.
-* `Floor(x)` -  Returns the largest integral value less than or equal to the specified number. Works on numbers that can be converted to double.
-* `Ceiling(x)` -  Returns the smallest integral value that is greater than or equal to the specified number. Works on numbers that can be converted to double.
-* `Ln(x)` - Returns the natural (base e) logarithm of a specified number. Works on numbers that can be converted to double.
-* `Log(x; y)` - Returns the logarithm of a specified number in a specified base. Works on numbers that can be converted to double.
-* `Root(x; y)` - Returns the Nth root of a specified number. Works on numbers that can be converted to double.
-* `Sign(x)` - Returns an integer that indicates the sign of the parameter number. Works on numbers that can be converted to double.
-* `Cplx(x; y)` - Creates a complex number from two numbers that can be converted to double.
-* `Sin(x)` - Returns the sine of the specified angle. Works on numbers that can be converted to double. Result is affected by current angle system.
-* `Cos(x)` - Returns the cosine of the specified angle. Works on numbers that can be converted to double. Result is affected by current angle system.
-* `Tan(x)` - Returns the tangent of the specified angle. Works on numbers that can be converted to double. Result is affected by current angle system.
-* `Factorial(x)` - Computes the factorial of a given number. Works on numbers that can be converted to double.
-* `Percent(x; y)` -  Computes the y percent of x. Works on numbers that can be converted to double.
+sign   sin  tan
+
+The following functions can be used in expression, when using the `eval` command to evaluate expressions:
+
+* `Abs(x)`
+
+    Returns the absolute value of a number. Works on complex and numbers that can be converted to double.
+
+* `Acos(x)`
+
+    The inverse of the cosine function. Given a value between -1 and 1, the acos function returns an angle, whose cosine is equal to that value. The range of the acos function is 0 radians (0° or 0 gradians) to π radians (180° or 200 gradians)
+
+    Works on numbers that can be converted to double. Result is affected by current angle system.
+
+* `Asin(x)`
+
+    The inverse of the sine function. It takes as input a value between -1 and 1 and returns an angle, hose sine is equal to that value. The range of the arcsin function is limited to -π/2 radians (-90° or -100 gradians) to π/2 radians (90° or 100 gradians), ensuring a unique output for each input within that range.
+
+    Works on numbers that can be converted to double. Result is affected by current angle system.
+
+* `Atan(x)`
+
+    the inverse of the tangent function. It takes as input a real number and returns an angle in radians whose tangent is equal to that number. The range of the arctan function is -π/2 radians (-90° or -100 gradians) to π/2 radians (90° or 100 gradians), making it suitable for determining angles in right-angled triangles.
+
+    Works on numbers that can be converted to double. Result is affected by current angle system.
+
+* `Ceil(x)` 
+
+    Returns the smallest integral value that is greater than or equal to the specified number. Works on numbers that can be converted to double.
+
+* `Cos(x)`
+
+    Returns the cosine of the specified angle. Works on numbers that can be converted to double. Result is affected by current angle system.
+
+* `Cplx(x; y)`
+
+    Creates a complex number from two numbers that can be converted to double.
+
+* `Factorial(x)`
+
+    Computes the factorial of a given number. Works on numbers that can be converted to double.
+
+* `Floor(x)`
+    
+    Returns the largest integral value less than or equal to the specified number. Works on numbers that can be converted to double.
+
+* `Ln(x)`
+
+    Returns the natural (base e) logarithm of a specified number. Works on numbers that can be converted to double.
+
+* `Log(x; y)`
+
+    Returns the logarithm of a specified number in a specified base. Works on numbers that can be converted to double.
+
+* `Percent(x; y)`
+
+    Computes the y percent of x. Works on numbers that can be converted to double.
+
+* `Root(x; y)`
+
+    Returns the Nth root of a specified number. Works on numbers that can be converted to double.
+
+* `Sign(x)`
+
+    Returns an integer that indicates the sign of the parameter number. Works on numbers that can be converted to double.
+
+* `Sin(x)`
+
+    Returns the sine of the specified angle. Works on numbers that can be converted to double. Result is affected by current angle system.
+
+
+* `Tan(x)`
+
+    Returns the tangent of the specified angle. Works on numbers that can be converted to double. Result is affected by current angle system.

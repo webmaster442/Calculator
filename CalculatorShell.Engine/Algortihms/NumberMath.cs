@@ -77,6 +77,18 @@ internal static class NumberMath
         => new(Doubles.TanCorrected(input.ToDouble(), AngleSystem));
 
     [EngineFunction]
+    public static Number Asin(Number input)
+        => new(Doubles.AsinCorrected(input.ToDouble(), AngleSystem));
+
+    [EngineFunction]
+    public static Number Acos(Number input)
+        => new(Doubles.AcosCorrected(input.ToDouble(), AngleSystem));
+
+    [EngineFunction]
+    public static Number Atan(Number input)
+        => new(Doubles.AtanCorrected(input.ToDouble(), AngleSystem));
+
+    [EngineFunction]
     public static Number Factorial(Number input)
         => new(Integers.Factorial(input.ToInt128()));
 

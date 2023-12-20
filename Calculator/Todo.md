@@ -1,5 +1,3 @@
-﻿- Keymap command to display keymaps
-- ArcSin, ArcCos, ArcTan functions
-- Commands to save variables to json and load from json
+﻿- Commands to save variables to json and load from json
 - Render manual to html
 - man command to open rendered html
