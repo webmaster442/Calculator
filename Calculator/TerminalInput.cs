@@ -36,8 +36,13 @@ internal sealed class TerminalInput : ITerminalInput
         return ArgumentsFactory.Create(result.Text, CultureInfo);
     }
 
-    internal void SetCommands(IEnumerable<string> keys, HashSet<string> exitCommands)
+    internal void SetCommandData(IReadOnlyDictionary<string, string> commandHelps, HashSet<string> exitCommands)
     {
-        _callbacks.Data = keys.Concat(exitCommands).ToArray();
+        var dict = commandHelps.ToDictionary();
+        foreach (var cmd in exitCommands) 
+        {
+            dict.Add(cmd, "Exit program");
+        }
+        _callbacks.Data = dict;
     }
 }

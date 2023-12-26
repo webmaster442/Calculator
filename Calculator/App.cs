@@ -26,7 +26,7 @@ internal sealed class App :
         _loader = new(typeof(App), _host);
         _exitCommands = ["exit", "quit"];
 
-        _host.SetComandNames(_loader.Commands.Keys, _exitCommands);
+        _host.SetCommandData(_loader.CommandHelps, _exitCommands);
         _host.MessageBus.RegisterComponent(this);
 
 

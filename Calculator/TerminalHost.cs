@@ -39,8 +39,8 @@ internal sealed class TerminalHost : IHost
 
     public IMessageBus MessageBus { get; }
 
-    internal void SetComandNames(IEnumerable<string> keys, HashSet<string> exitCommands)
+    internal void SetCommandData(IReadOnlyDictionary<string, string> commandHelps, HashSet<string> exitCommands)
     {
-        _input.SetCommands(keys, exitCommands);
+        _input.SetCommandData(commandHelps, exitCommands);
     }
 }
