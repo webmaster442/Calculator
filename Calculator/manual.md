@@ -15,6 +15,22 @@ Clears the terminal output
 
 Parameters: No parameters are needed
 
+## commands, cmds
+
+Prints out the list of available commands.
+
+Parameters: No parameters are needed
+
+## convert
+
+Converts between number systems
+
+Parameters:
+
+1. Number in source system
+2. Source number system. Must be in range 2 to 35
+1. Target number system. Must be in range 2 to 35
+
 ## deg
 
 Changes the angle mode to degrees, which divides the circle into 360 parts
