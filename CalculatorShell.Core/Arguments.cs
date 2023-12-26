@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 
 namespace CalculatorShell.Core;
 
@@ -12,6 +13,11 @@ public sealed class Arguments
         _arguments = commandLine;
         _formatProvider = formatProvider;
     }
+
+    public string this[int index]
+        => _arguments[index];
+
+    public int Length => _arguments.Count;
 
     public T Parse<T>(int index) where T : IParsable<T>
     {

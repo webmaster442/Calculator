@@ -14,9 +14,9 @@ internal class ArgumentsFactoryTests
         Assert.Multiple(() =>
         {
             Assert.That(result.cmd, Is.EqualTo("foo"));
-            Assert.That(result.args.Parse<string>(0), Is.EqualTo("arg1"));
-            Assert.That(result.args.Parse<string>(1), Is.EqualTo("arg2"));
-            Assert.That(result.args.Parse<string>(2), Is.EqualTo("arg3"));
+            Assert.That(result.args[0], Is.EqualTo("arg1"));
+            Assert.That(result.args[1], Is.EqualTo("arg2"));
+            Assert.That(result.args[2], Is.EqualTo("arg3"));
         });
     }
 
@@ -27,8 +27,8 @@ internal class ArgumentsFactoryTests
         Assert.Multiple(() =>
         {
             Assert.That(result.cmd, Is.EqualTo("foo"));
-            Assert.That(result.args.Parse<string>(0), Is.EqualTo("arg1 arg2"));
-            Assert.That(result.args.Parse<string>(1), Is.EqualTo("arg3"));
+            Assert.That(result.args[0], Is.EqualTo("arg1 arg2"));
+            Assert.That(result.args[1], Is.EqualTo("arg3"));
         });
     }
 
