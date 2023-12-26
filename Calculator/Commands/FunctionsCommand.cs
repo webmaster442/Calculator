@@ -12,6 +12,9 @@ internal sealed class FunctionsCommand : ShellCommand
 
     public override string[] Names => ["functions"];
 
+    public override string Synopsys
+        => "Prints out the list of available functions in eval mode";
+
     public override void Execute(Arguments args)
     {
         var data = Host.MessageBus

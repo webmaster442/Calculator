@@ -14,6 +14,9 @@ internal sealed class SimplifyCommand : ShellCommand
 
     public override string[] Names => ["simplify"];
 
+    public override string Synopsys
+        => "Simplifies a logical expression";
+
     public override void Execute(Arguments args)
     {
         args.ThrowIfNotSpecifiedAtLeast(1);

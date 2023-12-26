@@ -17,7 +17,7 @@ Parameters: No parameters are needed
 
 ## commands, cmds
 
-Prints out the list of available commands.
+Prints out the list of available commands
 
 Parameters: No parameters are needed
 
@@ -48,6 +48,12 @@ Parameters:
 An Expression
 
 Example: `eval (3+4)*5`
+
+## functions
+
+Prints out the list of available functions in eval mode
+
+Parameters: No parameters are needed
 
 ## grad
 
@@ -90,7 +96,7 @@ Example: `simplify 2 1 3`
 
 ## unset 
 
-Delete a variable
+Unset a variable
 
 Parameters:
 

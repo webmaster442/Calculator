@@ -12,6 +12,9 @@ internal sealed class CommandsCommand : ShellCommand
 
     public override string[] Names => ["commands", "cmds"];
 
+    public override string Synopsys
+        => "Prints out the list of available commands";
+
     public override void Execute(Arguments args)
     {
         var data = Host.MessageBus

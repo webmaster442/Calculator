@@ -12,6 +12,9 @@ internal sealed class UnSetCommand : ShellCommand
 
     public override string[] Names => ["unset"];
 
+    public override string Synopsys
+        => "Unset a variable";
+
     public override void Execute(Arguments args)
     {
         args.ThrowIfNotSpecifiedAtLeast(1);

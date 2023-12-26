@@ -11,6 +11,9 @@ internal sealed class RadCommand : ShellCommand
 
     public override string[] Names => ["rad"];
 
+    public override string Synopsys 
+        => "Changes the angle mode to radians";
+
     public override void Execute(Arguments args)
     {
         Host.MessageBus.Broadcast(new SimpleMessage<AngleSystem>(Guid.Empty, AngleSystem.Rad));

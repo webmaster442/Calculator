@@ -11,6 +11,9 @@ internal sealed class SetCommand : ShellCommand
 
     public override string[] Names => ["set"];
 
+    public override string Synopsys
+        => "Sets a variable";
+
     public override void Execute(Arguments args)
     {
         args.ThrowIfNotSpecifiedAtLeast(2);

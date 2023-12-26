@@ -5,6 +5,7 @@ namespace CalculatorShell.Core;
 public sealed class CommandLoader
 {
     private readonly Dictionary<string, IShellCommand> _commands;
+    private readonly Dictionary<string, string> _commandHelps;
     private readonly List<IAutoExecShellCommand> _autoExecCommands;
 
     public IReadOnlyList<IAutoExecShellCommand> AutoExecCommands
@@ -13,9 +14,13 @@ public sealed class CommandLoader
     public IReadOnlyDictionary<string, IShellCommand> Commands
         => _commands;
 
+    public IReadOnlyDictionary<string, string> CommandHelps
+        => _commandHelps;
+
     public CommandLoader(Type atypeFromAssembly, IHost host)
     {
         _commands = new Dictionary<string, IShellCommand>();
+        _commandHelps = new Dictionary<string, string>();
         _autoExecCommands = new List<IAutoExecShellCommand>();
         LoadCommands(atypeFromAssembly, host);
         LoadAutoExecCommands(atypeFromAssembly, host);
@@ -53,6 +58,7 @@ public sealed class CommandLoader
                     foreach (var name in cmd.Names)
                     {
                         _commands.Add(name, cmd);
+                        _commandHelps.Add(name, cmd.Synopsys);
                     }
                 }
             }

@@ -11,5 +11,7 @@ public abstract class ShellCommandAsync : IShellCommand
 
     public abstract string[] Names { get; }
 
+    public abstract string Synopsys { get; }
+
     public abstract Task Execute(Arguments args, CancellationToken cancellationToken);
 }

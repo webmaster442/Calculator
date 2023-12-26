@@ -3,11 +3,11 @@ using PrettyPrompt.Completion;
 using PrettyPrompt.Documents;
 
 namespace Calculator;
-internal class Callbacks : PromptCallbacks
+internal sealed class InputPromptCallbacks : PromptCallbacks
 {
     public string[] Data { get; set; }
 
-    public Callbacks()
+    public InputPromptCallbacks()
     {
         Data = Array.Empty<string>();
     }

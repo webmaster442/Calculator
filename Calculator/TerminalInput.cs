@@ -17,12 +17,12 @@ internal sealed class TerminalInput : ITerminalInput
 
     private readonly PrettyPrompt.Prompt _reader;
     private readonly PrettyPrompt.PromptConfiguration _configuration;
-    private readonly Callbacks _callbacks;
+    private readonly InputPromptCallbacks _callbacks;
 
     public TerminalInput()
     {
         _configuration = new PrettyPrompt.PromptConfiguration();
-        _callbacks = new Callbacks();
+        _callbacks = new InputPromptCallbacks();
         _reader = new PrettyPrompt.Prompt(null, _callbacks, null, _configuration);
 
         Prompt = string.Empty;

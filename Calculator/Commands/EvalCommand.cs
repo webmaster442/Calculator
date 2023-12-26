@@ -25,6 +25,9 @@ internal class EvalCommand : ShellCommandAsync,
 
     public override string[] Names => ["$", "eval", "calc"];
 
+    public override string Synopsys
+        => "Evaluate an expression and writes out the result";
+
     public Guid ClientId { get; }
 
     public override async Task Execute(Arguments args, CancellationToken cancellationToken)

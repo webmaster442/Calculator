@@ -12,6 +12,8 @@ public abstract class ShellCommand : IShellCommand
 
     public abstract string[] Names { get; }
 
+    public abstract string Synopsys { get; }
+
     public abstract void Execute(Arguments args);
 
     public Task Execute(Arguments args, CancellationToken cancellationToken)

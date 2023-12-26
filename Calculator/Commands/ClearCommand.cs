@@ -10,6 +10,9 @@ internal sealed class ClearCommand : ShellCommand
 
     public override string[] Names => ["cls", "clear"];
 
+    public override string Synopsys
+        => "Clears the terminal output";
+
     public override void Execute(Arguments args)
     {
         Host.Output.Clear();
