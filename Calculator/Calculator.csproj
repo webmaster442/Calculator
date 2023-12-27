@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Calculator.Web\Calculator.Web.csproj" />
     <ProjectReference Include="..\CalculatorShell.Core\CalculatorShell.Core.csproj" />
     <ProjectReference Include="..\CalculatorShell.Engine\CalculatorShell.Engine.csproj" />
   </ItemGroup>

@@ -31,6 +31,20 @@ Parameters:
 2. Source number system. Must be in range 2 to 35
 1. Target number system. Must be in range 2 to 35
 
+## currency
+
+Converts between currency exchange rates.
+
+Exchange rates are provided by Hungarian MNB. Requires internet connection to work
+
+If started without parameters all exchange rates are printed.
+
+Parameters:
+
+1. Currency amount
+2. Source currency code
+3. Target currency code
+
 ## deg
 
 Changes the angle mode to degrees, which divides the circle into 360 parts
@@ -48,6 +62,12 @@ Parameters:
 An Expression
 
 Example: `eval (3+4)*5`
+
+## flushcache
+
+Invalidates & deletes cached web service results.
+
+Parameters: No parameters are needed
 
 ## functions
 

@@ -32,4 +32,15 @@ internal class ArgumentsFactoryTests
         });
     }
 
+    [Test]
+    public void Test_Create_Empty()
+    {
+        var result = ArgumentsFactory.Create("", CultureInfo.InvariantCulture);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.cmd, Is.EqualTo(string.Empty));
+            Assert.That(result.args.Length, Is.EqualTo(0));
+        });
+    }
+
 }

@@ -23,7 +23,7 @@ internal class EvalCommand : ShellCommandAsync,
         Host.MessageBus.RegisterComponent(this);
     }
 
-    public override string[] Names => ["$", "eval", "calc"];
+    public override string[] Names => ["$", "eval"];
 
     public override string Synopsys
         => "Evaluate an expression and writes out the result";

@@ -6,6 +6,9 @@ public static class ArgumentsFactory
 {
     public static (string cmd, Arguments args) Create(string line, IFormatProvider formatProvider)
     {
+        if (string.IsNullOrEmpty(line))
+            return (string.Empty, new Arguments(Array.Empty<string>(), formatProvider));
+
         List<string> items = new();
         StringBuilder temp = new();
         bool isQutes = false;

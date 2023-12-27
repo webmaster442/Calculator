@@ -10,4 +10,5 @@ public interface IHost
     string Prompt { get; set; }
     ITerminalOutput Output { get; }
     IMessageBus MessageBus { get; }
+    IWebServices WebServices { get; }
 }
