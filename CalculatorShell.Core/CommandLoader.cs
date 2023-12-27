@@ -2,7 +2,7 @@
 
 namespace CalculatorShell.Core;
 
-public sealed class CommandLoader
+public sealed class CommandLoader : IDisposable
 {
     private readonly Dictionary<string, IShellCommand> _commands;
     private readonly Dictionary<string, string> _commandHelps;
@@ -76,5 +76,14 @@ public sealed class CommandLoader
             .Where(t => !t.IsAbstract
                     && !t.IsInterface
                     && t.IsAssignableTo(typeof(TInterface)));
+    }
+
+    public void Dispose()
+    {
+        foreach (var cmd in _commands)
+        {
+            if (cmd.Value is IDisposable disposable)
+                disposable.Dispose();
+        }
     }
 }

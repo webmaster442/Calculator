@@ -99,6 +99,7 @@ internal sealed class App :
             _currentTokenSource.Dispose();
             _currentTokenSource = null;
         }
+        _loader.Dispose();
     }
 
     void IMessageClient<SimpleMessage<AngleSystem>>.ProcessMessage(SimpleMessage<AngleSystem> message)
