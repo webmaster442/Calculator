@@ -25,6 +25,9 @@ public class Varialbes : IVariables
 
     public Number Get(string name)
     {
+        if (!_variables.ContainsKey(name))
+            throw new EngineException($"Variable hasn't been set: {name}");
+
         return _variables[name];
     }
 

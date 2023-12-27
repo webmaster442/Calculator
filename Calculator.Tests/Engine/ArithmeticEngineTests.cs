@@ -61,6 +61,7 @@ internal class ArithmeticEngineTests
     [TestCase("1^")]
     [TestCase("Cplx(1,1)")]
     [TestCase("Cplx(1;1)%Cplx(1;1)")]
+    [TestCase("foo")]
     public async Task ExecuteAsync_Returns_Exception_WhenInvalid(string input)
     {
         var result = await _engine.ExecuteAsync(input, CancellationToken.None);
