@@ -15,7 +15,7 @@ internal sealed class FunctionsCommand : ShellCommand
     public override string Synopsys
         => "Prints out the list of available functions in eval mode";
 
-    public override void Execute(Arguments args)
+    public override void ExecuteInternal(Arguments args)
     {
         var data = Host.MessageBus
             .Request<IEnumerable<string>, FunctionListMessage>(new FunctionListMessage(Guid.Empty))

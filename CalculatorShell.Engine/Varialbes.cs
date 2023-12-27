@@ -4,27 +4,50 @@ namespace CalculatorShell.Engine;
 
 public class Varialbes : IVariables
 {
-    private readonly HashSet<string> _constants;
     private readonly Dictionary<string, Number> _variables;
+    private readonly Dictionary<string, Number> _constants;
 
     public Varialbes()
     {
-        _variables = new Dictionary<string, Number>
+        _variables = new Dictionary<string, Number>();
+        _constants = new Dictionary<string, Number>
         {
-            { "e", new Number(Math.E) },
-            { "pi", new Number(Math.PI) },
-        };
-        _constants = new HashSet<string>
-        {
-            "e", "pi"
+            { "e",          new Number(Math.E) },
+            { "pi",         new Number(Math.PI) },
+            { "quetta",     new Number(1E30) },
+            { "ronna",      new Number(1E27) },
+            { "yotta",      new Number(1E24) },
+            { "zetta",      new Number(1E21) },
+            { "exa",        new Number(1E18) },
+            { "peta",       new Number(1E15) },
+            { "tera",       new Number(1E12) },
+            { "giga",       new Number(1E9) },
+            { "mega",       new Number(1E6) },
+            { "kilo",       new Number(1E3) },
+            { "hecto",      new Number(1E2) },
+            { "deca",       new Number(1E1) },
+            { "deci",       new Number(1E-1) },
+            { "centi",      new Number(1E-2) },
+            { "milli",      new Number(1E-3) },
+            { "micro",      new Number(1E-6) },
+            { "nano",       new Number(1E-9) },
+            { "pico",       new Number(1E-12) },
+            { "femto",      new Number(1E-15) },
+            { "atto",       new Number(1E-18) },
+            { "zepto",      new Number(1E-21) },
+            { "yocto",      new Number(1E-24) },
+            { "ronto",      new Number(1E-27) },
+            { "quecto",     new Number(1E-30) },
         };
     }
-
     public IEnumerable<string> VariableNames
         => _variables.Keys;
 
     public Number Get(string name)
     {
+        if (_constants.ContainsKey(name))
+            return _constants[name];
+
         if (!_variables.ContainsKey(name))
             throw new EngineException($"Variable hasn't been set: {name}");
 
@@ -32,7 +55,7 @@ public class Varialbes : IVariables
     }
 
     public bool IsConstant(string name)
-        => _constants.Contains(name);
+        => _constants.Keys.Contains(name);
 
     public void LoadFromJson(string json)
     {
@@ -42,10 +65,11 @@ public class Varialbes : IVariables
             _variables.Clear();
             foreach (var item in data)
             {
+                if (IsConstant(item.Key))
+                    continue;
+
                 _variables.Add(item.Key, new Number(item.Value));
             }
-            _variables["e"] = new Number(Math.E);
-            _variables["pi"] = new Number(Math.PI);
         }
     }
 
@@ -54,9 +78,6 @@ public class Varialbes : IVariables
         Dictionary<string, JsonNumber> result = new();
         foreach (var item in _variables)
         {
-            if (_constants.Contains(item.Key))
-                continue;
-
             result.Add(item.Key, item.Value.ToJsonNumber());
         }
         return JsonSerializer.Serialize(result);
@@ -64,14 +85,17 @@ public class Varialbes : IVariables
 
     public void Set(string name, Number value)
     {
-        if (_constants.Contains(name))
-            throw new EngineException($"Can't override constant {name}");
+        if (IsConstant(name))
+            throw new EngineException($"Can't override constant: {name}");
 
         _variables[name] = value;
     }
 
     public void Unset(string name)
     {
+        if (IsConstant(name))
+            throw new EngineException($"Can't unset constant: {name}");
+
         if (_variables.ContainsKey(name))
             _variables.Remove(name);
     }

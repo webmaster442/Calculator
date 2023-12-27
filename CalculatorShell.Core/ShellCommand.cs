@@ -1,7 +1,7 @@
 ﻿
 namespace CalculatorShell.Core;
 
-public abstract class ShellCommand : IShellCommand
+public abstract class ShellCommand : ISyncShellCommand
 {
     protected ShellCommand(IHost host)
     {
@@ -14,18 +14,13 @@ public abstract class ShellCommand : IShellCommand
 
     public abstract string Synopsys { get; }
 
-    public abstract void Execute(Arguments args);
+    public abstract void ExecuteInternal(Arguments args);
 
-    public Task Execute(Arguments args, CancellationToken cancellationToken)
-    {
-        return Task.Run(() => SeafeExecute(args), cancellationToken);
-    }
-
-    private void SeafeExecute(Arguments args)
+    public void Execute(Arguments args)
     {
         try
         {
-            Execute(args);
+            ExecuteInternal(args);
         }
         catch (Exception ex)
         {

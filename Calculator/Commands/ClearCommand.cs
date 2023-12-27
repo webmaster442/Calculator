@@ -13,7 +13,7 @@ internal sealed class ClearCommand : ShellCommand
     public override string Synopsys
         => "Clears the terminal output";
 
-    public override void Execute(Arguments args)
+    public override void ExecuteInternal(Arguments args)
     {
         Host.Output.Clear();
     }

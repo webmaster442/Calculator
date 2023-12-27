@@ -30,7 +30,7 @@ internal class EvalCommand : ShellCommandAsync,
 
     public Guid ClientId { get; }
 
-    public override async Task Execute(Arguments args, CancellationToken cancellationToken)
+    public override async Task ExecuteInternal(Arguments args, CancellationToken cancellationToken)
     {
         EngineResult result = await _engine.ExecuteAsync(string.Join(' ', args.AsEnumerable()), cancellationToken);
         result.When(number => Host.Output.Result(number.ToString(Host.CultureInfo)),
@@ -43,12 +43,32 @@ internal class EvalCommand : ShellCommandAsync,
     async void IMessageClient<SetVarMessage>.ProcessMessage(SetVarMessage message)
     {
         EngineResult result = await _engine.ExecuteAsync(message.Expression, CancellationToken.None);
-        result.When(number => _varialbes.Set(message.VariableName, number),
-            exception => throw exception);
+        result.When(number => 
+        {
+            try
+            {
+                _varialbes.Set(message.VariableName, number);
+            }
+            catch (Exception ex)
+            {
+                Host.Output.Error(ex);
+                Host.Output.BlankLine();
+            }
+        },
+        exception => Host.Output.Error(exception));
     }
 
     void IMessageClient<UnsetVarMessage>.ProcessMessage(UnsetVarMessage message)
-        => _varialbes.Unset(message.VariableName);
+    {
+        try
+        {
+            _varialbes.Unset(message.VariableName);
+        }
+        catch (Exception ex)
+        {
+            Host.Output.Error(ex);
+        }
+    }
 
     IEnumerable<string> IMessageProvider<IEnumerable<string>, FunctionListMessage>.ProvideMessage(FunctionListMessage request)
         => _engine.Functions;

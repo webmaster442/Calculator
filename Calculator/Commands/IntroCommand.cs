@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-using CalculatorShell.Core;
+﻿using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 

@@ -15,7 +15,7 @@ internal sealed class CommandsCommand : ShellCommand
     public override string Synopsys
         => "Prints out the list of available commands";
 
-    public override void Execute(Arguments args)
+    public override void ExecuteInternal(Arguments args)
     {
         var data = Host.MessageBus
             .Request<IEnumerable<string>, CommandListMessage>(new CommandListMessage(Guid.Empty))

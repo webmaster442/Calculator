@@ -13,7 +13,7 @@ internal sealed class FlushCacheCommand : ShellCommand
     public override string Synopsys
         => "Invalidates & deletes cached web service results";
 
-    public override void Execute(Arguments args)
+    public override void ExecuteInternal(Arguments args)
     {
         Host.WebServices.FlushCache();
         Host.Output.Result("Web service cache invalidated");

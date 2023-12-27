@@ -53,7 +53,16 @@ internal sealed class App :
                 {
                     Console.CancelKeyPress += OnCancelKeyPress;
                     _currentTokenSource = new CancellationTokenSource();
-                    await _loader.Commands[cmdAndArgs.cmd].Execute(cmdAndArgs.Arguments, _currentTokenSource.Token);
+
+                    var command = _loader.Commands[cmdAndArgs.cmd];
+
+                    if (command is ISyncShellCommand sync)
+                        sync.Execute(cmdAndArgs.Arguments);
+                    else if (command is IAsyncShellCommand async)
+                        await async.Execute(cmdAndArgs.Arguments, _currentTokenSource.Token);
+                    else
+                        throw new InvalidOperationException($"Can't execute: {cmdAndArgs.cmd}");
+
                     _host.Output.BlankLine();
                 }
                 finally

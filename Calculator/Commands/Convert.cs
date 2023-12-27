@@ -17,7 +17,7 @@ internal sealed class Convert : ShellCommand
     public override string Synopsys
         => "Converts between number systems";
 
-    public override void Execute(Arguments args)
+    public override void ExecuteInternal(Arguments args)
     {
         args.ThrowIfNotSpecifiedAtLeast(3);
 

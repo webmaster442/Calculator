@@ -1,6 +1,6 @@
 ﻿namespace CalculatorShell.Core;
 
-public abstract class ShellCommandAsync : IShellCommand
+public abstract class ShellCommandAsync : IAsyncShellCommand
 {
     protected ShellCommandAsync(IHost host)
     {
@@ -13,5 +13,17 @@ public abstract class ShellCommandAsync : IShellCommand
 
     public abstract string Synopsys { get; }
 
-    public abstract Task Execute(Arguments args, CancellationToken cancellationToken);
+    public async Task Execute(Arguments args, CancellationToken cancellationToken)
+    {
+        try
+        {
+            await ExecuteInternal(args, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            Host.Output.Error(ex);
+        }
+    }
+
+    public abstract Task ExecuteInternal(Arguments args, CancellationToken cancellationToken);
 }
