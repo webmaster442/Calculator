@@ -14,6 +14,16 @@ internal static class NumberMath
             : new Number(Math.Pow(input.ToDouble(), power.ToDouble()));
     }
 
+    public static int ToInt32(Number number)
+    {
+        Int128 int128 = number.ToInt128();
+
+        return int128 > int.MaxValue
+            || int128 < int.MinValue
+            ? throw EngineException.DataLoss<int>()
+            : (int)int128;
+    }
+
     [EngineFunction]
     public static Number Abs(Number input)
     {
@@ -102,4 +112,28 @@ internal static class NumberMath
         bool result = Integers.IsPrime(number.ToInt128());
         return new(result ? Int128.One : Int128.Zero);
     }
+
+    [EngineFunction]
+    public static Number Not(Number a)
+        => new(~a.ToInt128());
+
+    [EngineFunction]
+    public static Number And(Number a, Number b) 
+        => new(a.ToInt128() & b.ToInt128());
+
+    [EngineFunction]
+    public static Number Or(Number a, Number b)
+    => new(a.ToInt128() & b.ToInt128());
+
+    [EngineFunction]
+    public static Number Xor(Number a, Number b)
+        => new(a.ToInt128() ^ b.ToInt128());
+
+    [EngineFunction]
+    public static Number Shl(Number a, Number b)
+        => new(a.ToInt128() << ToInt32(b));
+
+    [EngineFunction]
+    public static Number Shr(Number a, Number b)
+        => new(a.ToInt128() >> ToInt32(b));
 }

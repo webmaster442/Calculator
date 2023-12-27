@@ -126,8 +126,6 @@ Example: `unset x`
 
 # Functions 
 
-sign   sin  tan
-
 The following functions can be used in expression, when using the `eval` command to evaluate expressions:
 
 * `Abs(x)`
@@ -139,6 +137,12 @@ The following functions can be used in expression, when using the `eval` command
     The inverse of the cosine function. Given a value between -1 and 1, the acos function returns an angle, whose cosine is equal to that value. The range of the acos function is 0 radians (0° or 0 gradians) to π radians (180° or 200 gradians)
 
     Works on numbers that can be converted to double. Result is affected by current angle system.
+
+* `And(x, y)`
+
+    Computes the bitwise-and of two values.
+
+    Works on numbers that can be converted to integers.
 
 * `Asin(x)`
 
@@ -184,6 +188,18 @@ The following functions can be used in expression, when using the `eval` command
 
     Returns the logarithm of a specified number in a specified base. Works on numbers that can be converted to double.
 
+* `Not(x)`
+
+    Computes the ones-complement representation of a given value.
+
+    Works on numbers that can be converted to integers.
+
+* `Or(x, y)`
+
+    Computes the bitwise-or of two values.
+
+    Works on numbers that can be converted to integers.
+
 * `Percent(x; y)`
 
     Computes the y percent of x. Works on numbers that can be converted to double.
@@ -191,6 +207,18 @@ The following functions can be used in expression, when using the `eval` command
 * `Root(x; y)`
 
     Returns the Nth root of a specified number. Works on numbers that can be converted to double.
+
+* `Shl(x, y)`
+
+    Shifts a value left by a given amount. y must be in range of 1 to 128
+
+    Works on numbers that can be converted to integers.
+
+* `Shr(x, y)`
+
+    Shifts a value right by a given amount. y must be in range of 1 to 128
+
+    Works on numbers that can be converted to integers.
 
 * `Sign(x)`
 
@@ -204,3 +232,9 @@ The following functions can be used in expression, when using the `eval` command
 * `Tan(x)`
 
     Returns the tangent of the specified angle. Works on numbers that can be converted to double. Result is affected by current angle system.
+
+* `Xor(x, y)`
+
+    Computes the exclusive-or of two values.
+
+    Works on numbers that can be converted to integers.
