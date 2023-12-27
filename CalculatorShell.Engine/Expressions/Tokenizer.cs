@@ -27,12 +27,12 @@ internal sealed class Tokenizer
     {
         while (_index < _function.Length)
         {
-            if (IsIdentifierChar(_function[_index], _culture.NumberFormat))
+            if (IsIdentifierChar(_function[_index], null, _culture.NumberFormat))
             {
                 StringBuilder identifier = new();
                 identifier.Append(_function[_index++]);
                 while (_index < _function.Length
-                    && IsIdentifierChar(_function[_index], _culture.NumberFormat))
+                    && IsIdentifierChar(_function[_index], _function[_index - 1], _culture.NumberFormat))
                 {
                     identifier.Append(_function[_index++]);
                 }
@@ -100,13 +100,14 @@ internal sealed class Tokenizer
         yield return new Token("", TokenType.Eof);
     }
 
-    private static bool IsIdentifierChar(char c, NumberFormatInfo numberFormatInfo)
+    private static bool IsIdentifierChar(char c, char? prev, NumberFormatInfo numberFormatInfo)
     {
         return
             numberFormatInfo.NumberDecimalSeparator.Any(x => x == c)
             || c == '_'
             || ('a' <= c && c <= 'z')
             || ('A' <= c && c <= 'Z')
-            || ('0' <= c && c <= '9');
+            || ('0' <= c && c <= '9')
+            || (prev != null && (prev == 'e' || prev == 'E') && c == '-');
     }
 }
