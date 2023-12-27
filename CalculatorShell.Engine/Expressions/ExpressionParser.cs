@@ -106,19 +106,12 @@ internal class ExpressionParser
                 }
                 var right = ParseMultExpression();
 
-                switch (opType)
+                exp = opType switch
                 {
-                    case TokenType.Plus:
-                        exp = new AddExpression(exp, right);
-                        break;
-
-                    case TokenType.Minus:
-                        exp = new SubExpression(exp, right);
-                        break;
-
-                    default:
-                        throw new EngineException($"Expected plus or minus, got: {opType}");
-                }
+                    TokenType.Plus => new AddExpression(exp, right),
+                    TokenType.Minus => new SubExpression(exp, right),
+                    _ => throw new EngineException($"Expected plus or minus, got: {opType}"),
+                };
             }
 
             return exp;
@@ -142,23 +135,13 @@ internal class ExpressionParser
                 }
                 var right = ParseExpExpression();
 
-                switch (opType)
+                exp = opType switch
                 {
-                    case TokenType.Multiply:
-                        exp = new MultExpression(exp, right);
-                        break;
-
-                    case TokenType.Divide:
-                        exp = new DivExpression(exp, right);
-                        break;
-
-                    case TokenType.Mod:
-                        exp = new ModExpression(exp, right);
-                        break;
-
-                    default:
-                        throw new EngineException($"Expected multiply, divide or mod. Got: {opType}");
-                }
+                    TokenType.Multiply => new MultExpression(exp, right),
+                    TokenType.Divide => new DivExpression(exp, right),
+                    TokenType.Mod => new ModExpression(exp, right),
+                    _ => throw new EngineException($"Expected multiply, divide or mod. Got: {opType}"),
+                };
             }
 
             return exp;
@@ -182,15 +165,11 @@ internal class ExpressionParser
                 }
                 var right = ParseUnaryExpression();
 
-                switch (opType)
+                exp = opType switch
                 {
-                    case TokenType.Exponent:
-                        exp = new ExpExpression(exp, right);
-                        break;
-
-                    default:
-                        throw new EngineException($"Expected exponent, got: {opType}");
-                }
+                    TokenType.Exponent => new ExpExpression(exp, right),
+                    _ => throw new EngineException($"Expected exponent, got: {opType}"),
+                };
             }
 
             return exp;

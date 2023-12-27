@@ -1,4 +1,5 @@
 ﻿using CalculatorShell.Engine;
+using CalculatorShell.Engine.MathComponents;
 
 namespace Calculator.Tests.Engine;
 

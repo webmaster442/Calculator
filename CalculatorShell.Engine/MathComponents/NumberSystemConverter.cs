@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace CalculatorShell.Engine;
+namespace CalculatorShell.Engine.MathComponents;
 
 public sealed class NumberSystemConverter
 {
@@ -55,7 +55,7 @@ public sealed class NumberSystemConverter
     {
         Int128 result = Int128.Zero;
         long factor = 1L;
-        for (int i=input.Length -1; i >=0; i--)
+        for (int i = input.Length - 1; i >= 0; i--)
         {
             char token = input[i];
             int tokenIndex = Array.IndexOf(_tokens, token);
