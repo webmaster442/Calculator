@@ -1,7 +1,7 @@
 ﻿using CalculatorShell.Engine;
 using CalculatorShell.Engine.MathComponents;
 
-namespace Calculator.Tests.Engine;
+namespace Calculator.Tests.Engine.MathComponents;
 
 [TestFixture]
 public class NumberSystemConverterTests

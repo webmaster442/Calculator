@@ -1,13 +1,62 @@
 ﻿# Accepted number formats
 
 1. Floating point numbers. E.g: `33.2`
-2. Complex numbers with the cplx function: `Cplx(5, 2)`
-3. Integers in decimal. E.g: `11000`
-4. Integers in hexadecimal. E.g: `HxFF`
-5. Integers in octal. E.g: `Ox77`
-6. Integers in binary. E.g: `Bx1001`
+2. Floating point numbers in scientific form. E.g: `1E-10`
+3. Complex numbers with the cplx function: `Cplx(5, 2)`
+4. Integers in decimal. E.g: `11000`
+5. Integers in hexadecimal. E.g: `HxFF`
+6. Integers in octal. E.g: `Ox77`
+7. Integers in binary. E.g: `Bx1001`
+
+# Recognized constants
+
+* pi
+* e 
+* quetta
+* ronna 
+* yotta 
+* zetta 
+* exa 
+* peta 
+* tera 
+* giga 
+* mega 
+* kilo 
+* hecto 
+* deca 
+* deci 
+* centi 
+* milli 
+* micro 
+* nano 
+* pico 
+* femto 
+* atto 
+* zepto 
+* yocto 
+* ronto 
 
 # Commands
+
+## bcddecode
+
+Decode a number from binary coded decimal to decimal
+
+Parameters:
+
+1. The number in BCD, with digits seperated by space or _ 
+
+Example: `bcddecode 1001 0010`
+
+## bcdencode
+
+Encode a number to binary coded decimal
+
+Parameters:
+
+1. The number in decimal representation 
+
+Example: `bcddecode 92`
 
 ## clear, cls
 
