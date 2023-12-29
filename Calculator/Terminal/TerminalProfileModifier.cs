@@ -17,7 +17,7 @@ internal static class TerminalProfileInstaller
 
             using (var stream = typeof(TerminalProfileInstaller).Assembly.GetManifestResourceStream(Template))
             {
-                if (stream == null) 
+                if (stream == null)
                 {
                     return false;
                 }

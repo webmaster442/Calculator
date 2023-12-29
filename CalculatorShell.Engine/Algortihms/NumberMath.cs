@@ -118,7 +118,7 @@ internal static class NumberMath
         => new(~a.ToInt128());
 
     [EngineFunction]
-    public static Number And(Number a, Number b) 
+    public static Number And(Number a, Number b)
         => new(a.ToInt128() & b.ToInt128());
 
     [EngineFunction]

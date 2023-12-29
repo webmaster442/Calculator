@@ -11,7 +11,7 @@ internal sealed class RadCommand : ShellCommand
 
     public override string[] Names => ["rad"];
 
-    public override string Synopsys 
+    public override string Synopsys
         => "Changes the angle mode to radians";
 
     public override void ExecuteInternal(Arguments args)

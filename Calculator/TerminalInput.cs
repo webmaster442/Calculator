@@ -39,7 +39,7 @@ internal sealed class TerminalInput : ITerminalInput
     internal void SetCommandData(IReadOnlyDictionary<string, string> commandHelps, HashSet<string> exitCommands)
     {
         var dict = commandHelps.ToDictionary();
-        foreach (var cmd in exitCommands) 
+        foreach (var cmd in exitCommands)
         {
             dict.Add(cmd, "Exit program");
         }

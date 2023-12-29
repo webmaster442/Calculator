@@ -29,7 +29,7 @@ public sealed class CommandLoader : IDisposable
     private void LoadAutoExecCommands(Type atypeFromAssembly, IHost host)
     {
         IEnumerable<Type> autoExecCommandTypes = GetTypesFromAssembly<IAutoExecShellCommand>(atypeFromAssembly);
-        foreach (Type type in autoExecCommandTypes) 
+        foreach (Type type in autoExecCommandTypes)
         {
             try
             {

@@ -18,7 +18,7 @@ public static class BcdConverter
     public static string BcdDecode(string str)
     {
         StringBuilder result = new();
-        foreach (var digit in str.Split(new char[] { ' ', '_', '\t', '-' }, StringSplitOptions.RemoveEmptyEntries)) 
+        foreach (var digit in str.Split(new char[] { ' ', '_', '\t', '-' }, StringSplitOptions.RemoveEmptyEntries))
         {
             result.Append(Decode(digit));
         }

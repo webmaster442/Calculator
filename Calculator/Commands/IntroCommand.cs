@@ -6,7 +6,7 @@ internal class IntroCommand : IAutoExecShellCommand
 {
     private static Version GetVersion()
     {
-        return typeof(IntroCommand).Assembly.GetName().Version 
+        return typeof(IntroCommand).Assembly.GetName().Version
             ?? new Version(9999, 9999, 9999, 9999);
     }
 

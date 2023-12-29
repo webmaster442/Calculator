@@ -44,7 +44,7 @@ internal class EvalCommand : ShellCommandAsync,
     async void IMessageClient<SetVarMessage>.ProcessMessage(SetVarMessage message)
     {
         EngineResult result = await _engine.ExecuteAsync(message.Expression, CancellationToken.None);
-        result.When(number => 
+        result.When(number =>
         {
             try
             {
