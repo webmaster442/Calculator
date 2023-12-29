@@ -9,7 +9,20 @@
     <Version>$([System.DateTime]::UtcNow.ToString("yyyy")).$([System.DateTime]::UtcNow.ToString("MM")).$([System.DateTime]::UtcNow.ToString("dd")).0</Version>
     <AssemblyVersion>$([System.DateTime]::UtcNow.ToString("yyyy")).$([System.DateTime]::UtcNow.ToString("MM")).$([System.DateTime]::UtcNow.ToString("dd")).0</AssemblyVersion>
     <FileVersion>$([System.DateTime]::UtcNow.ToString("yyyy")).$([System.DateTime]::UtcNow.ToString("MM")).$([System.DateTime]::UtcNow.ToString("dd")).0</FileVersion>
+    <ApplicationIcon>Calculator.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Terminal\TerminalFragment.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Calculator.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Terminal\TerminalFragment.json" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="PrettyPrompt" Version="4.1.1" />
@@ -21,6 +34,12 @@
     <ProjectReference Include="..\Calculator.Web\Calculator.Web.csproj" />
     <ProjectReference Include="..\CalculatorShell.Core\CalculatorShell.Core.csproj" />
     <ProjectReference Include="..\CalculatorShell.Engine\CalculatorShell.Engine.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Calculator.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
