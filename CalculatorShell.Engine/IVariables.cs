@@ -8,6 +8,9 @@ public interface IVariables
     Number Get(string name);
 
     IEnumerable<string> VariableNames { get; }
+
+    IEnumerable<KeyValuePair<string, Number>> AsEnumerable();
+
     bool IsConstant(string name);
 
     void LoadFromJson(string json);

@@ -10,7 +10,8 @@ internal class EvalCommand : ShellCommandAsync,
     IMessageClient<SimpleMessage<AngleSystem>>,
     IMessageClient<SetVarMessage>,
     IMessageClient<UnsetVarMessage>,
-    IMessageProvider<IEnumerable<string>, FunctionListMessage>
+    IMessageProvider<IEnumerable<string>, FunctionListMessage>,
+    IMessageProvider<IEnumerable<KeyValuePair<string, Number>>, VariableListMessage>
 {
     private readonly ArithmeticEngine _engine;
     private readonly Varialbes _varialbes;
@@ -72,4 +73,7 @@ internal class EvalCommand : ShellCommandAsync,
 
     IEnumerable<string> IMessageProvider<IEnumerable<string>, FunctionListMessage>.ProvideMessage(FunctionListMessage request)
         => _engine.Functions;
+
+    IEnumerable<KeyValuePair<string, Number>> IMessageProvider<IEnumerable<KeyValuePair<string, Number>>, VariableListMessage>.ProvideMessage(VariableListMessage request)
+        => _varialbes.AsEnumerable();
 }

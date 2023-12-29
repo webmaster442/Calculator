@@ -43,6 +43,9 @@ public class Varialbes : IVariables
     public IEnumerable<string> VariableNames
         => _variables.Keys;
 
+    public IEnumerable<KeyValuePair<string, Number>> AsEnumerable()
+        => _variables;
+
     public Number Get(string name)
     {
         if (_constants.ContainsKey(name))

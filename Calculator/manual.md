@@ -130,6 +130,12 @@ Changes the angle mode to gradians, which divides the circle into 400 parts
 
 Parameters: No parameters are needed
 
+## list
+
+Lists currently set variables.
+
+Parameters: No parameters are needed
+
 ## rad
 
 Changes the angle mode to radians, which divides the circle into 2π radians
