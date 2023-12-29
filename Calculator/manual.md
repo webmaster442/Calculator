@@ -164,10 +164,10 @@ Parameters:
 Example: `simplify (a|b)&a`
 
 The command can operate with minterms too. In this mode you can specify the minterms of your function.
-In this mode, the first argument is the number of variables in the expression, the rest of the numbers are treated
+In this mode the number of variables must be specified with the `-v` or `--variables` switch
 as minterms.
 
-Example: `simplify 2 1 3`
+Example: `simplify 1 3 -v 2`
 
 ## unset 
 

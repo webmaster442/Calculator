@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace CalculatorShell.Expenses;
 
-public sealed class ExpenseItemDb : IEnumerable<ExpenseItem>
+public sealed class ExpenseItemDb
 {
     private readonly string _folder;
     private readonly List<ExpenseItem> _cache;
@@ -14,8 +14,12 @@ public sealed class ExpenseItemDb : IEnumerable<ExpenseItem>
     public ExpenseItemDb(string folder)
     {
         _folder = folder;
+
+        if (!Directory.Exists(_folder))
+            Directory.CreateDirectory(_folder);
+
         _cache = new List<ExpenseItem>();
-        DatabaseFile = Path.Combine(_folder, $"{DateTime.Now.Year}-{DateTime.Now.Year}.csv");
+        DatabaseFile = Path.Combine(_folder, $"{DateTime.Now.Year}-{DateTime.Now.Month}.csv");
         Load();
         _wasEdited = false;
     }
@@ -40,20 +44,22 @@ public sealed class ExpenseItemDb : IEnumerable<ExpenseItem>
                 if (string.IsNullOrWhiteSpace(line))
                     continue;
 
-                _cache.Add(line.ToExpenseItem());
+                var item = line.ToExpenseItem();
+                if (item != null)
+                    _cache.Add(item);
             }
         }
     }
 
-    public async Task Insert(ExpenseItem item)
+    public void Insert(ExpenseItem item)
     {
         if (File.Exists(DatabaseFile))
         {
-            await File.AppendAllLinesAsync(DatabaseFile, new[] { item.ToCsv() });
+            File.AppendAllLines(DatabaseFile, new[] { item.ToCsv() });
         }
         else
         {
-            await File.AppendAllLinesAsync(DatabaseFile, new[]
+            File.AppendAllLines(DatabaseFile, new[]
             {
                 item.ToCsvHeader(),
                 item.ToCsv()
@@ -77,19 +83,17 @@ public sealed class ExpenseItemDb : IEnumerable<ExpenseItem>
         }
     }
 
-    public IEnumerator<ExpenseItem> GetEnumerator()
+    public IEnumerable<ExpenseItem> Items
     {
-        if (_wasEdited)
+        get
         {
-            _cache.Clear();
-            Load();
-            _wasEdited = false;
+            if (_wasEdited)
+            {
+                _cache.Clear();
+                Load();
+                _wasEdited = false;
+            }
+            return _cache;
         }
-        return _cache.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
     }
 }

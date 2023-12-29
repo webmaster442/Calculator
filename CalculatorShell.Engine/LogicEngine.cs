@@ -13,6 +13,6 @@ public sealed class LogicEngine : ILogicEngine
     public ILogicExpression Parse(string expression)
         => _logicParser.Parse(expression);
 
-    public ILogicExpression Parse(int variableCount, int[] minterms)
+    public ILogicExpression Parse(int variableCount, IReadOnlyList<int> minterms)
         => _logicParser.Parse(variableCount, minterms);
 }

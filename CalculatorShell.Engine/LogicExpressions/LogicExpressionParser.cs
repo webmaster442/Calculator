@@ -51,7 +51,7 @@ internal class LogicExpressionParser
         }
     }
 
-    public ILogicExpression Parse(int variableCount, int[] minterms)
+    public ILogicExpression Parse(int variableCount, IReadOnlyList<int> minterms)
     {
         return Parse(QuineMcclusky.GetSimplified(minterms, _variables.Take(variableCount).ToArray()));
     }
@@ -95,15 +95,11 @@ internal class LogicExpressionParser
                 }
                 var right = ParseAndExpression();
 
-                switch (opType)
+                exp = opType switch
                 {
-                    case LogicTokenType.Or:
-                        exp = new OrLogicExpression(exp, right);
-                        break;
-
-                    default:
-                        throw new EngineException("Expected plus or minus, got: " + opType);
-                }
+                    LogicTokenType.Or => new OrLogicExpression(exp, right),
+                    _ => throw new EngineException("Expected plus or minus, got: " + opType),
+                };
             }
 
             return exp;
@@ -127,15 +123,11 @@ internal class LogicExpressionParser
                 }
                 var right = ParseExpExpression();
 
-                switch (opType)
+                exp = opType switch
                 {
-                    case LogicTokenType.And:
-                        exp = new AndLogicExpression(exp, right);
-                        break;
-
-                    default:
-                        throw new EngineException("Expected mult or divide, got: " + opType);
-                }
+                    LogicTokenType.And => new AndLogicExpression(exp, right),
+                    _ => throw new EngineException("Expected mult or divide, got: " + opType),
+                };
             }
 
             return exp;

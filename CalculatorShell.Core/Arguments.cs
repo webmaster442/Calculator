@@ -16,6 +16,37 @@ public sealed class Arguments
     public string this[int index]
         => _arguments[index];
 
+    public string? this[string shortName, string longName]
+        => FindArgument(shortName, longName);
+
+    private string? FindArgument(string shortName, string longName)
+    {
+        for (int i = 0; i < _arguments.Count; i++)
+        {
+            string current = _arguments[i];
+            string next = i + 1 < _arguments.Count ? _arguments[i + 1] : string.Empty;
+            if ((current == shortName || current == longName)
+                && !string.IsNullOrEmpty(next))
+            {
+                return next;
+            }
+        }
+        return null;
+    }
+
+    public int IndexOf(string shortName, string longName)
+    {
+        for (int i = 0; i < _arguments.Count; i++)
+        {
+            string current = _arguments[i];
+            if (current == shortName || current == longName)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public int Length => _arguments.Count;
 
     public T Parse<T>(int index) where T : IParsable<T>
@@ -23,26 +54,26 @@ public sealed class Arguments
         return T.Parse(_arguments[index], _formatProvider);
     }
 
-    public bool TryParseAll<T>(out T?[] parsed) where T : IParsable<T>
+    public T Parse<T>(string shortName, string longName) where T : IParsable<T>
     {
-        parsed = new T[_arguments.Count];
-        for (int i = 0; i < _arguments.Count; i++)
-        {
-            if (!TryParse<T>(i, out T? temp))
-            {
-                return false;
-            }
-            else
-            {
-                parsed[i] = temp;
-            }
-        }
-        return true;
+        var found = FindArgument(shortName, longName)
+            ?? throw new CommandException($"Argument {shortName} or {longName} was not specified");
+        
+        return T.Parse(found, _formatProvider);
     }
 
-    public bool TryParse<T>(int index, [MaybeNullWhen(false)] out T? parsed) where T : IParsable<T>
+    public bool TryParse<T>(string shortName, string longName, [MaybeNullWhen(false)] out T? result) where T : IParsable<T>
     {
-        return T.TryParse(_arguments[index], _formatProvider, out parsed);
+        try
+        {
+            result = Parse<T>(shortName, longName);
+            return true;
+        }
+        catch (Exception)
+        {
+            result = default;
+            return false;
+        }
     }
 
     public IEnumerable<string> AsEnumerable() => _arguments;

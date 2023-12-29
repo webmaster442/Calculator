@@ -12,6 +12,7 @@ internal sealed class App :
 {
     private readonly TerminalHost _host;
     private readonly CommandLoader _loader;
+    private readonly Expenses _expenses;
     private readonly HashSet<string> _exitCommands;
     private CancellationTokenSource? _currentTokenSource;
 
@@ -24,12 +25,10 @@ internal sealed class App :
         ClientId = new Guid("1D386507-929F-42F7-8DDB-8E038F6A85F6");
         _host = new TerminalHost();
         _loader = new(typeof(App), _host);
+        _expenses = new Expenses(_host);
         _exitCommands = ["exit", "quit"];
-
         _host.SetCommandData(_loader.CommandHelps, _exitCommands);
         _host.MessageBus.RegisterComponent(this);
-
-
     }
 
     public async Task Run()

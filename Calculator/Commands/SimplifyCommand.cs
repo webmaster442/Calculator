@@ -21,9 +21,11 @@ internal sealed class SimplifyCommand : ShellCommand
     {
         args.ThrowIfNotSpecifiedAtLeast(1);
 
-        if (args.TryParseAll<int>(out int[] mintemMode))
+        if (args.TryParse("-v", "--variables", out int variables))
         {
-            var result = _engine.Parse(mintemMode.First(), mintemMode.Skip(1).ToArray());
+            var minterms = GetMinterms(args);
+
+            var result = _engine.Parse(variables, minterms);
             Host.Output.Result(result.ToString(Host.CultureInfo));
         }
         else
@@ -32,5 +34,22 @@ internal sealed class SimplifyCommand : ShellCommand
             var result = _engine.Parse(expression).Simplify();
             Host.Output.Result(result.ToString(Host.CultureInfo));
         }
+    }
+
+    private static IReadOnlyList<int> GetMinterms(Arguments args)
+    {
+        List<int> results = new();
+        HashSet<int> skipIndex = new();
+        int varIndex = args.IndexOf("-v", "--variables");
+        skipIndex.Add(varIndex);
+        skipIndex.Add(varIndex + 1);
+        for (int i = 0; i < args.Length; i++)
+        {
+            if (skipIndex.Contains(i))
+                continue;
+
+            results.Add(int.Parse(args[i]));
+        }
+        return results;
     }
 }
