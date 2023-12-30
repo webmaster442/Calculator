@@ -10,4 +10,5 @@ public interface ITerminalOutput
     void Result(string message);
     void MarkupLine(string markup);
     void Table(TableData tabledata);
+    void BreakDown(IReadOnlyDictionary<string, double> items);
 }

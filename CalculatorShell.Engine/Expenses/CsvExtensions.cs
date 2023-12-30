@@ -1,4 +1,4 @@
-﻿namespace CalculatorShell.Expenses;
+﻿namespace CalculatorShell.Engine.Expenses;
 
 internal static class CsvExtensions
 {

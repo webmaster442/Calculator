@@ -1,5 +1,5 @@
 ﻿using CalculatorShell.Core.Messenger;
-using CalculatorShell.Expenses;
+using CalculatorShell.Engine.Expenses;
 
 namespace Calculator.Messages;
 

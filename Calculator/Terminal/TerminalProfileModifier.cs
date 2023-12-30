@@ -13,7 +13,14 @@ internal static class TerminalProfileInstaller
             var path = Path.Combine(AppContext.BaseDirectory, "Calculator.exe");
             var iconPath = Path.Combine(AppContext.BaseDirectory, "Calculator.ico");
             var targetfolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Microsoft", "Windows Terminal", "Fragments", "Calculator");
+
+#if DEBUG
+            var targetFile = Path.Combine(targetfolder, "calculator.debug.json");
+            string name = "Calc shell (dev)";
+#else
             var targetFile = Path.Combine(targetfolder, "calculator.json");
+            string name = "Calc shell";
+#endif
 
             using (var stream = typeof(TerminalProfileInstaller).Assembly.GetManifestResourceStream(Template))
             {
@@ -21,7 +28,7 @@ internal static class TerminalProfileInstaller
                 {
                     return false;
                 }
-                string json = await PrepareProfileAsync(stream, "Calc shell", path, iconPath);
+                string json = await PrepareProfileAsync(stream, name, path, iconPath);
 
                 if (!Directory.Exists(targetfolder))
                     Directory.CreateDirectory(targetfolder);

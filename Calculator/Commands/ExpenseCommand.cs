@@ -1,7 +1,7 @@
 ﻿using Calculator.Messages;
 
 using CalculatorShell.Core;
-using CalculatorShell.Expenses;
+using CalculatorShell.Engine.Expenses;
 
 namespace Calculator.Commands;
 

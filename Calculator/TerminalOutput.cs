@@ -10,10 +10,21 @@ namespace Calculator;
 internal class TerminalOutput : ITerminalOutput
 {
     internal CultureInfo CultureInfo { get; set; }
+    private readonly Color[] _palette;
 
     public TerminalOutput()
     {
         CultureInfo = CultureInfo.InvariantCulture;
+        _palette = InitializePalette();
+    }
+
+    private Color[] InitializePalette()
+    {
+        return typeof(Color)
+            .GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static)
+            .Where(p => p.PropertyType == typeof(Color))
+            .Select(p => (Color)p.GetValue(null)!)
+            .ToArray();
     }
 
     public void Clear()
@@ -58,5 +69,28 @@ internal class TerminalOutput : ITerminalOutput
             table.AddRow(row);
         }
         AnsiConsole.Write(table);
+    }
+
+    public void BreakDown(IReadOnlyDictionary<string, double> items)
+    {
+        static int GetIndex(string str)
+        {
+            int index = 2;
+            for (int i=0; i< str.Length; i++)
+            {
+                index += i * str[i];
+            }
+            return index;
+        }
+
+        var b = new BreakdownChart()
+            .FullSize();
+
+        foreach (var item in items)
+        {
+            var color = _palette[GetIndex(item.Key) % _palette.Length];
+            b.AddItem(item.Key, item.Value, color);
+        }
+        AnsiConsole.Write(b);
     }
 }

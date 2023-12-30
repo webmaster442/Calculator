@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 
-namespace CalculatorShell.Expenses;
+namespace CalculatorShell.Engine.Expenses;
 
 public sealed class ExpenseItemDb
 {

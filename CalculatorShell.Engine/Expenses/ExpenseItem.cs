@@ -1,4 +1,4 @@
-﻿namespace CalculatorShell.Expenses;
+﻿namespace CalculatorShell.Engine.Expenses;
 
 public sealed class ExpenseItem
 {
