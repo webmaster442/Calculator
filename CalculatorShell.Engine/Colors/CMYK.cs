@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace CalculatorShell.Engine.Colors;
 
@@ -49,4 +50,10 @@ public record struct CMYK : IParsable<CMYK>
             return false;
         }
     }
+
+    public readonly string ToString(CultureInfo cultureInfo)
+        => $"cmyk({C.ToString(cultureInfo)}, {M.ToString(cultureInfo)}, {Y.ToString(cultureInfo)}, {K.ToString(cultureInfo)})";
+
+    public override readonly string ToString()
+        => ToString(CultureInfo.InvariantCulture);
 }

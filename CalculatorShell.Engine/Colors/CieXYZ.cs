@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace CalculatorShell.Engine.Colors;
 
@@ -42,4 +43,10 @@ public record struct CieXYZ : IParsable<CieXYZ>
             return false;
         }
     }
+
+    public readonly string ToString(CultureInfo cultureInfo)
+        => $"xyz({X.ToString(cultureInfo)}, {Y.ToString(cultureInfo)}, {Z.ToString(cultureInfo)})";
+
+    public override readonly string ToString()
+        => ToString(CultureInfo.InvariantCulture);
 }

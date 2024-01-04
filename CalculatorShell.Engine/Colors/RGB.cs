@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace CalculatorShell.Engine.Colors;
 
@@ -42,4 +43,10 @@ public record struct RGB : IParsable<RGB>
             return false;
         }
     }
+
+    public readonly string ToString(CultureInfo cultureInfo)
+        => $"rgb({R.ToString(cultureInfo)}, {G.ToString(cultureInfo)}, {B.ToString(cultureInfo)})";
+
+    public override readonly string ToString()
+        => ToString(CultureInfo.InvariantCulture);
 }

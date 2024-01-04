@@ -5,7 +5,18 @@ public static class Extensions
     private static int RoundToInt(double v)
         => (int)Math.Round(v, 2);
 
-    public static RGB HslToRgb(this HSL hSL)
+    public static string ToHex(this RGB rGB)
+    {
+        byte[] data =
+        [
+            (byte)rGB.R,
+            (byte)rGB.G,
+            (byte)rGB.B,
+        ];
+        return $"#{Convert.ToHexString(data)}";
+    }
+
+    public static RGB ToRgb(this HSL hSL)
     {
         if (hSL.S == 0)
         {
@@ -60,7 +71,7 @@ public static class Extensions
         }
     }
 
-    public static HSL RrbToHsl(this RGB rGB)
+    public static HSL ToHsl(this RGB rGB)
     {
         double h = 0, s = 0, l = 0;
 
@@ -119,7 +130,7 @@ public static class Extensions
         };
     }
 
-    public static CMYK RgbToCmyk(this RGB rGB)
+    public static CMYK ToCmyk(this RGB rGB)
     {
         double c = (255 - rGB.R) / 255.0;
         double m = (255 - rGB.G) / 255.0;
@@ -146,7 +157,7 @@ public static class Extensions
         };
     }
 
-    public static RGB CmykToRgb(this CMYK cMYK)
+    public static RGB ToRgb(this CMYK cMYK)
     {
         return new RGB
         {
@@ -156,7 +167,7 @@ public static class Extensions
         };
     }
 
-    public static YUV RgbToYuv(this RGB rGB)
+    public static YUV ToYuv(this RGB rGB)
     {
 
         // normalizes red/green/blue values
@@ -172,7 +183,7 @@ public static class Extensions
         };
     }
 
-    public static RGB YuvToRgb(this YUV yUV)
+    public static RGB ToRgb(this YUV yUV)
     {
         return new RGB
         {
@@ -182,7 +193,7 @@ public static class Extensions
         };
     }
 
-    public static CieXYZ RrbToXyz(this RGB rGB)
+    public static CieXYZ ToXyz(this RGB rGB)
     {
         // normalize red, green, blue values
         double rLinear = rGB.R / 255.0;
@@ -202,7 +213,7 @@ public static class Extensions
         };
     }
 
-    public static RGB XyzToRgb(this CieXYZ cieXYZ)
+    public static RGB ToRgb(this CieXYZ cieXYZ)
     {
         double[] cLinear =
         [

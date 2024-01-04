@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace CalculatorShell.Engine.Colors;
 
@@ -42,4 +43,10 @@ public record struct YUV : IParsable<YUV>
             return false;
         }
     }
+
+    public readonly string ToString(CultureInfo cultureInfo)
+        => $"yuv({Y.ToString(cultureInfo)}, {U.ToString(cultureInfo)}, {V.ToString(cultureInfo)})";
+
+    public override readonly string ToString()
+        => ToString(CultureInfo.InvariantCulture);
 }

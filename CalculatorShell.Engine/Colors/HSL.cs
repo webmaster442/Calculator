@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace CalculatorShell.Engine.Colors;
 
@@ -42,4 +43,10 @@ public record struct HSL : IParsable<HSL>
             return false;
         }
     }
+
+    public readonly string ToString(CultureInfo cultureInfo)
+        => $"hsl({H.ToString(cultureInfo)}, {S.ToString(cultureInfo)}, {L.ToString(cultureInfo)})";
+
+    public override readonly string ToString()
+        => ToString(CultureInfo.InvariantCulture);
 }
