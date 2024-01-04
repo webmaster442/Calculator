@@ -1,6 +1,8 @@
-﻿namespace CalculatorShell.Engine.Colors;
+﻿using System.Diagnostics.CodeAnalysis;
 
-public record struct RGB
+namespace CalculatorShell.Engine.Colors;
+
+public record struct RGB : IParsable<RGB>
 {
     private int _r;
     private int _g;
@@ -22,5 +24,22 @@ public record struct RGB
     {
         readonly get => _b;
         set => _b = (value > 255) ? 255 : ((value < 0) ? 0 : value);
+    }
+
+    public static RGB Parse(string s, IFormatProvider? provider) 
+        => Parsers.ParseRGB(s, provider);
+
+    public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out RGB result)
+    {
+        try
+        {
+            result = Parsers.ParseRGB(s ?? string.Empty, provider);
+            return true;
+        }
+        catch (Exception)
+        {
+            result = default;
+            return false;
+        }
     }
 }

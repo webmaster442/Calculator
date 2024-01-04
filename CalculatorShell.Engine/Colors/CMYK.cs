@@ -1,6 +1,8 @@
-﻿namespace CalculatorShell.Engine.Colors;
+﻿using System.Diagnostics.CodeAnalysis;
 
-public record struct CMYK
+namespace CalculatorShell.Engine.Colors;
+
+public record struct CMYK : IParsable<CMYK>
 {
     private double _c;
     private double _m;
@@ -29,5 +31,22 @@ public record struct CMYK
     {
         readonly get => _k;
         set => _k = (value > 1.0) ? 1.0 : ((value < 0) ? 0 : value);
+    }
+
+    public static CMYK Parse(string s, IFormatProvider? provider)
+        => Parsers.ParseCMYK(s, provider);
+
+    public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out CMYK result)
+    {
+        try
+        {
+            result = Parsers.ParseCMYK(s ?? string.Empty, provider);
+            return true;
+        }
+        catch (Exception)
+        {
+            result = default;
+            return false;
+        }
     }
 }
