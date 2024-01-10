@@ -18,6 +18,7 @@ internal sealed class TerminalHost : IHost
         _output = new TerminalOutput();
         MessageBus = new MessageBus();
         WebServices = new WebServices();
+        Dialogs = new TerminalDialogs();
     }
 
     public ITerminalInput Input => _input;
@@ -43,6 +44,8 @@ internal sealed class TerminalHost : IHost
     public IMessageBus MessageBus { get; }
 
     public IWebServices WebServices { get; }
+
+    public IDialogs Dialogs { get; }
 
     internal void SetCommandData(IReadOnlyDictionary<string, string> commandHelps, HashSet<string> exitCommands)
     {

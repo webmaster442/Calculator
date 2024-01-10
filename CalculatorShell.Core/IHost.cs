@@ -11,4 +11,5 @@ public interface IHost
     ITerminalOutput Output { get; }
     IMessageBus MessageBus { get; }
     IWebServices WebServices { get; }
+    IDialogs Dialogs { get; }
 }
