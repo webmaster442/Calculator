@@ -1,4 +1,4 @@
-﻿namespace CalculatorShell.Engine.Colors;
+﻿namespace CalculatorShell.Engine.MathComponents.Colors;
 
 public static class Extensions
 {
@@ -29,32 +29,32 @@ public static class Extensions
         }
         else
         {
-            double q = (hSL.L < 0.5) ? (hSL.L * (1.0 + hSL.S)) : (hSL.L + hSL.S - (hSL.L * hSL.S));
-            double p = (2.0 * hSL.L) - q;
+            double q = hSL.L < 0.5 ? hSL.L * (1.0 + hSL.S) : hSL.L + hSL.S - hSL.L * hSL.S;
+            double p = 2.0 * hSL.L - q;
 
             double Hk = hSL.H / 360.0;
             double[] T =
             [
-                Hk + (1.0 / 3.0),    // Tr
+                Hk + 1.0 / 3.0,    // Tr
                 Hk,              // Tb
-                Hk - (1.0 / 3.0),    // Tg
+                Hk - 1.0 / 3.0,    // Tg
             ];
             for (int i = 0; i < 3; i++)
             {
                 if (T[i] < 0) T[i] += 1.0;
                 if (T[i] > 1) T[i] -= 1.0;
 
-                if ((T[i] * 6) < 1)
+                if (T[i] * 6 < 1)
                 {
-                    T[i] = p + ((q - p) * 6.0 * T[i]);
+                    T[i] = p + (q - p) * 6.0 * T[i];
                 }
-                else if ((T[i] * 2.0) < 1) //(1.0/6.0)<=T[i] && T[i]<0.5
+                else if (T[i] * 2.0 < 1) //(1.0/6.0)<=T[i] && T[i]<0.5
                 {
                     T[i] = q;
                 }
-                else if ((T[i] * 3.0) < 2) // 0.5<=T[i] && T[i]<(2.0/3.0)
+                else if (T[i] * 3.0 < 2) // 0.5<=T[i] && T[i]<(2.0/3.0)
                 {
-                    T[i] = p + (q - p) * ((2.0 / 3.0) - T[i]) * 6.0;
+                    T[i] = p + (q - p) * (2.0 / 3.0 - T[i]) * 6.0;
                 }
                 else
                 {
@@ -171,9 +171,9 @@ public static class Extensions
     {
 
         // normalizes red/green/blue values
-        double nRed = (double)rGB.R / 255.0;
-        double nGreen = (double)rGB.G / 255.0;
-        double nBlue = (double)rGB.B / 255.0;
+        double nRed = rGB.R / 255.0;
+        double nGreen = rGB.G / 255.0;
+        double nBlue = rGB.B / 255.0;
 
         return new YUV
         {
@@ -201,15 +201,15 @@ public static class Extensions
         double bLinear = rGB.B / 255.0;
 
         // convert to a sRGB form
-        double r = (rLinear > 0.04045) ? Math.Pow((rLinear + 0.055) / (1 + 0.055), 2.2) : (rLinear / 12.92);
-        double g = (gLinear > 0.04045) ? Math.Pow((gLinear + 0.055) / (1 + 0.055), 2.2) : (gLinear / 12.92);
-        double b = (bLinear > 0.04045) ? Math.Pow((bLinear + 0.055) / (1 + 0.055), 2.2) : (bLinear / 12.92);
+        double r = rLinear > 0.04045 ? Math.Pow((rLinear + 0.055) / (1 + 0.055), 2.2) : rLinear / 12.92;
+        double g = gLinear > 0.04045 ? Math.Pow((gLinear + 0.055) / (1 + 0.055), 2.2) : gLinear / 12.92;
+        double b = bLinear > 0.04045 ? Math.Pow((bLinear + 0.055) / (1 + 0.055), 2.2) : bLinear / 12.92;
 
         return new CieXYZ
         {
-            X = (r * 0.4124 + g * 0.3576 + b * 0.1805),
-            Y = (r * 0.2126 + g * 0.7152 + b * 0.0722),
-            Z = (r * 0.0193 + g * 0.1192 + b * 0.9505)
+            X = r * 0.4124 + g * 0.3576 + b * 0.1805,
+            Y = r * 0.2126 + g * 0.7152 + b * 0.0722,
+            Z = r * 0.0193 + g * 0.1192 + b * 0.9505
         };
     }
 
@@ -223,7 +223,7 @@ public static class Extensions
         ];
         for (int i = 0; i < 3; i++)
         {
-            cLinear[i] = (cLinear[i] <= 0.0031308) ? 12.92 * cLinear[i] : (1 + 0.055) * Math.Pow(cLinear[i], (1.0 / 2.4)) - 0.055;
+            cLinear[i] = cLinear[i] <= 0.0031308 ? 12.92 * cLinear[i] : (1 + 0.055) * Math.Pow(cLinear[i], 1.0 / 2.4) - 0.055;
         }
 
         return new RGB

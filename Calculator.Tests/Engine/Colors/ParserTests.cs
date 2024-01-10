@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-using CalculatorShell.Engine.Colors;
+using CalculatorShell.Engine.MathComponents.Colors;
 
 namespace Calculator.Tests.Engine.Colors;
 

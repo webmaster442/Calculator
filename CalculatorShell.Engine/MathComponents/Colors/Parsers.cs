@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using System.Text.RegularExpressions;
 
-namespace CalculatorShell.Engine.Colors;
+namespace CalculatorShell.Engine.MathComponents.Colors;
 internal static partial class Parsers
 {
     private static readonly char[] FunctionSeperators = ['(', ')', ','];
@@ -9,16 +9,16 @@ internal static partial class Parsers
     private static T[] ParseFunctionForm<T>(string input,
                                             string functionName,
                                             IFormatProvider? provider,
-                                            int paramCount = 3) where T: INumberBase<T>
+                                            int paramCount = 3) where T : INumberBase<T>
     {
         var parts = input.ToLowerInvariant().Split(FunctionSeperators, StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length == paramCount + 1
             && parts[0] == functionName)
         {
             T[] parsed = new T[paramCount];
-            for (int i = 0; i< paramCount; i++)
+            for (int i = 0; i < paramCount; i++)
             {
-                parsed[i] = T.Parse(parts[i+1], provider);
+                parsed[i] = T.Parse(parts[i + 1], provider);
             }
             return parsed;
         }

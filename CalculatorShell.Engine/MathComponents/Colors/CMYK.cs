@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace CalculatorShell.Engine.Colors;
+namespace CalculatorShell.Engine.MathComponents.Colors;
 
 public record struct CMYK : IParsable<CMYK>
 {
@@ -13,25 +13,25 @@ public record struct CMYK : IParsable<CMYK>
     public double C
     {
         readonly get => _c;
-        set => _c = (value > 1.0) ? 1.0 : ((value < 0) ? 0 : value);
+        set => _c = value > 1.0 ? 1.0 : value < 0 ? 0 : value;
     }
 
     public double M
     {
-        readonly get => _m; 
-        set => _m = (value > 1.0) ? 1.0 : ((value < 0) ? 0 : value);
+        readonly get => _m;
+        set => _m = value > 1.0 ? 1.0 : value < 0 ? 0 : value;
     }
 
     public double Y
     {
         readonly get => _y;
-        set => _y = (value > 1.0) ? 1.0 : ((value < 0) ? 0 : value);
+        set => _y = value > 1.0 ? 1.0 : value < 0 ? 0 : value;
     }
 
     public double K
     {
         readonly get => _k;
-        set => _k = (value > 1.0) ? 1.0 : ((value < 0) ? 0 : value);
+        set => _k = value > 1.0 ? 1.0 : value < 0 ? 0 : value;
     }
 
     public static CMYK Parse(string s, IFormatProvider? provider)

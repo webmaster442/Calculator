@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace CalculatorShell.Engine.Colors;
+namespace CalculatorShell.Engine.MathComponents.Colors;
 
 public record struct CieXYZ : IParsable<CieXYZ>
 {
@@ -12,19 +12,19 @@ public record struct CieXYZ : IParsable<CieXYZ>
     public double X
     {
         readonly get => _x;
-        set => _x = (value > 0.9505) ? 0.9505 : ((value < 0) ? 0 : value);
+        set => _x = value > 0.9505 ? 0.9505 : value < 0 ? 0 : value;
     }
 
     public double Y
     {
         readonly get => _y;
-        set => _y = (value > 1.0) ? 1.0 : ((value < 0) ? 0 : value);
+        set => _y = value > 1.0 ? 1.0 : value < 0 ? 0 : value;
     }
 
     public double Z
     {
         readonly get => _z;
-        set => _z = (value > 1.089) ? 1.089 : ((value < 0) ? 0 : value);
+        set => _z = value > 1.089 ? 1.089 : value < 0 ? 0 : value;
     }
 
     public static CieXYZ Parse(string s, IFormatProvider? provider)

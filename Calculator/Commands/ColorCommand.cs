@@ -1,5 +1,5 @@
 ﻿using CalculatorShell.Core;
-using CalculatorShell.Engine.Colors;
+using CalculatorShell.Engine.MathComponents.Colors;
 
 namespace Calculator.Commands;
 

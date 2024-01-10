@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace CalculatorShell.Engine.Colors;
+namespace CalculatorShell.Engine.MathComponents.Colors;
 
 public record struct YUV : IParsable<YUV>
 {
@@ -12,19 +12,19 @@ public record struct YUV : IParsable<YUV>
     public double Y
     {
         readonly get => _y;
-        set => _y = (value > 1.0) ? 1.0 : ((value < 0.0) ? 0.0 : value);
+        set => _y = value > 1.0 ? 1.0 : value < 0.0 ? 0.0 : value;
     }
 
     public double U
     {
         readonly get => _u;
-        set => _u = (value > 1.0) ? 1.0 : ((value < 0.0) ? 0.0 : value);
+        set => _u = value > 1.0 ? 1.0 : value < 0.0 ? 0.0 : value;
     }
 
     public double V
     {
         readonly get => _v;
-        set => _v = (value > 1.0) ? 1.0 : ((value < 0.0) ? 0.0 : value);
+        set => _v = value > 1.0 ? 1.0 : value < 0.0 ? 0.0 : value;
     }
 
     public static YUV Parse(string s, IFormatProvider? provider)

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace CalculatorShell.Engine.Colors;
+namespace CalculatorShell.Engine.MathComponents.Colors;
 
 public record struct HSL : IParsable<HSL>
 {
@@ -12,19 +12,19 @@ public record struct HSL : IParsable<HSL>
     public double H
     {
         readonly get => _h;
-        set => _h = (value > 360.0) ? 360.0 : ((value < 0.0) ? 0.0 : value);
+        set => _h = value > 360.0 ? 360.0 : value < 0.0 ? 0.0 : value;
     }
 
     public double S
     {
         readonly get => _s;
-        set => _s = (value > 1.0) ? 1.0 : ((value < 0.0) ? 0.0 : value);
+        set => _s = value > 1.0 ? 1.0 : value < 0.0 ? 0.0 : value;
     }
 
     public double L
     {
         readonly get => _l;
-        set => _l = (value > 1.0) ? 1.0 : ((value < 0.0) ? 0.0 : value);
+        set => _l = value > 1.0 ? 1.0 : value < 0.0 ? 0.0 : value;
     }
 
     public static HSL Parse(string s, IFormatProvider? provider)
