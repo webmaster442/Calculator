@@ -1,0 +1,52 @@
+﻿using System.Security.Cryptography;
+
+namespace CalculatorShell.Engine.MathComponents;
+
+public class HashCalculator
+{
+    private readonly IProgress<long> _progressReporter;
+
+    public HashCalculator(IProgress<long> progressReporter)
+    {
+        _progressReporter = progressReporter;
+    }
+
+    public async Task<HashResult> ComputeHashAsync(HashAlgorithm hashAlgorithm,
+                                                   Stream stream,
+                                                   CancellationToken cancellationToken)
+    {
+        byte[] buffer;
+        int readAheadBytesRead, bytesRead;
+        long totalBytesRead = 0;
+        byte[] readAheadBuffer = new byte[4096];
+
+        readAheadBytesRead = await stream.ReadAsync(readAheadBuffer, cancellationToken);
+        totalBytesRead += readAheadBytesRead;
+        do
+        {
+            bytesRead = readAheadBytesRead;
+            buffer = readAheadBuffer;
+            readAheadBuffer = new byte[4096];
+            readAheadBytesRead = await stream.ReadAsync(readAheadBuffer, cancellationToken);
+            totalBytesRead += readAheadBytesRead;
+
+            if (readAheadBytesRead == 0)
+            {
+                hashAlgorithm.TransformFinalBlock(buffer, 0, bytesRead);
+            }
+            else
+            {
+                hashAlgorithm.TransformBlock(buffer, 0, bytesRead, buffer, 0);
+            }
+            _progressReporter.Report(totalBytesRead);
+            cancellationToken.ThrowIfCancellationRequested();
+
+        }
+        while (readAheadBytesRead != 0);
+        
+        if (hashAlgorithm.Hash == null)
+            throw new InvalidOperationException();
+
+        return new HashResult(hashAlgorithm.Hash);
+    }
+}
