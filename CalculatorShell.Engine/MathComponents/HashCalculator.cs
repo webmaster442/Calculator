@@ -6,6 +6,8 @@ public class HashCalculator
 {
     private readonly IProgress<long> _progressReporter;
 
+    private const long reportSize = 1024 * 1024;
+
     public HashCalculator(IProgress<long> progressReporter)
     {
         _progressReporter = progressReporter;
@@ -18,6 +20,7 @@ public class HashCalculator
         byte[] buffer;
         int readAheadBytesRead, bytesRead;
         long totalBytesRead = 0;
+        long lastReported = 0;
         byte[] readAheadBuffer = new byte[4096];
 
         readAheadBytesRead = await stream.ReadAsync(readAheadBuffer, cancellationToken);
@@ -38,7 +41,12 @@ public class HashCalculator
             {
                 hashAlgorithm.TransformBlock(buffer, 0, bytesRead, buffer, 0);
             }
-            _progressReporter.Report(totalBytesRead);
+
+            if (totalBytesRead > lastReported+reportSize)
+            {
+                _progressReporter.Report(totalBytesRead);
+                lastReported = totalBytesRead;
+            }
             cancellationToken.ThrowIfCancellationRequested();
 
         }

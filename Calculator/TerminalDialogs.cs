@@ -14,8 +14,6 @@ internal sealed class TerminalDialogs : IDialogs
     private const string SelectDriveText = "Select Drive";
     private const string SelectActualText = "Select Actual Folder";
 
-    private const int PageSize = 15;
-
     private readonly bool _isWindows;
 
     public TerminalDialogs()
@@ -26,6 +24,7 @@ internal sealed class TerminalDialogs : IDialogs
 
     private async Task<string> PathSelectPrompt(string startFolder, bool isFileSelector, CancellationToken cancellationToken = default)
     {
+        int pageSize = Console.WindowHeight - 3;
         string lastFolder = startFolder;
         while (true)
         {
@@ -103,7 +102,7 @@ internal sealed class TerminalDialogs : IDialogs
 
             var prompt = new SelectionPrompt<string>()
                 .Title($"[green]{title}:[/]")
-                .PageSize(PageSize)
+                .PageSize(pageSize)
                 .MoreChoicesText($"[grey]{MoreChoicesText}[/]")
                 .AddChoices(folders.Keys);
 
@@ -117,7 +116,7 @@ internal sealed class TerminalDialogs : IDialogs
 
             if (record == "/////")
             {
-                record = await DriveSelectPrompt(cancellationToken);
+                record = await DriveSelectPrompt(pageSize, cancellationToken);
                 startFolder = record;
             }
 
@@ -145,7 +144,7 @@ internal sealed class TerminalDialogs : IDialogs
         }
     }
 
-    private static async Task<string> DriveSelectPrompt(CancellationToken cancellationToken)
+    private static async Task<string> DriveSelectPrompt(int pageSize, CancellationToken cancellationToken)
     {
         Dictionary<string, string> result = new Dictionary<string, string>();
         foreach (string drive in Directory.GetLogicalDrives())
@@ -162,7 +161,7 @@ internal sealed class TerminalDialogs : IDialogs
 
         var prompt = new SelectionPrompt<string>()
             .Title($"[green]{title}:[/]")
-            .PageSize(PageSize)
+            .PageSize(pageSize)
             .MoreChoicesText($"[grey]{MoreChoicesText}[/]")
             .AddChoices(result.Keys);
 

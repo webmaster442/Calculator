@@ -1,4 +1,5 @@
 ﻿using System.Runtime.InteropServices;
+using System.Text;
 
 using Calculator;
 using Calculator.Terminal;
@@ -13,6 +14,8 @@ if (isWindows)
         return;
     }
 }
+
+Console.OutputEncoding = Encoding.UTF8;
 
 using (var app = new App())
 {

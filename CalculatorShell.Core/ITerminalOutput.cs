@@ -9,6 +9,7 @@ public interface ITerminalOutput
     void List(string header, IEnumerable<string> data);
     void Result(string message);
     void MarkupLine(string markup);
+    void Markup(string markup);
     void Table(TableData tabledata);
     void BreakDown(IReadOnlyDictionary<string, double> items);
 }

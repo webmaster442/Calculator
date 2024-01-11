@@ -93,4 +93,9 @@ internal class TerminalOutput : ITerminalOutput
         }
         AnsiConsole.Write(b);
     }
+
+    public void Markup(string markup)
+    {
+        Console.Write(markup);
+    }
 }
