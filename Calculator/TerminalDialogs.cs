@@ -26,6 +26,7 @@ internal sealed class TerminalDialogs : IDialogs
     {
         int pageSize = Console.WindowHeight - 3;
         string lastFolder = startFolder;
+        Console.Write("\x1b[?1049h");
         while (true)
         {
             string headerText = isFileSelector ? SelectFileText : SelectFolderText;
@@ -123,6 +124,7 @@ internal sealed class TerminalDialogs : IDialogs
             string responseType = Directory.Exists(record) ? "Directory" : "File";
             if (record == Directory.GetCurrentDirectory())
             {
+                Console.Write("\x1b[?1049l");
                 return startFolder;
             }
 
@@ -139,6 +141,7 @@ internal sealed class TerminalDialogs : IDialogs
             }
             else
             {
+                Console.Write("\x1b[?1049l");
                 return record;
             }
         }
@@ -152,6 +155,7 @@ internal sealed class TerminalDialogs : IDialogs
             result.Add(":computer_disk: " + drive, drive);
         }
         AnsiConsole.Clear();
+
         AnsiConsole.WriteLine();
         var rule = new Rule($"[b][green]{SelectDriveText}[/][/]").Centered();
         AnsiConsole.Write(rule);
