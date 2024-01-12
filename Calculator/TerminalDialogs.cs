@@ -177,7 +177,8 @@ internal sealed class TerminalDialogs : IDialogs
     }
 
     public Task<string> SelectFile(CancellationToken cancellationToken)
-    {
-        return PathSelectPrompt(Environment.CurrentDirectory, true, cancellationToken);
-    }
+        => PathSelectPrompt(Environment.CurrentDirectory, isFileSelector: true, cancellationToken);
+
+    public Task<string> SelectDirectory(CancellationToken cancellationToken)
+        => PathSelectPrompt(Environment.CurrentDirectory, isFileSelector: false, cancellationToken);
 }

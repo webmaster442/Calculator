@@ -8,6 +8,8 @@ namespace Calculator;
 internal sealed class App :
     IDisposable,
     IMessageClient<SimpleMessage<AngleSystem>>,
+    IMessageClient<CurrentDirMessage>,
+    IMessageProvider<string, RequestCurrentDirMessage>,
     IMessageProvider<IEnumerable<string>, CommandListMessage>
 {
     private readonly TerminalHost _host;
@@ -22,6 +24,8 @@ internal sealed class App :
 
     public App()
     {
+        Environment.CurrentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
         ClientId = new Guid("1D386507-929F-42F7-8DDB-8E038F6A85F6");
         _host = new TerminalHost();
         _loader = new(typeof(App), _host);
@@ -87,9 +91,7 @@ internal sealed class App :
     }
 
     private void OnCancelKeyPress(object? sender, ConsoleCancelEventArgs e)
-    {
-        _currentTokenSource?.Cancel();
-    }
+        => _currentTokenSource?.Cancel();
 
     public void Dispose()
     {
@@ -101,13 +103,15 @@ internal sealed class App :
         _loader.Dispose();
     }
 
-    void IMessageClient<SimpleMessage<AngleSystem>>.ProcessMessage(SimpleMessage<AngleSystem> message)
-    {
-        _angleSystem = message.Payload;
-    }
+    void IMessageClient<SimpleMessage<AngleSystem>>.ProcessMessage(SimpleMessage<AngleSystem> message) 
+        => _angleSystem = message.Payload;
 
     IEnumerable<string> IMessageProvider<IEnumerable<string>, CommandListMessage>.ProvideMessage(CommandListMessage request)
-    {
-        return _loader.Commands.Keys.Concat(_exitCommands);
-    }
+        => _loader.Commands.Keys.Concat(_exitCommands);
+
+    void IMessageClient<CurrentDirMessage>.ProcessMessage(CurrentDirMessage input)
+        => Environment.CurrentDirectory = input.CurrentFolder;
+
+    string IMessageProvider<string, RequestCurrentDirMessage>.ProvideMessage(RequestCurrentDirMessage request)
+        => Environment.CurrentDirectory;
 }
