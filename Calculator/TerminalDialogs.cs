@@ -31,7 +31,6 @@ internal sealed class TerminalDialogs : IDialogs
         {
             string headerText = isFileSelector ? SelectFileText : SelectFolderText;
             string[] directoriesInFolder;
-            Directory.SetCurrentDirectory(startFolder);
 
             AnsiConsole.Clear();
             AnsiConsole.WriteLine();
@@ -133,10 +132,14 @@ internal sealed class TerminalDialogs : IDialogs
                 try
                 {
                     startFolder = record;
+                    Directory.SetCurrentDirectory(startFolder);
                 }
                 catch
                 {
-                    AnsiConsole.WriteLine("[red]You have no access to this folder[/]");
+                    startFolder = lastFolder;
+                    AnsiConsole.MarkupLine("[red]You have no access to this folder[/]");
+                    AnsiConsole.WriteLine("Press a key to continue");
+                    Console.ReadKey();
                 }
             }
             else

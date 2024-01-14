@@ -34,7 +34,13 @@
 * atto 
 * zepto 
 * yocto 
-* ronto 
+* ronto,
+* kib,
+* mib,
+* gib,
+* tib,
+* pib,
+* eib
 
 # Commands
 
@@ -58,11 +64,37 @@ Parameters:
 
 Example: `bcddecode 92`
 
+## cd
+
+Changes the current working directory.
+
+Parameters:
+
+1. The working directory that you want to change to. If not specified,
+   a folder slection dialog will be displayed
+
 ## clear, cls
 
 Clears the terminal output
 
 Parameters: No parameters are needed
+
+## color
+
+Converts between color formats.
+
+Parameters:
+
+1. A color that needs to be converted between the different color formarts
+
+Recognized color formats:
+
+#rrggbb
+rgb(r,g,b)
+cmyk(c,m,y,k)
+hsl(h, s, l)
+yuv(y,u,v)
+xyz(x,y,z)
 
 ## commands, cmds
 
@@ -112,6 +144,32 @@ An Expression
 
 Example: `eval (3+4)*5`
 
+## expense-ballance
+
+Gets the current month's ballance
+
+Parameters: No parameters are needed
+
+# expense
+
+Add an expense to the expenses
+
+Parameters:
+
+1. Ammount to add
+
+Arguments:
+
+-n or --name: Expense name. If not specified `Unknown expense` is used
+-c or --category: Expense category. If not specified `Not categorized` is used
+-d or --date: epxense dat. If not specified, current date is used.
+
+## expense-stat
+
+Provides detailed statistics about the monthly expenses and incomes
+
+Parameters: No parameters are needed
+
 ## flushcache
 
 Invalidates & deletes cached web service results.
@@ -136,6 +194,20 @@ Lists currently set variables.
 
 Parameters: No parameters are needed
 
+## md5
+
+Computes the MD5 hash of a file
+
+Parameters:
+
+1. File name. If not specified a file selection dialog is shown.
+
+## pwd
+
+Returns the current working directory
+
+Parameters: No parameters are needed
+
 ## rad
 
 Changes the angle mode to radians, which divides the circle into 2π radians
@@ -152,6 +224,38 @@ Parameters:
 2. An Expression, that will be used to set the variable value
 
 Example: `set x 8`
+
+## sha-1
+
+Computes the SHA-1 hash of a file
+
+Parameters:
+
+1. File name. If not specified a file selection dialog is shown.
+
+## sha-256
+
+Computes the SHA-256 hash of a file
+
+Parameters:
+
+1. File name. If not specified a file selection dialog is shown.
+
+## sha-384
+
+Computes the SHA-384 hash of a file
+
+Parameters:
+
+1. File name. If not specified a file selection dialog is shown.
+
+## sha-512
+
+Computes the SHA-384 hash of a file
+
+Parameters:
+
+1. File name. If not specified a file selection dialog is shown.
 
 ## simplify
 

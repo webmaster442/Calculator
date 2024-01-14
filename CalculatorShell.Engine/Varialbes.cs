@@ -38,6 +38,12 @@ public class Varialbes : IVariables
             { "yocto",      new Number(1E-24) },
             { "ronto",      new Number(1E-27) },
             { "quecto",     new Number(1E-30) },
+            { "kib",        new Number((Int128)Constants.KiB) },
+            { "mib",        new Number((Int128)Constants.MiB) },
+            { "gib",        new Number((Int128)Constants.GiB) },
+            { "tib",        new Number((Int128)Constants.TiB) },
+            { "pib",        new Number((Int128)Constants.PiB) },
+            { "eib",        new Number((Int128)Constants.EiB) },
         };
     }
     public IEnumerable<string> VariableNames

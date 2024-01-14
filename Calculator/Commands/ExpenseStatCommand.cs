@@ -13,7 +13,7 @@ internal class ExpenseStatCommand : ShellCommand
     public override string[] Names => ["expense-stat"];
 
     public override string Synopsys =>
-        "Provides detailed statistics about the month";
+        "Provides detailed statistics about the monthly expenses and incomes";
 
     public override void ExecuteInternal(Arguments args)
     {

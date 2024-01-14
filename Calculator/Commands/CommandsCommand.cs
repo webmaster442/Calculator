@@ -21,6 +21,8 @@ internal sealed class CommandsCommand : ShellCommand
             .Request<IEnumerable<string>, CommandListMessage>(new CommandListMessage(Guid.Empty))
             .FirstOrDefault() ?? Enumerable.Empty<string>();
 
-        Host.Output.List("available commands:", data);
+
+
+        Host.Output.List("available commands:", data.Order());
     }
 }
