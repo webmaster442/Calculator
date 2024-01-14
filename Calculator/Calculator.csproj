@@ -13,6 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="manual.md" />
+    <None Remove="Man\Template.html" />
     <None Remove="Terminal\TerminalFragment.json" />
   </ItemGroup>
 
@@ -21,10 +23,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="manual.md" />
+    <EmbeddedResource Include="Man\Template.html" />
     <EmbeddedResource Include="Terminal\TerminalFragment.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Markdig" Version="0.34.0" />
     <PackageReference Include="PrettyPrompt" Version="4.1.1" />
     <PackageReference Include="Spectre.Console" Version="0.48.0" />
     <PackageReference Include="Spectre.Console.Cli" Version="0.48.0" />

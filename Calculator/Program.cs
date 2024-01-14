@@ -2,6 +2,7 @@
 using System.Text;
 
 using Calculator;
+using Calculator.Man;
 using Calculator.Terminal;
 
 bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
@@ -14,6 +15,8 @@ if (isWindows)
         return;
     }
 }
+
+Man.RenderMan();
 
 Console.OutputEncoding = Encoding.UTF8;
 
