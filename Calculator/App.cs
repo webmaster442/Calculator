@@ -84,6 +84,11 @@ internal sealed class App :
             else
             {
                 _host.Output.Error($"Unknown Command: {cmdAndArgs.cmd}");
+                if (_commandQue.Count > 0)
+                {
+                    _commandQue.Clear();
+                    _host.Output.Error("Execution stopped");
+                }
             }
         }
     }

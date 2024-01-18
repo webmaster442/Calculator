@@ -24,7 +24,7 @@ internal sealed class ExecCommand : ShellCommand
             throw new CommandException($"File doesn't exist: {args[0]}");
 
         if (fi.Length > 32 * 1024)
-            throw new CommandException($"File contains to many instructions > 32k");
+            throw new CommandException("File contains to many instructions > 32k");
 
         var instructions = File.ReadAllLines(args[0])
             .Where(x => !string.IsNullOrWhiteSpace(x) && !x.StartsWith('#'))
