@@ -1,14 +1,19 @@
-﻿using Calculator.Messages;
+﻿using System.Globalization;
+
+using Calculator.Messages;
 
 using CalculatorShell.Core;
 using CalculatorShell.Core.Messenger;
 using CalculatorShell.Engine;
+
+using static PrettyPrompt.Highlighting.FormattedString.TextElementsEnumerator;
 
 namespace Calculator;
 internal sealed class App :
     IDisposable,
     IMessageClient<SimpleMessage<AngleSystem>>,
     IMessageClient<CurrentDirMessage>,
+    IMessageClient<SimpleMessage<string[]>>,
     IMessageProvider<string, RequestCurrentDirMessage>,
     IMessageProvider<IEnumerable<string>, CommandListMessage>
 {
@@ -19,14 +24,15 @@ internal sealed class App :
     private CancellationTokenSource? _currentTokenSource;
 
     private AngleSystem _angleSystem;
+    private Queue<string> _commandQue;
 
     public Guid ClientId { get; }
 
     public App()
     {
         Environment.CurrentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-
         ClientId = new Guid("1D386507-929F-42F7-8DDB-8E038F6A85F6");
+        _commandQue = new Queue<string>();
         _host = new TerminalHost();
         _loader = new(typeof(App), _host);
         _expenses = new Expenses(_host);
@@ -44,7 +50,7 @@ internal sealed class App :
         while (run)
         {
             _host.Prompt = $"Calc ({_angleSystem})> ";
-            var cmdAndArgs = _host.Input.ReadLine();
+            var cmdAndArgs = GetCommandAndArgs();
             if (_exitCommands.Contains(cmdAndArgs.cmd))
             {
                 run = false;
@@ -82,6 +88,14 @@ internal sealed class App :
         }
     }
 
+    private (string cmd, Arguments Arguments) GetCommandAndArgs()
+    {
+        if (_commandQue.Count > 0)
+            return ArgumentsFactory.Create(_commandQue.Dequeue(), _host.CultureInfo);
+
+        return _host.Input.ReadLine();
+    }
+
     private void AutoRun()
     {
         foreach (var cmd in _loader.AutoExecCommands)
@@ -114,4 +128,7 @@ internal sealed class App :
 
     string IMessageProvider<string, RequestCurrentDirMessage>.ProvideMessage(RequestCurrentDirMessage request)
         => Environment.CurrentDirectory;
+
+    void IMessageClient<SimpleMessage<string[]>>.ProcessMessage(SimpleMessage<string[]> input)
+        => _commandQue = new Queue<string>(input.Payload);
 }
