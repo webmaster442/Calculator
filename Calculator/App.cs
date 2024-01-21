@@ -13,7 +13,6 @@ internal sealed class App :
     INotifyTarget<AngleSystemChange>,
     INotifyTarget<SetCurrentDir>,
     INotifyTarget<EnqueCommands>,
-    IRequestProvider<string, CurrentDirRequest>,
     IRequestProvider<IEnumerable<string>, CommandList>
 {
     private readonly TerminalHost _host;
@@ -140,7 +139,4 @@ internal sealed class App :
 
     IEnumerable<string> IRequestProvider<IEnumerable<string>, CommandList>.OnRequest(CommandList message)
         => _loader.Commands.Keys.Concat(_exitCommands);
-
-    string IRequestProvider<string, CurrentDirRequest>.OnRequest(CurrentDirRequest message)
-        => Environment.CurrentDirectory;
 }

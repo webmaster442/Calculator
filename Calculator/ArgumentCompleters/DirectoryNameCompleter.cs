@@ -4,7 +4,7 @@ namespace Calculator.ArgumentCompleters;
 
 internal sealed class DirectoryNameCompleter : BaseCompleter
 {
-    public DirectoryNameCompleter(ILog log) : base(log)
+    public DirectoryNameCompleter(IHost host) : base(host)
     {
     }
 
@@ -15,7 +15,7 @@ internal sealed class DirectoryNameCompleter : BaseCompleter
 
         try
         {
-            var dirs = new DirectoryInfo(Environment.CurrentDirectory)
+            var dirs = new DirectoryInfo(Host.CurrentDirectory)
             .GetDirectories()
             .Select(d => (d.Name, $"Last modified: {d.LastWriteTime}"));
 
@@ -28,7 +28,7 @@ internal sealed class DirectoryNameCompleter : BaseCompleter
         }
         catch (Exception ex)
         {
-            Log.Exception(ex);
+            Host.Log.Exception(ex);
             return Enumerable.Empty<(string, string)>();
         }
     }

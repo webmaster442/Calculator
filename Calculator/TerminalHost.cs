@@ -52,6 +52,9 @@ internal sealed class TerminalHost : IHost
 
     public ILog Log { get; }
 
+    public string CurrentDirectory 
+        => Environment.CurrentDirectory;
+
     internal void SetCommandData(IReadOnlyDictionary<string, string> commandHelps,
                                  IReadOnlyDictionary<string, IArgumentCompleter> completers,
                                  HashSet<string> exitCommands)

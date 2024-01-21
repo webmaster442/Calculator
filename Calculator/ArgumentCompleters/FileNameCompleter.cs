@@ -4,7 +4,7 @@ namespace Calculator.ArgumentCompleters;
 
 internal sealed class FileNameCompleter : BaseCompleter
 {
-    public FileNameCompleter(ILog log) : base(log)
+    public FileNameCompleter(IHost host) : base(host)
     {
     }
 
@@ -14,7 +14,7 @@ internal sealed class FileNameCompleter : BaseCompleter
 
         try
         {
-            var files = new DirectoryInfo(Environment.CurrentDirectory)
+            var files = new DirectoryInfo(Host.CurrentDirectory)
                 .GetFiles()
                 .Where(f => !f.Attributes.HasFlag(FileAttributes.Hidden))
                 .Select(f => (f.Name, $"Size: {f.Length}"));
@@ -28,7 +28,7 @@ internal sealed class FileNameCompleter : BaseCompleter
         }
         catch (Exception ex)
         {
-            Log.Exception(ex);
+            Host.Log.Exception(ex);
             return Enumerable.Empty<(string option, string description)>();
         }
     }

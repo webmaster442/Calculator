@@ -13,7 +13,7 @@ internal sealed class HashSha1Command : HashCommandBase
     }
 
     public override IArgumentCompleter? ArgumentCompleter
-        => new FileNameCompleter(Host.Log);
+        => new FileNameCompleter(Host);
 
     public override string[] Names => ["sha-1"];
 

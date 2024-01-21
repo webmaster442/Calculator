@@ -16,7 +16,7 @@ internal class LsCommand : ShellCommand
 
     public override void ExecuteInternal(Arguments args)
     {
-        DirectoryInfo di = new DirectoryInfo(Environment.CurrentDirectory);
+        DirectoryInfo di = new DirectoryInfo(Host.CurrentDirectory);
         TableData table = new TableData("Name", "Extension", "Last write time", "Size", "Attributes");
         FillDirs(table, di.GetDirectories());
         FillFiles(table, di.GetFiles());

@@ -12,4 +12,5 @@ public interface IHost
     IWebServices WebServices { get; }
     IDialogs Dialogs { get; }
     ILog Log { get; }
+    string CurrentDirectory { get; }
 }

@@ -4,12 +4,12 @@ namespace Calculator.ArgumentCompleters;
 
 internal abstract class BaseCompleter : IArgumentCompleter
 {
-    protected BaseCompleter(ILog log)
+    protected BaseCompleter(IHost host)
     {
-        Log = log;
+        Host = host;
     }
 
-    protected ILog Log { get; }
+    protected IHost Host { get; }
 
     protected static string GetWordAtCaret(string text, int caret)
     {

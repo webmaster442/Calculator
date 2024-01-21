@@ -17,7 +17,7 @@ internal sealed class CdCommand : ShellCommandAsync
         => "Changes the current working directory";
 
     public override IArgumentCompleter? ArgumentCompleter
-        => new DirectoryNameCompleter(Host.Log);
+        => new DirectoryNameCompleter(Host);
 
     public override async Task ExecuteInternal(Arguments args, CancellationToken cancellationToken)
     {
