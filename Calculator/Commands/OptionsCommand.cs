@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
+﻿using System.ComponentModel;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 using Calculator.Internal;
 using Calculator.Messages;
@@ -37,6 +32,26 @@ internal class OptionsCommand : ShellCommandAsync
             .ToArray();
     }
 
+    private static Options CreateFromSelection(IEnumerable<SelectionListItem> wassettrue)
+    {
+        Options ret = new();
+        HashSet<string> trueProperties = wassettrue.Select(x => x.Item).ToHashSet();
+
+        var properties = typeof(Options)
+            .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+            .Where(p => p.CanRead && p.CanWrite);
+
+        foreach (var property in properties)
+        {
+            if (trueProperties.Contains(property.Name))
+                property.SetValue(ret, true);
+            else
+                property.SetValue(ret, false);
+        }
+
+        return ret;
+    }
+
     public override async Task ExecuteInternal(Arguments args, CancellationToken cancellationToken)
     {
         var options = Host.Mediator.Request<Options, OptionsRequest>(new OptionsRequest())
@@ -45,5 +60,9 @@ internal class OptionsCommand : ShellCommandAsync
         var currentOptions = GetOptions(options);
 
         var selected = await Host.Dialogs.SelectionList("Program options", currentOptions, cancellationToken);
+
+        var modified = CreateFromSelection(selected);
+
+        Host.Mediator.Notify(new SetOptions(modified));
     }
 }
