@@ -35,7 +35,11 @@ internal class EvalCommand : ShellCommandAsync,
     {
         EngineResult result = await _engine.ExecuteAsync(string.Join(' ', args.AsEnumerable()), cancellationToken);
         result.When(number => Host.Output.Result(number.ToString(Host.CultureInfo)),
-                    exception => Host.Output.Error(exception));
+                    exception =>
+                    {
+                        Host.Log.Exception(exception);
+                        Host.Output.Error(exception);
+                    });
     }
 
     void IMessageClient<SimpleMessage<AngleSystem>>.ProcessMessage(SimpleMessage<AngleSystem> message)

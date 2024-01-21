@@ -26,6 +26,7 @@ public abstract class ShellCommand : ISyncShellCommand
         }
         catch (Exception ex)
         {
+            Host.Log.Exception(ex);
             Host.Output.Error(ex);
         }
     }

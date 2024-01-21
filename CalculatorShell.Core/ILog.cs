@@ -6,4 +6,8 @@ public interface ILog
     void Info(FormattableString text);
     void Warning(FormattableString text);
     void Error(FormattableString text);
+
+    IEnumerable<string> Entries { get; }
+
+    void Clear();
 }

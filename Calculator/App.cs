@@ -59,6 +59,7 @@ internal sealed class App :
             {
                 try
                 {
+                    _host.Log.Info($"Executing: {cmdAndArgs.cmd} {string.Join(' ', cmdAndArgs.Arguments.AsEnumerable())}");
                     Console.CancelKeyPress += OnCancelKeyPress;
                     _currentTokenSource = new CancellationTokenSource();
 
@@ -81,6 +82,7 @@ internal sealed class App :
             else if (cmdAndArgs.cmd.Length > 0)
             {
                 _host.Output.Error($"Unknown Command: {cmdAndArgs.cmd}");
+                _host.Log.Error($"Unknown Command: {cmdAndArgs.cmd}");
                 if (_commandQue.Count > 0)
                 {
                     _commandQue.Clear();

@@ -23,6 +23,7 @@ public abstract class ShellCommandAsync : IAsyncShellCommand
         }
         catch (Exception ex)
         {
+            Host.Log.Exception(ex);
             Host.Output.Error(ex);
         }
     }
