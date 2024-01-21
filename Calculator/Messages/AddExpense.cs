@@ -3,9 +3,9 @@ using CalculatorShell.Engine.Expenses;
 
 namespace Calculator.Messages;
 
-internal sealed class AddExpenseMessage : PayloadBase
+internal sealed class AddExpense : PayloadBase
 {
-    public AddExpenseMessage(ExpenseItem item)
+    public AddExpense(ExpenseItem item)
     {
         Item = item;
     }

@@ -7,11 +7,11 @@ using CalculatorShell.Engine;
 namespace Calculator.Commands;
 
 internal class EvalCommand : ShellCommandAsync,
-    INotifyTarget<AngleSystemMessage>,
-    INotifyTarget<SetVarMessage>,
-    INotifyTarget<UnsetVarMessage>,
-    IRequestProvider<IEnumerable<string>, FunctionListRequestMessage>,
-    IRequestProvider<IEnumerable<KeyValuePair<string, Number>>, VariableListMessage>
+    INotifyTarget<AngleSystemChange>,
+    INotifyTarget<SetVariable>,
+    INotifyTarget<UnsetVariable>,
+    IRequestProvider<IEnumerable<string>, FunctionListRequest>,
+    IRequestProvider<IEnumerable<KeyValuePair<string, Number>>, VariableListRequest>
 {
     private readonly ArithmeticEngine _engine;
     private readonly Varialbes _varialbes;
@@ -39,10 +39,10 @@ internal class EvalCommand : ShellCommandAsync,
                     });
     }
 
-    void INotifyTarget<AngleSystemMessage>.OnNotify(AngleSystemMessage message)
+    void INotifyTarget<AngleSystemChange>.OnNotify(AngleSystemChange message)
         => _engine.AngleSystem = message.AngleSystem;
 
-    void INotifyTarget<SetVarMessage>.OnNotify(SetVarMessage message)
+    void INotifyTarget<SetVariable>.OnNotify(SetVariable message)
     {
         EngineResult result = _engine.ExecuteAsync(message.Expression, CancellationToken.None).GetAwaiter().GetResult();
         result.When(number =>
@@ -60,7 +60,7 @@ internal class EvalCommand : ShellCommandAsync,
         exception => Host.Output.Error(exception));
     }
 
-    void INotifyTarget<UnsetVarMessage>.OnNotify(UnsetVarMessage message)
+    void INotifyTarget<UnsetVariable>.OnNotify(UnsetVariable message)
     {
         try
         {
@@ -72,9 +72,9 @@ internal class EvalCommand : ShellCommandAsync,
         }
     }
 
-    IEnumerable<string> IRequestProvider<IEnumerable<string>, FunctionListRequestMessage>.OnRequest(FunctionListRequestMessage message)
+    IEnumerable<string> IRequestProvider<IEnumerable<string>, FunctionListRequest>.OnRequest(FunctionListRequest message)
         => _engine.Functions;
 
-    IEnumerable<KeyValuePair<string, Number>> IRequestProvider<IEnumerable<KeyValuePair<string, Number>>, VariableListMessage>.OnRequest(VariableListMessage message)
+    IEnumerable<KeyValuePair<string, Number>> IRequestProvider<IEnumerable<KeyValuePair<string, Number>>, VariableListRequest>.OnRequest(VariableListRequest message)
         => _varialbes.AsEnumerable();
 }

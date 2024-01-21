@@ -17,11 +17,11 @@ internal class ExpenseStatCommand : ShellCommand
 
     public override void ExecuteInternal(Arguments args)
     {
-        var statTable = Host.Mediator.Request<TableData, ExpenseStatRequestMessage>(new ExpenseStatRequestMessage())
+        var statTable = Host.Mediator.Request<TableData, ExpenseStatRequest>(new ExpenseStatRequest())
             ?? throw new CommandException("No statistics are available");
         Host.Output.Table(statTable);
 
-        var distribution = Host.Mediator.Request<IReadOnlyDictionary<string, double>, ExpenseDistributionRequestMessage>(new ExpenseDistributionRequestMessage())
+        var distribution = Host.Mediator.Request<IReadOnlyDictionary<string, double>, ExpenseDistributionRequest>(new ExpenseDistributionRequest())
             ?? throw new CommandException("No distribution is available");
         Host.Output.BreakDown(distribution);
     }

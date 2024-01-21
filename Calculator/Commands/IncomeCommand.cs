@@ -18,6 +18,6 @@ internal class IncomeCommand : ExpenseCommand
     public override void ExecuteInternal(Arguments args)
     {
         var item = Create(args, true);
-        Host.Mediator.Notify(new AddExpenseMessage(item));
+        Host.Mediator.Notify(new AddExpense(item));
     }
 }

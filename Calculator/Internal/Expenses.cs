@@ -7,10 +7,10 @@ using CalculatorShell.Engine.Expenses;
 namespace Calculator.Internal;
 
 internal sealed class Expenses :
-    INotifyTarget<AddExpenseMessage>,
-    IRequestProvider<ExpenseBallanceMessage, ExpenseBallanceRequestMessage>,
-    IRequestProvider<TableData, ExpenseStatRequestMessage>,
-    IRequestProvider<IReadOnlyDictionary<string, double>, ExpenseDistributionRequestMessage>
+    INotifyTarget<AddExpense>,
+    IRequestProvider<GetExpenseBallance, ExpenseBallanceRequest>,
+    IRequestProvider<TableData, ExpenseStatRequest>,
+    IRequestProvider<IReadOnlyDictionary<string, double>, ExpenseDistributionRequest>
 {
     private readonly ExpenseItemDb _db;
     private readonly string _folder;
@@ -25,10 +25,10 @@ internal sealed class Expenses :
 
     }
 
-    void INotifyTarget<AddExpenseMessage>.OnNotify(AddExpenseMessage message)
+    void INotifyTarget<AddExpense>.OnNotify(AddExpense message)
         => _db.Insert(message.Item);
 
-    ExpenseBallanceMessage IRequestProvider<ExpenseBallanceMessage, ExpenseBallanceRequestMessage>.OnRequest(ExpenseBallanceRequestMessage message)
+    GetExpenseBallance IRequestProvider<GetExpenseBallance, ExpenseBallanceRequest>.OnRequest(ExpenseBallanceRequest message)
     {
         decimal result = 0;
 
@@ -40,10 +40,10 @@ internal sealed class Expenses :
                 result -= item.Amount;
         }
 
-        return new ExpenseBallanceMessage(result);
+        return new GetExpenseBallance(result);
     }
 
-    TableData IRequestProvider<TableData, ExpenseStatRequestMessage>.OnRequest(ExpenseStatRequestMessage message)
+    TableData IRequestProvider<TableData, ExpenseStatRequest>.OnRequest(ExpenseStatRequest message)
     {
         List<ExpenseItem> spendings = _db.Items.Where(x => !x.IsIncome).ToList();
 
@@ -63,7 +63,7 @@ internal sealed class Expenses :
         return table;
     }
 
-    IReadOnlyDictionary<string, double> IRequestProvider<IReadOnlyDictionary<string, double>, ExpenseDistributionRequestMessage>.OnRequest(ExpenseDistributionRequestMessage message)
+    IReadOnlyDictionary<string, double> IRequestProvider<IReadOnlyDictionary<string, double>, ExpenseDistributionRequest>.OnRequest(ExpenseDistributionRequest message)
     {
         return _db.Items
             .Where(x => !x.IsIncome)

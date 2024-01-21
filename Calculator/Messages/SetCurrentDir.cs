@@ -2,9 +2,9 @@
 
 namespace Calculator.Messages;
 
-internal sealed class CurrentDirMessage : PayloadBase
+internal sealed class SetCurrentDir : PayloadBase
 {
-    public CurrentDirMessage(string folder)
+    public SetCurrentDir(string folder)
     {
         CurrentFolder = folder;
     }

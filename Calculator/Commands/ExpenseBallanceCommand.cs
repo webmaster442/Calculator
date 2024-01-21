@@ -17,7 +17,7 @@ internal class ExpenseBallanceCommand : ShellCommand
 
     public override void ExecuteInternal(Arguments args)
     {
-        var response = Host.Mediator.Request<ExpenseBallanceMessage, ExpenseBallanceRequestMessage>(new ExpenseBallanceRequestMessage())
+        var response = Host.Mediator.Request<GetExpenseBallance, ExpenseBallanceRequest>(new ExpenseBallanceRequest())
             ?? throw new CommandException("Ballance couldn't be deremined");
         Host.Output.Result(response.Ballance.ToString(Host.CultureInfo));
     }

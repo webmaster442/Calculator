@@ -2,6 +2,6 @@
 
 namespace Calculator.Messages;
 
-internal class RequestCurrentDirMessage : PayloadBase
+internal sealed class ExpenseDistributionRequest : PayloadBase
 {
 }

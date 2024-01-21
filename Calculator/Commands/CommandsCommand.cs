@@ -18,7 +18,7 @@ internal sealed class CommandsCommand : ShellCommand
     public override void ExecuteInternal(Arguments args)
     {
         var data = Host.Mediator
-            .Request<IEnumerable<string>, CommandListMessage>(new CommandListMessage())
+            .Request<IEnumerable<string>, CommandList>(new CommandList())
             ?? throw new CommandException("There are no available commands");
 
         Host.Output.List("available commands:", data.Order());

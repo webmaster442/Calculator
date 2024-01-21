@@ -2,11 +2,11 @@
 
 namespace Calculator.Messages;
 
-internal class ExpenseBallanceMessage : PayloadBase
+internal class GetExpenseBallance : PayloadBase
 {
     public decimal Ballance { get; }
 
-    public ExpenseBallanceMessage(decimal ballance)
+    public GetExpenseBallance(decimal ballance)
     {
         Ballance = ballance;
     }

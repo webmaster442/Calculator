@@ -2,6 +2,6 @@
 
 namespace Calculator.Messages;
 
-internal sealed class ExpenseBallanceRequestMessage : PayloadBase
+internal sealed class ExpenseStatRequest : PayloadBase
 {
 }

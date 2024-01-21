@@ -36,6 +36,6 @@ internal class ExpenseCommand : ShellCommand
     public override void ExecuteInternal(Arguments args)
     {
         var item = Create(args, false);
-        Host.Mediator.Notify(new AddExpenseMessage(item));
+        Host.Mediator.Notify(new AddExpense(item));
     }
 }

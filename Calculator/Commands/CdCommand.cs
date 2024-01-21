@@ -30,6 +30,6 @@ internal sealed class CdCommand : ShellCommandAsync
         {
             folder = args[0];
         }
-        Host.Mediator.Notify(new CurrentDirMessage(folder));
+        Host.Mediator.Notify(new SetCurrentDir(folder));
     }
 }

@@ -19,6 +19,6 @@ internal sealed class UnSetCommand : ShellCommand
     {
         args.ThrowIfNotSpecifiedAtLeast(1);
         var name = args.AsEnumerable().First();
-        Host.Mediator.Notify(new UnsetVarMessage(name));
+        Host.Mediator.Notify(new UnsetVariable(name));
     }
 }

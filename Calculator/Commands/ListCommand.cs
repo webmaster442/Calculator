@@ -18,7 +18,7 @@ internal sealed class ListCommand : ShellCommand
 
     public override void ExecuteInternal(Arguments args)
     {
-        var response = Host.Mediator.Request<IEnumerable<KeyValuePair<string, Number>>, VariableListMessage>(new VariableListMessage());
+        var response = Host.Mediator.Request<IEnumerable<KeyValuePair<string, Number>>, VariableListRequest>(new VariableListRequest());
         if (response != null && response.Any())
         {
             TableData table = new TableData("Variable", "Value");

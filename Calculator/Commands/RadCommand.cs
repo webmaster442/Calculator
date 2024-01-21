@@ -16,5 +16,5 @@ internal sealed class RadCommand : ShellCommand
         => "Changes the angle mode to radians";
 
     public override void ExecuteInternal(Arguments args)
-        => Host.Mediator.Notify(new AngleSystemMessage(AngleSystem.Rad));
+        => Host.Mediator.Notify(new AngleSystemChange(AngleSystem.Rad));
 }

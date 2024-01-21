@@ -2,6 +2,6 @@
 
 namespace Calculator.Messages;
 
-internal class VariableListMessage : PayloadBase
+internal class VariableListRequest : PayloadBase
 {
 }

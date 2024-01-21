@@ -2,9 +2,9 @@
 using CalculatorShell.Engine;
 
 namespace Calculator.Messages;
-internal class AngleSystemMessage : PayloadBase
+internal class AngleSystemChange : PayloadBase
 {
-    public AngleSystemMessage(AngleSystem angleSystem)
+    public AngleSystemChange(AngleSystem angleSystem)
     {
         AngleSystem = angleSystem;
     }

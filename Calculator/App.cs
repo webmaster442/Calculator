@@ -10,11 +10,11 @@ using PrettyPrompt.Highlighting;
 namespace Calculator;
 internal sealed class App :
     IDisposable,
-    INotifyTarget<AngleSystemMessage>,
-    INotifyTarget<CurrentDirMessage>,
-    INotifyTarget<EnqueCommandsMessage>,
-    IRequestProvider<string, RequestCurrentDirMessage>,
-    IRequestProvider<IEnumerable<string>, CommandListMessage>
+    INotifyTarget<AngleSystemChange>,
+    INotifyTarget<SetCurrentDir>,
+    INotifyTarget<EnqueCommands>,
+    IRequestProvider<string, CurrentDirRequest>,
+    IRequestProvider<IEnumerable<string>, CommandList>
 {
     private readonly TerminalHost _host;
     private readonly CommandLoader _loader;
@@ -129,18 +129,18 @@ internal sealed class App :
         _loader.Dispose();
     }
 
-    void INotifyTarget<AngleSystemMessage>.OnNotify(AngleSystemMessage message)
+    void INotifyTarget<AngleSystemChange>.OnNotify(AngleSystemChange message)
         => _angleSystem = message.AngleSystem;
 
-    void INotifyTarget<CurrentDirMessage>.OnNotify(CurrentDirMessage message)
+    void INotifyTarget<SetCurrentDir>.OnNotify(SetCurrentDir message)
         => Environment.CurrentDirectory = message.CurrentFolder;
 
-    void INotifyTarget<EnqueCommandsMessage>.OnNotify(EnqueCommandsMessage message)
+    void INotifyTarget<EnqueCommands>.OnNotify(EnqueCommands message)
         => _commandQue = new Queue<string>(message.Commands);
 
-    IEnumerable<string> IRequestProvider<IEnumerable<string>, CommandListMessage>.OnRequest(CommandListMessage message)
+    IEnumerable<string> IRequestProvider<IEnumerable<string>, CommandList>.OnRequest(CommandList message)
         => _loader.Commands.Keys.Concat(_exitCommands);
 
-    string IRequestProvider<string, RequestCurrentDirMessage>.OnRequest(RequestCurrentDirMessage message)
+    string IRequestProvider<string, CurrentDirRequest>.OnRequest(CurrentDirRequest message)
         => Environment.CurrentDirectory;
 }

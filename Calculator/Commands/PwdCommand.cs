@@ -18,7 +18,7 @@ internal sealed class PwdCommand : ShellCommand
     public override void ExecuteInternal(Arguments args)
     {
         string dir = Host.Mediator
-            .Request<string, RequestCurrentDirMessage>(new RequestCurrentDirMessage())
+            .Request<string, CurrentDirRequest>(new CurrentDirRequest())
             ?? throw new CommandException("Current folder is unknown");
 
         Host.Output.Result(dir);

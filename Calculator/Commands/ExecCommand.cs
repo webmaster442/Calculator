@@ -31,6 +31,6 @@ internal sealed class ExecCommand : ShellCommand
             .Where(x => !string.IsNullOrWhiteSpace(x) && !x.StartsWith('#'))
             .ToArray();
 
-        Host.Mediator.Notify(new EnqueCommandsMessage(instructions));
+        Host.Mediator.Notify(new EnqueCommands(instructions));
     }
 }

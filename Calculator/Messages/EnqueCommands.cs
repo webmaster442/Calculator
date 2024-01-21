@@ -1,9 +1,9 @@
 ﻿using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
-internal class EnqueCommandsMessage : PayloadBase
+internal class EnqueCommands : PayloadBase
 {
-    public EnqueCommandsMessage(string[] commands)
+    public EnqueCommands(string[] commands)
     {
         Commands = commands;
     }
