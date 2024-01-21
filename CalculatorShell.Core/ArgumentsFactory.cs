@@ -4,7 +4,7 @@ namespace CalculatorShell.Core;
 
 public static class ArgumentsFactory
 {
-    public static List<string> Tokenize(string input)
+    public static IReadOnlyList<string> Tokenize(string input)
     {
         List<string> items = new();
         StringBuilder temp = new();
