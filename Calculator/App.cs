@@ -6,6 +6,8 @@ using CalculatorShell.Core;
 using CalculatorShell.Core.Messenger;
 using CalculatorShell.Engine;
 
+using PrettyPrompt.Highlighting;
+
 using static PrettyPrompt.Highlighting.FormattedString.TextElementsEnumerator;
 
 namespace Calculator;
@@ -49,7 +51,7 @@ internal sealed class App :
 
         while (run)
         {
-            _host.Prompt = $"Calc ({_angleSystem})> ";
+            _host.Prompt = CreatePrompt();
             var cmdAndArgs = GetCommandAndArgs();
             if (_exitCommands.Contains(cmdAndArgs.cmd))
             {
@@ -71,8 +73,6 @@ internal sealed class App :
                         await async.Execute(cmdAndArgs.Arguments, _currentTokenSource.Token);
                     else
                         throw new InvalidOperationException($"Can't execute: {cmdAndArgs.cmd}");
-
-                    _host.Output.BlankLine();
                 }
                 finally
                 {
@@ -81,7 +81,7 @@ internal sealed class App :
                     _currentTokenSource = null;
                 }
             }
-            else
+            else if (cmdAndArgs.cmd.Length > 0)
             {
                 _host.Output.Error($"Unknown Command: {cmdAndArgs.cmd}");
                 if (_commandQue.Count > 0)
@@ -90,7 +90,18 @@ internal sealed class App :
                     _host.Output.Error("Execution stopped");
                 }
             }
+            _host.Output.BlankLine();
         }
+    }
+
+    private FormattedString CreatePrompt()
+    {
+        string text = $"Calc ({_angleSystem}) | {DateTime.Now.ToShortTimeString()}\r\n{Environment.CurrentDirectory} >";
+        int linesplit = text.IndexOf('\n');
+        int secondLine = text.Length - linesplit - " >".Length;
+        return new FormattedString(text,
+                                   new FormatSpan(0, linesplit, new ConsoleFormat(AnsiColor.White)),
+                                   new FormatSpan(linesplit, secondLine, new ConsoleFormat(AnsiColor.BrightMagenta, Underline: true)));
     }
 
     private (string cmd, Arguments Arguments) GetCommandAndArgs()

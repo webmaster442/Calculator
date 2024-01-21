@@ -5,6 +5,8 @@ using Calculator.Web;
 using CalculatorShell.Core;
 using CalculatorShell.Core.Messenger;
 
+using PrettyPrompt.Highlighting;
+
 namespace Calculator;
 
 internal sealed class TerminalHost : IHost
@@ -25,7 +27,7 @@ internal sealed class TerminalHost : IHost
 
     public ITerminalOutput Output => _output;
 
-    public string Prompt
+    public FormattedString Prompt
     {
         get => _input.Prompt;
         set => _input.Prompt = value;

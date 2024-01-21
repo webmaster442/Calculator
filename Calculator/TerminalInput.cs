@@ -2,17 +2,21 @@
 
 using CalculatorShell.Core;
 
+using PrettyPrompt.Highlighting;
+
 
 namespace Calculator;
 
 internal sealed class TerminalInput : ITerminalInput
 {
-    public string Prompt
+    public FormattedString Prompt
     {
-        get => _configuration.Prompt.ToString() ?? string.Empty;
+        get => _configuration.Prompt;
         set => _configuration.Prompt = value;
     }
+
     public CultureInfo CultureInfo { get; set; }
+    
     public char[] Separators { get; set; }
 
     private readonly PrettyPrompt.Prompt _reader;
