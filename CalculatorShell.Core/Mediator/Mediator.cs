@@ -26,7 +26,7 @@ public sealed class Mediator : IMediator
         {
             if (client.IsAlive)
             {
-                if (client is INotifyTarget<TMessage> notifyClient)
+                if (client.Target is INotifyTarget<TMessage> notifyClient)
                 {
                     notifyClient.OnNotify(payload);
                 }
@@ -51,7 +51,7 @@ public sealed class Mediator : IMediator
         {
             if (client.IsAlive)
             {
-                if (client is IRequestProvider<TReturn, TMessage> providerClient)
+                if (client.Target is IRequestProvider<TReturn, TMessage> providerClient)
                 {
                     result = providerClient.OnRequest(message);
                     break;
@@ -84,7 +84,7 @@ public sealed class Mediator : IMediator
         {
             if (client.IsAlive)
             {
-                if (client is IRequestProvider<TReturn, TMessage> providerClient)
+                if (client.Target is IRequestProvider<TReturn, TMessage> providerClient)
                 {
                     yield return providerClient.OnRequest(message);
                 }

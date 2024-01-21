@@ -132,7 +132,21 @@ internal sealed class App :
         => _angleSystem = message.AngleSystem;
 
     void INotifyTarget<SetCurrentDir>.OnNotify(SetCurrentDir message)
-        => Environment.CurrentDirectory = message.CurrentFolder;
+    {
+        try
+        {
+            var info = new DirectoryInfo(message.CurrentFolder);
+            if (info.LinkTarget != null)
+                Environment.CurrentDirectory = info.LinkTarget;
+            else
+                Environment.CurrentDirectory = message.CurrentFolder;
+        }
+        catch (Exception ex)
+        {
+            _host.Log.Exception(ex);
+            _host.Output.Error($"Can't navigate to: {message.CurrentFolder}");
+        }
+    }
 
     void INotifyTarget<EnqueCommands>.OnNotify(EnqueCommands message)
         => _commandQue = new Queue<string>(message.Commands);
