@@ -14,6 +14,9 @@ public sealed class TableData : IEnumerable<string[]>
         Headers = headers;
     }
 
+    public int Rows
+        => _rows.Count - 1;
+
     public void AddRow(params string[] rowData)
     {
         if (rowData.Length != Headers.Length)

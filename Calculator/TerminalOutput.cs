@@ -66,7 +66,7 @@ internal class TerminalOutput : ITerminalOutput
         table.AddColumns(tabledata.Headers);
         foreach (var row in tabledata)
         {
-            table.AddRow(row);
+            table.AddRow(row.Select(x => x.EscapeMarkup()).ToArray());
         }
         AnsiConsole.Write(table);
     }
