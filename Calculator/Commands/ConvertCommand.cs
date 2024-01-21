@@ -3,11 +3,11 @@ using CalculatorShell.Engine.MathComponents;
 
 namespace Calculator.Commands;
 
-internal sealed class Convert : ShellCommand
+internal sealed class ConvertCommand : ShellCommand
 {
     private readonly NumberSystemConverter _converter;
 
-    public Convert(IHost host) : base(host)
+    public ConvertCommand(IHost host) : base(host)
     {
         _converter = new NumberSystemConverter();
     }
