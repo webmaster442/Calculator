@@ -13,7 +13,9 @@ internal sealed class App :
     INotifyTarget<AngleSystemChange>,
     INotifyTarget<SetCurrentDir>,
     INotifyTarget<EnqueCommands>,
-    IRequestProvider<IEnumerable<string>, CommandList>
+    INotifyTarget<SetOptions>,
+    IRequestProvider<IEnumerable<string>, CommandList>,
+    IRequestProvider<Options, OptionsRequest>
 {
     private readonly TerminalHost _host;
     private readonly CommandLoader _loader;
@@ -23,10 +25,12 @@ internal sealed class App :
 
     private AngleSystem _angleSystem;
     private Queue<string> _commandQue;
+    private Options _options;
 
     public App()
     {
         Environment.CurrentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        _options = new Options();
         _commandQue = new Queue<string>();
         _host = new TerminalHost();
         _loader = new(typeof(App), _host);
@@ -151,6 +155,12 @@ internal sealed class App :
     void INotifyTarget<EnqueCommands>.OnNotify(EnqueCommands message)
         => _commandQue = new Queue<string>(message.Commands);
 
+    void INotifyTarget<SetOptions>.OnNotify(SetOptions message)
+        => _options = message.Options;
+
     IEnumerable<string> IRequestProvider<IEnumerable<string>, CommandList>.OnRequest(CommandList message)
         => _loader.Commands.Keys.Concat(_exitCommands);
+
+    Options IRequestProvider<Options, OptionsRequest>.OnRequest(OptionsRequest message)
+        => _options;
 }

@@ -184,4 +184,25 @@ internal sealed class TerminalDialogs : IDialogs
 
     public Task<string> SelectDirectory(CancellationToken cancellationToken)
         => PathSelectPrompt(Environment.CurrentDirectory, isFileSelector: false, cancellationToken);
+
+    public async Task<IReadOnlyList<SelectionListItem>> SelectionList(string title, IEnumerable<SelectionListItem> items, CancellationToken cancellationToken)
+    {
+        var selector = new MultiSelectionPrompt<SelectionListItem>()
+            .UseConverter(item => item.Description)
+            .Title(title)
+            .NotRequired();
+
+        foreach (var item in items)
+        {
+            selector.AddChoices(item, c =>
+            {
+                if (item.IsChecked)
+                {
+                    c.Select();
+                }
+            });
+        }
+
+        return await selector.ShowAsync(AnsiConsole.Console, cancellationToken);
+    }
 }
