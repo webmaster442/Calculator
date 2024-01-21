@@ -13,7 +13,7 @@ internal sealed class HashMd5Command : HashCommandBase
     }
 
     public override IArgumentCompleter? ArgumentCompleter
-        => new FileNameCompleter();
+        => new FileNameCompleter(Host.Log);
 
     public override string[] Names => ["md5"];
 

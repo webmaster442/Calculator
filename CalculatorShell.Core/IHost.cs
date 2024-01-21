@@ -11,4 +11,5 @@ public interface IHost
     IMessageBus MessageBus { get; }
     IWebServices WebServices { get; }
     IDialogs Dialogs { get; }
+    ILog Log { get; }
 }

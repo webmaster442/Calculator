@@ -4,6 +4,13 @@ namespace Calculator.ArgumentCompleters;
 
 internal abstract class BaseCompleter : IArgumentCompleter
 {
+    protected BaseCompleter(ILog log)
+    {
+        Log = log;
+    }
+
+    protected ILog Log { get; }
+
     protected static string GetWordAtCaret(string text, int caret)
     {
         var words = ArgumentsFactory.Tokenize(text);

@@ -1,7 +1,13 @@
-﻿namespace Calculator.ArgumentCompleters;
+﻿using CalculatorShell.Core;
+
+namespace Calculator.ArgumentCompleters;
 
 internal sealed class DirectoryNameCompleter : BaseCompleter
 {
+    public DirectoryNameCompleter(ILog log) : base(log)
+    {
+    }
+
     public override IEnumerable<(string option, string description)> ProvideAutoCompleteItems(string text, int caret)
     {
 
@@ -22,6 +28,7 @@ internal sealed class DirectoryNameCompleter : BaseCompleter
         }
         catch (Exception ex)
         {
+            Log.Exception(ex);
             return Enumerable.Empty<(string, string)>();
         }
     }
