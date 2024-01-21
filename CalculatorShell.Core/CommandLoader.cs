@@ -6,10 +6,10 @@ public sealed class CommandLoader : IDisposable
 {
     private readonly Dictionary<string, IShellCommand> _commands;
     private readonly Dictionary<string, string> _commandHelps;
-    private readonly List<IAutoExecShellCommand> _autoExecCommands;
+    private readonly List<IAutoExec> _autoExecCommands;
     private readonly Dictionary<string, IArgumentCompleter> _completable;
 
-    public IReadOnlyList<IAutoExecShellCommand> AutoExecCommands
+    public IReadOnlyList<IAutoExec> AutoExecCommands
         => _autoExecCommands;
 
     public IReadOnlyDictionary<string, IShellCommand> Commands
@@ -26,20 +26,20 @@ public sealed class CommandLoader : IDisposable
     {
         _commands = new Dictionary<string, IShellCommand>();
         _commandHelps = new Dictionary<string, string>();
-        _autoExecCommands = new List<IAutoExecShellCommand>();
+        _autoExecCommands = new List<IAutoExec>();
         _completable = new Dictionary<string, IArgumentCompleter>();
         LoadCommands(atypeFromAssembly, host);
-        LoadAutoExecCommands(atypeFromAssembly, host);
+        LoadAutoExec(atypeFromAssembly, host);
     }
 
-    private void LoadAutoExecCommands(Type atypeFromAssembly, IHost host)
+    private void LoadAutoExec(Type atypeFromAssembly, IHost host)
     {
-        IEnumerable<Type> autoExecCommandTypes = GetTypesFromAssembly<IAutoExecShellCommand>(atypeFromAssembly);
+        IEnumerable<Type> autoExecCommandTypes = GetTypesFromAssembly<IAutoExec>(atypeFromAssembly);
         foreach (Type type in autoExecCommandTypes)
         {
             try
             {
-                if (Activator.CreateInstance(type) is IAutoExecShellCommand cmd)
+                if (Activator.CreateInstance(type) is IAutoExec cmd)
                 {
                     _autoExecCommands.Add(cmd);
                 }

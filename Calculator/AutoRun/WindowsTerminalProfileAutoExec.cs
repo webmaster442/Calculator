@@ -1,12 +1,37 @@
-﻿using System.Text.Json;
+﻿using System.Runtime.InteropServices;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 
-namespace Calculator.Terminal;
-internal static class TerminalProfileInstaller
+using CalculatorShell.Core;
+
+namespace Calculator.AutoRun;
+
+internal sealed class WindowsTerminalProfileAutoExec : IAutoExec
 {
+    public string LogMessage => "Checking Windows terminal profile install";
+
+    public int Priority => 0;
+
+    public void Execute(IHost host)
+    {
+        bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
+        if (isWindows)
+        {
+            bool result = Install();
+            if (!result)
+            {
+                host.Log.Error($"Terminal profile install failed");
+            }
+        }
+        else
+        {
+            host.Log.Info($"skipping step, because host os is not windows");
+        }
+    }
+
     private const string Template = "Calculator.Terminal.TerminalFragment.json";
 
-    public static async Task<bool> Install()
+    private static bool Install()
     {
         try
         {
@@ -22,18 +47,18 @@ internal static class TerminalProfileInstaller
             string name = "Calc shell";
 #endif
 
-            using (var stream = typeof(TerminalProfileInstaller).Assembly.GetManifestResourceStream(Template))
+            using (var stream = typeof(WindowsTerminalProfileAutoExec).Assembly.GetManifestResourceStream(Template))
             {
                 if (stream == null)
                 {
                     return false;
                 }
-                string json = await PrepareProfileAsync(stream, name, path, iconPath);
+                string json = PrepareProfile(stream, name, path, iconPath);
 
                 if (!Directory.Exists(targetfolder))
                     Directory.CreateDirectory(targetfolder);
 
-                await File.WriteAllTextAsync(targetFile, json);
+                File.WriteAllText(targetFile, json);
 
             }
             return true;
@@ -44,13 +69,12 @@ internal static class TerminalProfileInstaller
         }
     }
 
-    private static async Task<string> PrepareProfileAsync(Stream fragmentTemplate,
-                                                         string name,
-                                                         string commandLine,
-                                                         string iconPath,
-                                                         CancellationToken cancellationToken = default)
+    private static string PrepareProfile(Stream fragmentTemplate,
+                                         string name,
+                                         string commandLine,
+                                         string iconPath)
     {
-        var fragment = await JsonNode.ParseAsync(fragmentTemplate, cancellationToken: cancellationToken);
+        var fragment = JsonNode.Parse(fragmentTemplate);
         JsonNode profile = fragment!["profiles"]!.AsArray().First()!;
         profile["name"] = name;
         profile["commandline"] = commandLine;

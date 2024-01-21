@@ -44,7 +44,7 @@ internal sealed class App :
     {
         bool run = true;
 
-        AutoRun();
+        ExecuteAutoRuns();
 
         while (run)
         {
@@ -111,10 +111,11 @@ internal sealed class App :
         return _host.Input.ReadLine();
     }
 
-    private void AutoRun()
+    private void ExecuteAutoRuns()
     {
-        foreach (var cmd in _loader.AutoExecCommands)
+        foreach (var cmd in _loader.AutoExecCommands.OrderBy(x => x.Priority))
         {
+            _host.Log.Info($"{cmd.LogMessage}");
             cmd.Execute(_host);
         }
     }
