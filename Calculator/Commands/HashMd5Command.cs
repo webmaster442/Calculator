@@ -1,5 +1,7 @@
 ﻿using System.Security.Cryptography;
 
+using Calculator.ArgumentCompleters;
+
 using CalculatorShell.Core;
 
 namespace Calculator.Commands;
@@ -9,6 +11,9 @@ internal sealed class HashMd5Command : HashCommandBase
     public HashMd5Command(IHost host) : base(host, MD5.Create())
     {
     }
+
+    public override IArgumentCompleter? ArgumentCompleter
+        => new FileNameCompleter();
 
     public override string[] Names => ["md5"];
 
