@@ -1,4 +1,7 @@
-﻿using CalculatorShell.Core;
+﻿using Calculator.Internal;
+using Calculator.Messages;
+
+using CalculatorShell.Core;
 
 namespace Calculator.ArgumentCompleters;
 
@@ -10,6 +13,18 @@ internal abstract class BaseCompleter : IArgumentCompleter
     }
 
     protected IHost Host { get; }
+
+    protected Options Options
+        => Host.Mediator.Request<Options, OptionsRequest>(new OptionsRequest()) 
+            ?? throw new InvalidOperationException("Options shoudln't be null");
+
+    protected bool FilterHiddenBasedOnOptons(FileSystemInfo info)
+    {
+        if (Options.ShowHiddenFiles)
+            return true;
+
+        return !info.Attributes.HasFlag(FileAttributes.Hidden);
+    }
 
     protected static string GetWordAtCaret(string text, int caret)
     {

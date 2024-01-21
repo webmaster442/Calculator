@@ -16,7 +16,7 @@ internal sealed class FileNameCompleter : BaseCompleter
         {
             var files = new DirectoryInfo(Host.CurrentDirectory)
                 .GetFiles()
-                .Where(f => !f.Attributes.HasFlag(FileAttributes.Hidden))
+                .Where(FilterHiddenBasedOnOptons)
                 .Select(f => (f.Name, $"Size: {f.Length}"));
 
             var filtered = files.Where(f => f.Name.StartsWith(word)).ToArray();

@@ -17,7 +17,7 @@ internal sealed class DirectoryNameCompleter : BaseCompleter
         {
             var dirs = new DirectoryInfo(Host.CurrentDirectory)
             .GetDirectories()
-            .Where(d => !d.Attributes.HasFlag(FileAttributes.Hidden))
+            .Where(FilterHiddenBasedOnOptons)
             .Select(d => (d.Name, $"Last modified: {d.LastWriteTime}"));
 
             var filtered = dirs.Where(d => d.Name.StartsWith(word)).ToArray();
