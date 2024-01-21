@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Calculator.ArgumentCompleters;
 
-using CalculatorShell.Core;
-
-namespace Calculator.ArgumentCompleters;
-internal class DirectoryNameCompleter : IArgumentCompleter
+internal sealed class DirectoryNameCompleter : BaseCompleter
 {
-    public IEnumerable<(string option, string description)> ProvideAutoCompleteItems(string text, int caret)
+    public override IEnumerable<(string option, string description)> ProvideAutoCompleteItems(string text, int caret)
     {
-        yield break;
+        string word = GetWordAtCaret(text, caret);
+
+        var dirs = new DirectoryInfo(Environment.CurrentDirectory)
+            .GetDirectories()
+            .Where(d => d.Name.StartsWith(word))
+            .Select(d => (d.Name, $"Last modified: {d.LastWriteTime}"));
+
+        return dirs;
     }
 }

@@ -20,24 +20,6 @@ internal sealed class InputPromptCallbacks : PromptCallbacks
         AutoCompletableCommands = new Dictionary<string, IArgumentCompleter>();
     }
 
-    private static string GetWordAtCaret(string text, int caret)
-    {
-        var words = text.Split(new[] { ' ', '\n' });
-        string wordAtCaret = string.Empty;
-        int currentIndex = 0;
-        foreach (var word in words)
-        {
-            if (currentIndex < caret && caret < currentIndex + word.Length)
-            {
-                wordAtCaret = word;
-                break;
-            }
-            currentIndex += word.Length + 1; // +1 due to word separator
-        }
-
-        return wordAtCaret;
-    }
-
     private static CompletionItem CreateCompletionItem(string name, string description) 
         => new(name,
                commitCharacterRules: new[] { new CharacterSetModificationRule(CharacterSetModificationKind.Add, new[] { ' ' }.ToImmutableArray()) }.ToImmutableArray(),
