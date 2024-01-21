@@ -1,4 +1,5 @@
-﻿using Calculator.Messages;
+﻿using Calculator.ArgumentCompleters;
+using Calculator.Messages;
 
 using CalculatorShell.Core;
 
@@ -14,7 +15,9 @@ internal sealed class CdCommand : ShellCommandAsync
 
     public override string Synopsys 
         => "Changes the current working directory";
-    
+
+    public override IArgumentCompleter? ArgumentCompleter => new DirectoryNameCompleter();
+
     public override async Task ExecuteInternal(Arguments args, CancellationToken cancellationToken)
     {
         string folder;

@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-using Calculator.Internal;
+﻿using Calculator.Internal;
 using Calculator.Messages;
 
 using CalculatorShell.Core;
@@ -8,8 +6,6 @@ using CalculatorShell.Core.Messenger;
 using CalculatorShell.Engine;
 
 using PrettyPrompt.Highlighting;
-
-using static PrettyPrompt.Highlighting.FormattedString.TextElementsEnumerator;
 
 namespace Calculator;
 internal sealed class App :

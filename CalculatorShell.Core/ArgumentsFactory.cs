@@ -4,16 +4,16 @@ namespace CalculatorShell.Core;
 
 public static class ArgumentsFactory
 {
-    public static (string cmd, Arguments args) Create(string line, IFormatProvider formatProvider)
+    public static List<string> Tokenize(string input)
     {
-        if (string.IsNullOrEmpty(line))
-            return (string.Empty, new Arguments(Array.Empty<string>(), formatProvider));
-
         List<string> items = new();
         StringBuilder temp = new();
         bool isQutes = false;
 
-        foreach (var chr in line)
+        if (string.IsNullOrEmpty(input))
+            return items;
+
+        foreach (var chr in input)
         {
             if (chr == ' ')
             {
@@ -41,7 +41,16 @@ public static class ArgumentsFactory
         {
             items.Add(temp.ToString());
         }
+        return items;
+    }
 
-        return (items[0], new Arguments(items.Skip(1).ToArray(), formatProvider));
+    public static (string cmd, Arguments args) Create(string line, IFormatProvider formatProvider)
+    {
+        if (string.IsNullOrEmpty(line))
+            return (string.Empty, new Arguments(Array.Empty<string>(), formatProvider));
+
+        var tokens = Tokenize(line);
+
+        return (tokens[0], new Arguments(tokens.Skip(1).ToArray(), formatProvider));
     }
 }
