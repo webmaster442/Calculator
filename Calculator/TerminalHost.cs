@@ -49,8 +49,8 @@ internal sealed class TerminalHost : IHost
 
     public IDialogs Dialogs { get; }
 
-    internal void SetCommandData(IReadOnlyDictionary<string, string> commandHelps, HashSet<string> exitCommands)
-    {
-        _input.SetCommandData(commandHelps, exitCommands);
-    }
+    internal void SetCommandData(IReadOnlyDictionary<string, string> commandHelps,
+                                 IReadOnlyDictionary<string, IArgumentCompleter> completers,
+                                 HashSet<string> exitCommands)
+        => _input.SetCommandData(commandHelps, completers, exitCommands);
 }

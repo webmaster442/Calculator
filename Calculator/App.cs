@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 
+using Calculator.Internal;
 using Calculator.Messages;
 
 using CalculatorShell.Core;
@@ -39,7 +40,7 @@ internal sealed class App :
         _loader = new(typeof(App), _host);
         _expenses = new Expenses(_host);
         _exitCommands = ["exit", "quit"];
-        _host.SetCommandData(_loader.CommandHelps, _exitCommands);
+        _host.SetCommandData(_loader.CommandHelps, _loader.CompletableCommands,  _exitCommands);
         _host.MessageBus.RegisterComponent(this);
     }
 

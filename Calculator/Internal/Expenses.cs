@@ -4,7 +4,7 @@ using CalculatorShell.Core;
 using CalculatorShell.Core.Messenger;
 using CalculatorShell.Engine.Expenses;
 
-namespace Calculator;
+namespace Calculator.Internal;
 
 internal sealed class Expenses :
     IMessageClient<AddExpenseMessage>,
@@ -28,7 +28,7 @@ internal sealed class Expenses :
 
     public Guid ClientId { get; }
 
-    void IMessageClient<AddExpenseMessage>.ProcessMessage(AddExpenseMessage input) 
+    void IMessageClient<AddExpenseMessage>.ProcessMessage(AddExpenseMessage input)
         => _db.Insert(input.Item);
 
     decimal IMessageProvider<decimal, ExpenseBallanceRequestMessage>.ProvideMessage(ExpenseBallanceRequestMessage request)

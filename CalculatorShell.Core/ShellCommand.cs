@@ -14,6 +14,8 @@ public abstract class ShellCommand : ISyncShellCommand
 
     public abstract string Synopsys { get; }
 
+    public virtual IArgumentCompleter? ArgumentCompleter => null;
+
     public abstract void ExecuteInternal(Arguments args);
 
     public void Execute(Arguments args)

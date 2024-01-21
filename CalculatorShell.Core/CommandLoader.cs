@@ -7,6 +7,7 @@ public sealed class CommandLoader : IDisposable
     private readonly Dictionary<string, IShellCommand> _commands;
     private readonly Dictionary<string, string> _commandHelps;
     private readonly List<IAutoExecShellCommand> _autoExecCommands;
+    private readonly Dictionary<string, IArgumentCompleter> _completable;
 
     public IReadOnlyList<IAutoExecShellCommand> AutoExecCommands
         => _autoExecCommands;
@@ -17,11 +18,16 @@ public sealed class CommandLoader : IDisposable
     public IReadOnlyDictionary<string, string> CommandHelps
         => _commandHelps;
 
+    public IReadOnlyDictionary<string, IArgumentCompleter> CompletableCommands
+        => _completable;
+
+
     public CommandLoader(Type atypeFromAssembly, IHost host)
     {
         _commands = new Dictionary<string, IShellCommand>();
         _commandHelps = new Dictionary<string, string>();
         _autoExecCommands = new List<IAutoExecShellCommand>();
+        _completable = new Dictionary<string, IArgumentCompleter>();
         LoadCommands(atypeFromAssembly, host);
         LoadAutoExecCommands(atypeFromAssembly, host);
     }
@@ -59,6 +65,9 @@ public sealed class CommandLoader : IDisposable
                     {
                         _commands.Add(name, cmd);
                         _commandHelps.Add(name, cmd.Synopsys);
+
+                        if (cmd.ArgumentCompleter != null)
+                            _completable.Add(name, cmd.ArgumentCompleter);
                     }
                 }
             }
