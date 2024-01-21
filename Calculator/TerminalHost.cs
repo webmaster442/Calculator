@@ -3,7 +3,7 @@
 using Calculator.Web;
 
 using CalculatorShell.Core;
-using CalculatorShell.Core.Messenger;
+using CalculatorShell.Core.Mediator;
 
 using PrettyPrompt.Highlighting;
 
@@ -18,7 +18,7 @@ internal sealed class TerminalHost : IHost
     {
         _input = new TerminalInput();
         _output = new TerminalOutput();
-        MessageBus = new MessageBus();
+        Mediator = new Mediator();
         WebServices = new WebServices();
         Dialogs = new TerminalDialogs();
         Log = new MemoryLog();
@@ -44,7 +44,7 @@ internal sealed class TerminalHost : IHost
         }
     }
 
-    public IMessageBus MessageBus { get; }
+    public IMediator Mediator { get; }
 
     public IWebServices WebServices { get; }
 

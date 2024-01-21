@@ -1,35 +1,32 @@
 ﻿using Calculator.Messages;
 
 using CalculatorShell.Core;
-using CalculatorShell.Core.Messenger;
+using CalculatorShell.Core.Mediator;
 using CalculatorShell.Engine;
 
 namespace Calculator.Commands;
 
 internal class EvalCommand : ShellCommandAsync,
-    IMessageClient<SimpleMessage<AngleSystem>>,
-    IMessageClient<SetVarMessage>,
-    IMessageClient<UnsetVarMessage>,
-    IMessageProvider<IEnumerable<string>, FunctionListRequestMessage>,
-    IMessageProvider<IEnumerable<KeyValuePair<string, Number>>, VariableListMessage>
+    INotifyTarget<AngleSystemMessage>,
+    INotifyTarget<SetVarMessage>,
+    INotifyTarget<UnsetVarMessage>,
+    IRequestProvider<IEnumerable<string>, FunctionListRequestMessage>,
+    IRequestProvider<IEnumerable<KeyValuePair<string, Number>>, VariableListMessage>
 {
     private readonly ArithmeticEngine _engine;
     private readonly Varialbes _varialbes;
 
     public EvalCommand(IHost host) : base(host)
     {
-        ClientId = new Guid("F38F1CFB-D8D5-434F-81EA-DAD47C3AFF85");
         _varialbes = new Varialbes();
         _engine = new ArithmeticEngine(_varialbes, host.CultureInfo);
-        Host.MessageBus.RegisterComponent(this);
+        Host.Mediator.Register(this);
     }
 
     public override string[] Names => ["$", "eval"];
 
     public override string Synopsys
         => "Evaluate an expression and writes out the result";
-
-    public Guid ClientId { get; }
 
     public override async Task ExecuteInternal(Arguments args, CancellationToken cancellationToken)
     {
@@ -42,12 +39,12 @@ internal class EvalCommand : ShellCommandAsync,
                     });
     }
 
-    void IMessageClient<SimpleMessage<AngleSystem>>.ProcessMessage(SimpleMessage<AngleSystem> message)
-        => _engine.AngleSystem = message.Payload;
+    void INotifyTarget<AngleSystemMessage>.OnNotify(AngleSystemMessage message)
+        => _engine.AngleSystem = message.AngleSystem;
 
-    async void IMessageClient<SetVarMessage>.ProcessMessage(SetVarMessage message)
+    void INotifyTarget<SetVarMessage>.OnNotify(SetVarMessage message)
     {
-        EngineResult result = await _engine.ExecuteAsync(message.Expression, CancellationToken.None);
+        EngineResult result = _engine.ExecuteAsync(message.Expression, CancellationToken.None).GetAwaiter().GetResult();
         result.When(number =>
         {
             try
@@ -63,7 +60,7 @@ internal class EvalCommand : ShellCommandAsync,
         exception => Host.Output.Error(exception));
     }
 
-    void IMessageClient<UnsetVarMessage>.ProcessMessage(UnsetVarMessage message)
+    void INotifyTarget<UnsetVarMessage>.OnNotify(UnsetVarMessage message)
     {
         try
         {
@@ -75,9 +72,9 @@ internal class EvalCommand : ShellCommandAsync,
         }
     }
 
-    IEnumerable<string> IMessageProvider<IEnumerable<string>, FunctionListRequestMessage>.ProvideMessage(FunctionListRequestMessage request)
+    IEnumerable<string> IRequestProvider<IEnumerable<string>, FunctionListRequestMessage>.OnRequest(FunctionListRequestMessage message)
         => _engine.Functions;
 
-    IEnumerable<KeyValuePair<string, Number>> IMessageProvider<IEnumerable<KeyValuePair<string, Number>>, VariableListMessage>.ProvideMessage(VariableListMessage request)
+    IEnumerable<KeyValuePair<string, Number>> IRequestProvider<IEnumerable<KeyValuePair<string, Number>>, VariableListMessage>.OnRequest(VariableListMessage message)
         => _varialbes.AsEnumerable();
 }

@@ -1,10 +1,7 @@
-﻿using CalculatorShell.Core.Messenger;
+﻿using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
 
-internal sealed class RequestCurrentDirMessage : MessageBase
+internal class RequestCurrentDirMessage : PayloadBase
 {
-    public RequestCurrentDirMessage(Guid sender) : base(sender)
-    {
-    }
 }

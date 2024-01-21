@@ -1,5 +1,6 @@
-﻿using CalculatorShell.Core;
-using CalculatorShell.Core.Messenger;
+﻿using Calculator.Messages;
+
+using CalculatorShell.Core;
 using CalculatorShell.Engine;
 
 namespace Calculator.Commands;
@@ -15,7 +16,5 @@ internal sealed class RadCommand : ShellCommand
         => "Changes the angle mode to radians";
 
     public override void ExecuteInternal(Arguments args)
-    {
-        Host.MessageBus.Broadcast(new SimpleMessage<AngleSystem>(Guid.Empty, AngleSystem.Rad));
-    }
+        => Host.Mediator.Notify(new AngleSystemMessage(AngleSystem.Rad));
 }

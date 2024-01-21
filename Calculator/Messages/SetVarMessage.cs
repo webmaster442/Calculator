@@ -1,10 +1,10 @@
-﻿using CalculatorShell.Core.Messenger;
+﻿using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
 
-internal sealed class SetVarMessage : MessageBase
+internal sealed class SetVarMessage : PayloadBase
 {
-    public SetVarMessage(Guid sender, string variableName, string expression) : base(sender)
+    public SetVarMessage(string variableName, string expression)
     {
         VariableName = variableName;
         Expression = expression;

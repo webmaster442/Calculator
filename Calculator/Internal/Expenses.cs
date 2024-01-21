@@ -1,16 +1,16 @@
 ﻿using Calculator.Messages;
 
 using CalculatorShell.Core;
-using CalculatorShell.Core.Messenger;
+using CalculatorShell.Core.Mediator;
 using CalculatorShell.Engine.Expenses;
 
 namespace Calculator.Internal;
 
 internal sealed class Expenses :
-    IMessageClient<AddExpenseMessage>,
-    IMessageProvider<decimal, ExpenseBallanceRequestMessage>,
-    IMessageProvider<TableData, ExpenseStatRequestMessage>,
-    IMessageProvider<IReadOnlyDictionary<string, double>, ExpenseDistributionRequestMessage>
+    INotifyTarget<AddExpenseMessage>,
+    IRequestProvider<ExpenseBallanceMessage, ExpenseBallanceRequestMessage>,
+    IRequestProvider<TableData, ExpenseStatRequestMessage>,
+    IRequestProvider<IReadOnlyDictionary<string, double>, ExpenseDistributionRequestMessage>
 {
     private readonly ExpenseItemDb _db;
     private readonly string _folder;
@@ -21,17 +21,14 @@ internal sealed class Expenses :
         _host = host;
         _folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CalculatorShell");
         _db = new ExpenseItemDb(_folder);
-        ClientId = new Guid("DA687986-5145-49D6-8AC2-693809C863F7");
-        _host.MessageBus.RegisterComponent(this);
+        _host.Mediator.Register(this);
 
     }
 
-    public Guid ClientId { get; }
+    void INotifyTarget<AddExpenseMessage>.OnNotify(AddExpenseMessage message)
+        => _db.Insert(message.Item);
 
-    void IMessageClient<AddExpenseMessage>.ProcessMessage(AddExpenseMessage input)
-        => _db.Insert(input.Item);
-
-    decimal IMessageProvider<decimal, ExpenseBallanceRequestMessage>.ProvideMessage(ExpenseBallanceRequestMessage request)
+    ExpenseBallanceMessage IRequestProvider<ExpenseBallanceMessage, ExpenseBallanceRequestMessage>.OnRequest(ExpenseBallanceRequestMessage message)
     {
         decimal result = 0;
 
@@ -43,10 +40,10 @@ internal sealed class Expenses :
                 result -= item.Amount;
         }
 
-        return result;
+        return new ExpenseBallanceMessage(result);
     }
 
-    TableData IMessageProvider<TableData, ExpenseStatRequestMessage>.ProvideMessage(ExpenseStatRequestMessage request)
+    TableData IRequestProvider<TableData, ExpenseStatRequestMessage>.OnRequest(ExpenseStatRequestMessage message)
     {
         List<ExpenseItem> spendings = _db.Items.Where(x => !x.IsIncome).ToList();
 
@@ -66,7 +63,7 @@ internal sealed class Expenses :
         return table;
     }
 
-    IReadOnlyDictionary<string, double> IMessageProvider<IReadOnlyDictionary<string, double>, ExpenseDistributionRequestMessage>.ProvideMessage(ExpenseDistributionRequestMessage request)
+    IReadOnlyDictionary<string, double> IRequestProvider<IReadOnlyDictionary<string, double>, ExpenseDistributionRequestMessage>.OnRequest(ExpenseDistributionRequestMessage message)
     {
         return _db.Items
             .Where(x => !x.IsIncome)

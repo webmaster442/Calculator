@@ -1,10 +1,7 @@
-﻿using CalculatorShell.Core.Messenger;
+﻿using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
 
-internal sealed class ExpenseBallanceRequestMessage : MessageBase
+internal sealed class ExpenseBallanceRequestMessage : PayloadBase
 {
-    public ExpenseBallanceRequestMessage(Guid sender) : base(sender)
-    {
-    }
 }

@@ -17,11 +17,9 @@ internal sealed class CommandsCommand : ShellCommand
 
     public override void ExecuteInternal(Arguments args)
     {
-        var data = Host.MessageBus
-            .Request<IEnumerable<string>, CommandListMessage>(new CommandListMessage(Guid.Empty))
-            .FirstOrDefault() ?? Enumerable.Empty<string>();
-
-
+        var data = Host.Mediator
+            .Request<IEnumerable<string>, CommandListMessage>(new CommandListMessage())
+            ?? throw new CommandException("There are no available commands");
 
         Host.Output.List("available commands:", data.Order());
     }

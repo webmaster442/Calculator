@@ -17,7 +17,8 @@ internal class ExpenseBallanceCommand : ShellCommand
 
     public override void ExecuteInternal(Arguments args)
     {
-        var ballance = Host.MessageBus.Request<decimal, ExpenseBallanceRequestMessage>(new ExpenseBallanceRequestMessage(Guid.Empty)).First();
-        Host.Output.Result(ballance.ToString(Host.CultureInfo));
+        var response = Host.Mediator.Request<ExpenseBallanceMessage, ExpenseBallanceRequestMessage>(new ExpenseBallanceRequestMessage())
+            ?? throw new CommandException("Ballance couldn't be deremined");
+        Host.Output.Result(response.Ballance.ToString(Host.CultureInfo));
     }
 }

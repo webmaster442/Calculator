@@ -1,10 +1,10 @@
-﻿using CalculatorShell.Core.Messenger;
+﻿using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
 
-internal sealed class UnsetVarMessage : MessageBase
+internal sealed class UnsetVarMessage : PayloadBase
 {
-    public UnsetVarMessage(Guid sender, string variableName) : base(sender)
+    public UnsetVarMessage(string variableName)
     {
         VariableName = variableName;
     }

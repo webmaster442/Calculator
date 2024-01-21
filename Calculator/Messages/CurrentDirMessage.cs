@@ -1,10 +1,10 @@
-﻿using CalculatorShell.Core.Messenger;
+﻿using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
 
-internal sealed class CurrentDirMessage : MessageBase
+internal sealed class CurrentDirMessage : PayloadBase
 {
-    public CurrentDirMessage(Guid sender, string folder) : base(sender)
+    public CurrentDirMessage(string folder)
     {
         CurrentFolder = folder;
     }

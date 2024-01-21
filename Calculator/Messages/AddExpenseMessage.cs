@@ -1,11 +1,11 @@
-﻿using CalculatorShell.Core.Messenger;
+﻿using CalculatorShell.Core.Mediator;
 using CalculatorShell.Engine.Expenses;
 
 namespace Calculator.Messages;
 
-internal sealed class AddExpenseMessage : MessageBase
+internal sealed class AddExpenseMessage : PayloadBase
 {
-    public AddExpenseMessage(Guid sender, ExpenseItem item) : base(sender)
+    public AddExpenseMessage(ExpenseItem item)
     {
         Item = item;
     }

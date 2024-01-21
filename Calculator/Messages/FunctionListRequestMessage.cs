@@ -1,10 +1,7 @@
-﻿using CalculatorShell.Core.Messenger;
+﻿using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
 
-internal class FunctionListRequestMessage : MessageBase
+internal class FunctionListRequestMessage : PayloadBase
 {
-    public FunctionListRequestMessage(Guid sender) : base(sender)
-    {
-    }
 }

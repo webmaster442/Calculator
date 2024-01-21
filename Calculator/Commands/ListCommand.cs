@@ -18,12 +18,11 @@ internal sealed class ListCommand : ShellCommand
 
     public override void ExecuteInternal(Arguments args)
     {
-        var responses = Host.MessageBus.Request<IEnumerable<KeyValuePair<string, Number>>, VariableListMessage>(new VariableListMessage(Guid.Empty));
-        var data = responses.FirstOrDefault();
-        if (data != null && data.Any())
+        var response = Host.Mediator.Request<IEnumerable<KeyValuePair<string, Number>>, VariableListMessage>(new VariableListMessage());
+        if (response != null && response.Any())
         {
             TableData table = new TableData("Variable", "Value");
-            foreach (var variable in data)
+            foreach (var variable in response)
             {
                 table.AddRow(variable.Key, variable.Value.ToString(Host.CultureInfo));
             }

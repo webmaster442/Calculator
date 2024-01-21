@@ -1,5 +1,6 @@
-﻿using CalculatorShell.Core;
-using CalculatorShell.Core.Messenger;
+﻿using Calculator.Messages;
+
+using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 
@@ -30,6 +31,6 @@ internal sealed class ExecCommand : ShellCommand
             .Where(x => !string.IsNullOrWhiteSpace(x) && !x.StartsWith('#'))
             .ToArray();
 
-        Host.MessageBus.Broadcast(new SimpleMessage<string[]>(Guid.Empty, instructions));
+        Host.Mediator.Notify(new EnqueCommandsMessage(instructions));
     }
 }

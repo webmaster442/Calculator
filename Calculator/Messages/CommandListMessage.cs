@@ -1,10 +1,7 @@
-﻿using CalculatorShell.Core.Messenger;
+﻿using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
 
-internal class CommandListMessage : MessageBase
+internal sealed class CommandListMessage : PayloadBase
 {
-    public CommandListMessage(Guid sender) : base(sender)
-    {
-    }
 }

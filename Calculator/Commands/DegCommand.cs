@@ -1,5 +1,6 @@
-﻿using CalculatorShell.Core;
-using CalculatorShell.Core.Messenger;
+﻿using Calculator.Messages;
+
+using CalculatorShell.Core;
 using CalculatorShell.Engine;
 
 namespace Calculator.Commands;
@@ -16,7 +17,5 @@ internal sealed class DegCommand : ShellCommand
         => "Changes the angle mode to degrees";
 
     public override void ExecuteInternal(Arguments args)
-    {
-        Host.MessageBus.Broadcast(new SimpleMessage<AngleSystem>(Guid.Empty, AngleSystem.Deg));
-    }
+        => Host.Mediator.Notify(new AngleSystemMessage(AngleSystem.Deg));
 }

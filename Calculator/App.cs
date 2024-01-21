@@ -2,7 +2,7 @@
 using Calculator.Messages;
 
 using CalculatorShell.Core;
-using CalculatorShell.Core.Messenger;
+using CalculatorShell.Core.Mediator;
 using CalculatorShell.Engine;
 
 using PrettyPrompt.Highlighting;
@@ -10,11 +10,11 @@ using PrettyPrompt.Highlighting;
 namespace Calculator;
 internal sealed class App :
     IDisposable,
-    IMessageClient<SimpleMessage<AngleSystem>>,
-    IMessageClient<CurrentDirMessage>,
-    IMessageClient<SimpleMessage<string[]>>,
-    IMessageProvider<string, RequestCurrentDirMessage>,
-    IMessageProvider<IEnumerable<string>, CommandListMessage>
+    INotifyTarget<AngleSystemMessage>,
+    INotifyTarget<CurrentDirMessage>,
+    INotifyTarget<EnqueCommandsMessage>,
+    IRequestProvider<string, RequestCurrentDirMessage>,
+    IRequestProvider<IEnumerable<string>, CommandListMessage>
 {
     private readonly TerminalHost _host;
     private readonly CommandLoader _loader;
@@ -25,19 +25,16 @@ internal sealed class App :
     private AngleSystem _angleSystem;
     private Queue<string> _commandQue;
 
-    public Guid ClientId { get; }
-
     public App()
     {
         Environment.CurrentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        ClientId = new Guid("1D386507-929F-42F7-8DDB-8E038F6A85F6");
         _commandQue = new Queue<string>();
         _host = new TerminalHost();
         _loader = new(typeof(App), _host);
         _expenses = new Expenses(_host);
         _exitCommands = ["exit", "quit"];
         _host.SetCommandData(_loader.CommandHelps, _loader.CompletableCommands, _exitCommands);
-        _host.MessageBus.RegisterComponent(this);
+        _host.Mediator.Register(this);
     }
 
     public async Task Run()
@@ -132,18 +129,18 @@ internal sealed class App :
         _loader.Dispose();
     }
 
-    void IMessageClient<SimpleMessage<AngleSystem>>.ProcessMessage(SimpleMessage<AngleSystem> message)
-        => _angleSystem = message.Payload;
+    void INotifyTarget<AngleSystemMessage>.OnNotify(AngleSystemMessage message)
+        => _angleSystem = message.AngleSystem;
 
-    IEnumerable<string> IMessageProvider<IEnumerable<string>, CommandListMessage>.ProvideMessage(CommandListMessage request)
+    void INotifyTarget<CurrentDirMessage>.OnNotify(CurrentDirMessage message)
+        => Environment.CurrentDirectory = message.CurrentFolder;
+
+    void INotifyTarget<EnqueCommandsMessage>.OnNotify(EnqueCommandsMessage message)
+        => _commandQue = new Queue<string>(message.Commands);
+
+    IEnumerable<string> IRequestProvider<IEnumerable<string>, CommandListMessage>.OnRequest(CommandListMessage message)
         => _loader.Commands.Keys.Concat(_exitCommands);
 
-    void IMessageClient<CurrentDirMessage>.ProcessMessage(CurrentDirMessage input)
-        => Environment.CurrentDirectory = input.CurrentFolder;
-
-    string IMessageProvider<string, RequestCurrentDirMessage>.ProvideMessage(RequestCurrentDirMessage request)
+    string IRequestProvider<string, RequestCurrentDirMessage>.OnRequest(RequestCurrentDirMessage message)
         => Environment.CurrentDirectory;
-
-    void IMessageClient<SimpleMessage<string[]>>.ProcessMessage(SimpleMessage<string[]> input)
-        => _commandQue = new Queue<string>(input.Payload);
 }

@@ -19,6 +19,6 @@ internal sealed class SetCommand : ShellCommand
         args.ThrowIfNotSpecifiedAtLeast(2);
         var name = args.AsEnumerable().First();
         var expression = string.Join(' ', args.AsEnumerable().Skip(1));
-        Host.MessageBus.Broadcast(new SetVarMessage(Guid.Empty, name, expression));
+        Host.Mediator.Notify(new SetVarMessage(name, expression));
     }
 }

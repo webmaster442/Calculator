@@ -17,9 +17,9 @@ internal sealed class FunctionsCommand : ShellCommand
 
     public override void ExecuteInternal(Arguments args)
     {
-        var data = Host.MessageBus
-            .Request<IEnumerable<string>, FunctionListRequestMessage>(new FunctionListRequestMessage(Guid.Empty))
-            .FirstOrDefault() ?? Enumerable.Empty<string>();
+        var data = Host.Mediator
+            .Request<IEnumerable<string>, FunctionListRequestMessage>(new FunctionListRequestMessage())
+            ?? Enumerable.Empty<string>();
 
         Host.Output.List("available functions:", data);
     }
