@@ -2,8 +2,6 @@
 
 using CalculatorShell.Core;
 
-using Markdig.Helpers;
-
 namespace Calculator.Commands;
 internal class LsCommand : ShellCommand
 {
@@ -64,7 +62,7 @@ internal class LsCommand : ShellCommand
 
         var chunks = attrs.Chunk(3).ToArray();
 
-        if (chunks.Length ==1)
+        if (chunks.Length == 1)
             return string.Join(',', chunks.First());
 
         StringBuilder sb = new();

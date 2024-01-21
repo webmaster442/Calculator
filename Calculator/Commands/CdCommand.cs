@@ -13,7 +13,7 @@ internal sealed class CdCommand : ShellCommandAsync
 
     public override string[] Names => ["cd"];
 
-    public override string Synopsys 
+    public override string Synopsys
         => "Changes the current working directory";
 
     public override IArgumentCompleter? ArgumentCompleter

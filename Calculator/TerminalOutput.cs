@@ -76,7 +76,7 @@ internal class TerminalOutput : ITerminalOutput
         static int GetIndex(string str)
         {
             int index = 2;
-            for (int i=0; i< str.Length; i++)
+            for (int i = 0; i < str.Length; i++)
             {
                 index += i * str[i];
             }

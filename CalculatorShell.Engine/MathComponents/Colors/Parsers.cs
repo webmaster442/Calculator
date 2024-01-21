@@ -1,5 +1,4 @@
 ﻿using System.Numerics;
-using System.Text.RegularExpressions;
 
 namespace CalculatorShell.Engine.MathComponents.Colors;
 internal static partial class Parsers

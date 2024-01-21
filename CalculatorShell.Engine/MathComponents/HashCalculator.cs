@@ -42,7 +42,7 @@ public class HashCalculator
                 hashAlgorithm.TransformBlock(buffer, 0, bytesRead, buffer, 0);
             }
 
-            if (totalBytesRead > lastReported+reportSize)
+            if (totalBytesRead > lastReported + reportSize)
             {
                 _progressReporter.Report(totalBytesRead);
                 lastReported = totalBytesRead;
@@ -51,7 +51,7 @@ public class HashCalculator
 
         }
         while (readAheadBytesRead != 0);
-        
+
         if (hashAlgorithm.Hash == null)
             throw new InvalidOperationException();
 

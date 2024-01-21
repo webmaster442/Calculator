@@ -16,7 +16,7 @@ internal sealed class MemoryLog : ILog
     public void Error(FormattableString text)
         => _items.Push($"{DateTime.Now} Error: {text}".EscapeMarkup());
 
-    public void Exception(Exception ex) 
+    public void Exception(Exception ex)
         => _items.Push($"{DateTime.Now} Exception: {ex.Message}".EscapeMarkup());
 
     public void Info(FormattableString text)

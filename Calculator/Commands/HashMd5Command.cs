@@ -17,6 +17,6 @@ internal sealed class HashMd5Command : HashCommandBase
 
     public override string[] Names => ["md5"];
 
-    public override string Synopsys 
+    public override string Synopsys
         => "Computes the MD5 hash of a file";
 }

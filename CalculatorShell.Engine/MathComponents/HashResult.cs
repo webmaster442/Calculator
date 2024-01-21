@@ -22,9 +22,9 @@ public sealed class HashResult : IEquatable<HashResult?>
         if (_hash.Length != other._hash.Length)
             return false;
 
-        for (int i=0; i < _hash.Length; i++) 
+        for (int i = 0; i < _hash.Length; i++)
         {
-            if (_hash[i] != other._hash[i]) 
+            if (_hash[i] != other._hash[i])
                 return false;
         }
 

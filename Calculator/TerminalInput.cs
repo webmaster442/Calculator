@@ -16,7 +16,7 @@ internal sealed class TerminalInput : ITerminalInput
     }
 
     public CultureInfo CultureInfo { get; set; }
-    
+
     public char[] Separators { get; set; }
 
     private readonly PrettyPrompt.Prompt _reader;

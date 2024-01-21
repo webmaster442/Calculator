@@ -58,7 +58,7 @@ public sealed class Arguments
     {
         var found = FindArgument(shortName, longName)
             ?? throw new CommandException($"Argument {shortName} or {longName} was not specified");
-        
+
         return T.Parse(found, _formatProvider);
     }
 

@@ -36,7 +36,7 @@ internal sealed class App :
         _loader = new(typeof(App), _host);
         _expenses = new Expenses(_host);
         _exitCommands = ["exit", "quit"];
-        _host.SetCommandData(_loader.CommandHelps, _loader.CompletableCommands,  _exitCommands);
+        _host.SetCommandData(_loader.CommandHelps, _loader.CompletableCommands, _exitCommands);
         _host.MessageBus.RegisterComponent(this);
     }
 
@@ -132,7 +132,7 @@ internal sealed class App :
         _loader.Dispose();
     }
 
-    void IMessageClient<SimpleMessage<AngleSystem>>.ProcessMessage(SimpleMessage<AngleSystem> message) 
+    void IMessageClient<SimpleMessage<AngleSystem>>.ProcessMessage(SimpleMessage<AngleSystem> message)
         => _angleSystem = message.Payload;
 
     IEnumerable<string> IMessageProvider<IEnumerable<string>, CommandListMessage>.ProvideMessage(CommandListMessage request)

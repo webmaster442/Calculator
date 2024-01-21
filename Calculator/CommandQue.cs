@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Calculator;
+﻿namespace Calculator;
 internal class CommandQue
 {
     private readonly string[] _commands;
@@ -19,6 +13,6 @@ internal class CommandQue
     public string Next()
         => _commands[_index++];
 
-    public bool HasCommands() 
+    public bool HasCommands()
         => _commands.Length > 0;
 }
