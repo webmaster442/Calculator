@@ -1,4 +1,5 @@
 ﻿using Calculator.Internal;
+using Calculator.Resources;
 
 using CalculatorShell.Core;
 
@@ -6,7 +7,7 @@ using Markdig;
 
 namespace Calculator.AutoRun;
 
-internal class ManualRenderAutoExec : IAutoExec
+internal sealed class ManualRenderAutoExec : IAutoExec
 {
     public string LogMessage => "Checking manual existance";
 
@@ -44,11 +45,11 @@ internal class ManualRenderAutoExec : IAutoExec
 
         host.Log.Info($"Updating manual to latest version...");
 
-        string template = Helpers.GetResourceString("Calculator.Man.Template.html");
+        string template = Helpers.GetResourceString(ResourceNames.TemplateHtml);
 
         var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
 
-        string rendered = Markdown.ToHtml(Helpers.GetResourceString("Calculator.manual.md"), pipeline);
+        string rendered = Markdown.ToHtml(Helpers.GetResourceString(ResourceNames.ManualMd), pipeline);
 
         string final = template.Replace("<!--{content}-->", rendered);
 

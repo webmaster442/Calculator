@@ -2,6 +2,9 @@
 using System.Text.Json;
 using System.Text.Json.Nodes;
 
+using Calculator.Internal;
+using Calculator.Resources;
+
 using CalculatorShell.Core;
 
 namespace Calculator.AutoRun;
@@ -29,8 +32,6 @@ internal sealed class WindowsTerminalProfileAutoExec : IAutoExec
         }
     }
 
-    private const string Template = "Calculator.Terminal.TerminalFragment.json";
-
     private static bool Install()
     {
         try
@@ -47,12 +48,8 @@ internal sealed class WindowsTerminalProfileAutoExec : IAutoExec
             string name = "Calc shell";
 #endif
 
-            using (var stream = typeof(WindowsTerminalProfileAutoExec).Assembly.GetManifestResourceStream(Template))
+            using (var stream = Helpers.GetResourceStream(ResourceNames.TerminalFragmentJson))
             {
-                if (stream == null)
-                {
-                    return false;
-                }
                 string json = PrepareProfile(stream, name, path, iconPath);
 
                 if (!Directory.Exists(targetfolder))
