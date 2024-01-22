@@ -4,6 +4,7 @@ public interface IVariables
 {
     void Set(string name, Number value);
     void Unset(string name);
+    void UnsetAll();
 
     Number Get(string name);
 

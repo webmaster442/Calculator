@@ -64,6 +64,9 @@ internal class EvalCommand : ShellCommandAsync,
     {
         try
         {
+            if (message.VariableName == "-+all+-")
+                _varialbes.UnsetAll();
+
             _varialbes.Unset(message.VariableName);
         }
         catch (Exception ex)

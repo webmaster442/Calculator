@@ -18,7 +18,7 @@ internal sealed class UnSetCommand : ShellCommand
     public override void ExecuteInternal(Arguments args)
     {
         args.ThrowIfNotSpecifiedAtLeast(1);
-        var name = args.AsEnumerable().First();
+        string name = args.IndexOf("-a", "--all") > 0 ? "-+all+-" : args[0];
         Host.Mediator.Notify(new UnsetVariable(name));
     }
 }

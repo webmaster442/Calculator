@@ -108,4 +108,7 @@ public class Varialbes : IVariables
         if (_variables.ContainsKey(name))
             _variables.Remove(name);
     }
+
+    public void UnsetAll() 
+        => _variables.Clear();
 }
