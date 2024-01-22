@@ -26,7 +26,7 @@ internal abstract class BaseCompleter : IArgumentCompleter
         return !info.Attributes.HasFlag(FileAttributes.Hidden);
     }
 
-    protected static string GetWordAtCaret(string text, int caret)
+    public static string GetWordAtCaret(string text, int caret)
     {
         var words = ArgumentsFactory.Tokenize(text);
         string wordAtCaret = string.Empty;
