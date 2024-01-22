@@ -14,8 +14,7 @@
 
   <ItemGroup>
     <None Remove="manual.md" />
-    <None Remove="Man\Template.html" />
-    <None Remove="Terminal\TerminalFragment.json" />
+    <None Remove="Resources\Template.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,8 +23,8 @@
 
   <ItemGroup>
     <EmbeddedResource Include="manual.md" />
-    <EmbeddedResource Include="Man\Template.html" />
-    <EmbeddedResource Include="Terminal\TerminalFragment.json" />
+    <EmbeddedResource Include="Resources\Template.html" />
+    <EmbeddedResource Include="Resources\TerminalFragment.json" />
   </ItemGroup>
 
   <ItemGroup>

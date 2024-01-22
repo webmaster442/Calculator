@@ -42,6 +42,8 @@ internal class ManualRenderAutoExec : IAutoExec
             return;
         }
 
+        host.Log.Info($"Updating manual to latest version...");
+
         string template = Helpers.GetResourceString("Calculator.Man.Template.html");
 
         var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
