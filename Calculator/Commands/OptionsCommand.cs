@@ -17,7 +17,7 @@ internal class OptionsCommand : ShellCommandAsync
     public override string[] Names => ["options"];
 
     public override string Synopsys
-        => "Get or set calculator options";
+        => "Opens the calculator options editor";
 
     private static SelectionListItem[] GetOptions(Options instance)
     {

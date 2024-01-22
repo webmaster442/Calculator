@@ -8,6 +8,8 @@
 6. Integers in octal. E.g: `Ox77`
 7. Integers in binary. E.g: `Bx1001`
 
+---
+
 # Recognized constants
 
 * pi
@@ -42,13 +44,15 @@
 * pib,
 * eib
 
+---
+
 # Commands
 
 ## bcddecode
 
 Decode a number from binary coded decimal to decimal
 
-Parameters:
+**Parameters:**
 
 1. The number in BCD, with digits seperated by space or _ 
 
@@ -58,7 +62,7 @@ Example: `bcddecode 1001 0010`
 
 Encode a number to binary coded decimal
 
-Parameters:
+**Parameters:**
 
 1. The number in decimal representation 
 
@@ -68,7 +72,7 @@ Example: `bcddecode 92`
 
 Changes the current working directory.
 
-Parameters:
+**Parameters:**
 
 1. The working directory that you want to change to. If not specified,
    a folder slection dialog will be displayed
@@ -77,13 +81,13 @@ Parameters:
 
 Clears the terminal output
 
-Parameters: No parameters are needed
+**Parameters:** No parameters are needed
 
 ## color
 
 Converts between color formats.
 
-Parameters:
+**Parameters:**
 
 1. A color that needs to be converted between the different color formarts
 
@@ -100,13 +104,13 @@ xyz(x,y,z)
 
 Prints out the list of available commands
 
-Parameters: No parameters are needed
+**Parameters:** No parameters are needed
 
 ## convert
 
 Converts between number systems
 
-Parameters:
+**Parameters:**
 
 1. Number in source system
 2. Source number system. Must be in range 2 to 35
@@ -120,7 +124,7 @@ Exchange rates are provided by Hungarian MNB. Requires internet connection to wo
 
 If started without parameters all exchange rates are printed.
 
-Parameters:
+**Parameters:**
 
 1. Currency amount
 2. Source currency code
@@ -130,13 +134,13 @@ Parameters:
 
 Changes the angle mode to degrees, which divides the circle into 360 parts
 
-Parameters: No parameters are needed
+**Parameters:** No parameters are needed
 
 ## eval, $
 
 Evaluate an expression and writes out the result
 
-Parameters:
+**Parameters:**
 
 1. The Expression.
 
@@ -144,17 +148,25 @@ An Expression
 
 Example: `eval (3+4)*5`
 
+## exec
+
+Executes a file containing calculator commands
+
+**Parameters:**
+
+1. File name containing commands to execute
+
 ## expense-ballance
 
 Gets the current month's ballance
 
-Parameters: No parameters are needed
+**Parameters:** No parameters are needed
 
 # expense
 
 Add an expense to the expenses
 
-Parameters:
+**Parameters:**
 
 1. Ammount to add
 
@@ -168,57 +180,63 @@ Arguments:
 
 Provides detailed statistics about the monthly expenses and incomes
 
-Parameters: No parameters are needed
+**Parameters:** No parameters are needed
 
 ## flushcache
 
 Invalidates & deletes cached web service results.
 
-Parameters: No parameters are needed
+**Parameters:** No parameters are needed
 
 ## functions
 
 Prints out the list of available functions in eval mode
 
-Parameters: No parameters are needed
+**Parameters:** No parameters are needed
 
 ## grad
 
 Changes the angle mode to gradians, which divides the circle into 400 parts
 
-Parameters: No parameters are needed
+**Parameters:** No parameters are needed
 
 ## list
 
 Lists currently set variables.
 
-Parameters: No parameters are needed
+**Parameters:** No parameters are needed
 
 ## md5
 
 Computes the MD5 hash of a file
 
-Parameters:
+**Parameters:**
 
 1. File name. If not specified a file selection dialog is shown.
+
+## options
+
+Opens the calculator options editor
+
+**Parameters:** No parameters are needed
 
 ## pwd
 
 Returns the current working directory
 
-Parameters: No parameters are needed
+**Parameters:** No parameters are needed
 
 ## rad
 
 Changes the angle mode to radians, which divides the circle into 2π radians
 
-Parameters: No parameters are needed
+**Parameters:** No parameters are needed
 
 ## set
 
 Sets a variable.
 
-Parameters:
+**Parameters:**
 
 1. Variable name
 2. An Expression, that will be used to set the variable value
@@ -229,7 +247,7 @@ Example: `set x 8`
 
 Computes the SHA-1 hash of a file
 
-Parameters:
+**Parameters:**
 
 1. File name. If not specified a file selection dialog is shown.
 
@@ -237,7 +255,7 @@ Parameters:
 
 Computes the SHA-256 hash of a file
 
-Parameters:
+**Parameters:**
 
 1. File name. If not specified a file selection dialog is shown.
 
@@ -245,7 +263,7 @@ Parameters:
 
 Computes the SHA-384 hash of a file
 
-Parameters:
+**Parameters:**
 
 1. File name. If not specified a file selection dialog is shown.
 
@@ -253,7 +271,7 @@ Parameters:
 
 Computes the SHA-384 hash of a file
 
-Parameters:
+**Parameters:**
 
 1. File name. If not specified a file selection dialog is shown.
 
@@ -261,7 +279,7 @@ Parameters:
 
 Simplifies a logical expression.
 
-Parameters:
+**Parameters:**
 
 1. The Expression.
 
@@ -273,15 +291,35 @@ as minterms.
 
 Example: `simplify 1 3 -v 2`
 
+## unitconvert
+
+Converts a value given in a unit to an other unit
+
+**Parameters:**
+
+1. Ammount to convert
+2. Source unit name of ammount to convert
+3. Target unit name
+
+Example: `unitconvert 33 meter foot`
+
 ## unset 
 
 Unset a variable
 
-Parameters:
+**Parameters:**
 
 1. Variable name, that will be unset.
 
 Example: `unset x`
+
+## version
+
+prints out current program version
+
+**Parameters:** No parameters are needed
+
+---
 
 # Functions 
 
