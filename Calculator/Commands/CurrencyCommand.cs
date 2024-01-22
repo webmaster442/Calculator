@@ -1,17 +1,61 @@
-﻿using CalculatorShell.Core;
+﻿using Calculator.ArgumentCompleters;
+
+using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 
 internal sealed class CurrencyCommand : ShellCommandAsync
 {
+    private readonly string[] _currencies;
+
     public CurrencyCommand(IHost host) : base(host)
     {
+        _currencies =
+        [
+            "AUD",
+            "BGN",
+            "BRL",
+            "CAD",
+            "CHF",
+            "CNY",
+            "CZK",
+            "DKK",
+            "EUR",
+            "GBP",
+            "HKD",
+            "IDR",
+            "ILS",
+            "INR",
+            "ISK",
+            "JPY",
+            "KRW",
+            "MXN",
+            "MYR",
+            "NOK",
+            "NZD",
+            "PHP",
+            "PLN",
+            "RON",
+            "RSD",
+            "RUB",
+            "SEK",
+            "SGD",
+            "THB",
+            "TRY",
+            "UAH",
+            "USD",
+            "ZAR",
+            "HUF"
+        ];
     }
 
     public override string[] Names => ["currency"];
 
     public override string Synopsys
         => "Converts between currency exchange rates";
+
+    public override IArgumentCompleter? ArgumentCompleter
+        => new DelegatedCompleter(ProvideAutoCompleteItems);
 
     public override async Task ExecuteInternal(Arguments args, CancellationToken cancellationToken)
     {
@@ -49,5 +93,21 @@ internal sealed class CurrencyCommand : ShellCommandAsync
             tableData.AddRow(currency.Key, currency.Value.ToString(Host.CultureInfo));
         }
         Host.Output.Table(tableData);
+    }
+
+    private IEnumerable<(string option, string description)> ProvideAutoCompleteItems(string text, int caret)
+    {
+        string currentWord = BaseCompleter.GetWordAtCaret(text, caret);
+        if (double.TryParse(currentWord, Host.CultureInfo, out _))
+        {
+            return Enumerable.Empty<(string option, string description)>();
+        }
+
+        var results = _currencies
+            .Where(x => x.StartsWith(currentWord, StringComparison.OrdinalIgnoreCase))
+            .Order()
+            .Select(x => (x, string.Empty));
+
+        return results;
     }
 }
