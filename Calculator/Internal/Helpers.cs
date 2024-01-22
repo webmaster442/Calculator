@@ -5,6 +5,30 @@ internal static class Helpers
     public static Version GetAssemblyVersion()
     {
         return typeof(Helpers).Assembly.GetName().Version
-            ?? new Version(9999, 9999, 9999, 9999);
+            ?? throw new InvalidOperationException("Assembly version is not set");
+    }
+
+    public static string GetResourceString(string name)
+    {
+        using (var stream = typeof(Helpers).Assembly.GetManifestResourceStream(name))
+        {
+            if (stream == null)
+                throw new InvalidOperationException($"Invalid resource name: {name}");
+
+            using (var reader = new StreamReader(stream))
+            {
+                return reader.ReadToEnd();
+            }
+        }
+    }
+
+    public static Stream GetResourceStream(string name)
+    {
+        var stream = typeof(Helpers).Assembly.GetManifestResourceStream(name);
+
+        if (stream == null)
+            throw new InvalidOperationException($"Invalid resource name: {name}");
+
+        return stream;
     }
 }
