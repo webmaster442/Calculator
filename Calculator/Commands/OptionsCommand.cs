@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Reflection;
+using System.Text.Json;
 
 using Calculator.Internal;
 using Calculator.Messages;
@@ -64,5 +65,10 @@ internal class OptionsCommand : ShellCommandAsync
         var modified = CreateFromSelection(selected);
 
         Host.Mediator.Notify(new SetOptions(modified));
+
+        var fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "calculator.json");
+        using var stream = File.OpenRead(fileName);
+
+        await JsonSerializer.SerializeAsync(stream, modified);
     }
 }
