@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
@@ -19,6 +20,9 @@ internal sealed class NegateExpression : UnaryExpression
         }
         return new NegateExpression(newChild);
     }
+
+    public override Expression Compile() 
+        => Expression.Negate(Child.Compile());
 
     public override string ToString(CultureInfo cultureInfo)
     {

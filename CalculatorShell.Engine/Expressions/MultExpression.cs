@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
@@ -77,6 +78,9 @@ internal sealed class MultExpression : BinaryExpression
         // x * y;  no simplification
         return new MultExpression(newLeft, newRight);
     }
+
+    public override Expression Compile()
+        => Expression.MakeBinary(ExpressionType.Multiply, Left.Compile(), Right.Compile());
 
     public override string ToString(CultureInfo cultureInfo)
         => $"({Left.ToString(cultureInfo)} * {Right.ToString(cultureInfo)})";

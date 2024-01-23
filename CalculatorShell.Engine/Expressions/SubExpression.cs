@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
@@ -45,6 +46,9 @@ internal sealed class SubExpression : BinaryExpression
         // x - y;  no simplification
         return new SubExpression(newLeft, newRight);
     }
+
+    public override Expression Compile() 
+        => Expression.MakeBinary(ExpressionType.Subtract, Left.Compile(), Right.Compile());
 
     public override string ToString(CultureInfo cultureInfo)
         => $"({Left.ToString(cultureInfo)} - {Right.ToString(cultureInfo)})";

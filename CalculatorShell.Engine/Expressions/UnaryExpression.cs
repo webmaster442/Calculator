@@ -22,4 +22,6 @@ internal abstract class UnaryExpression : IExpression
 
     public override string ToString()
         => ToString(CultureInfo.InvariantCulture);
+
+    public abstract System.Linq.Expressions.Expression Compile();
 }

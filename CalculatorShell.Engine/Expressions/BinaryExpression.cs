@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
@@ -25,4 +26,6 @@ internal abstract class BinaryExpression : IExpression
 
     public override string ToString()
         => ToString(CultureInfo.InvariantCulture);
+
+    public abstract Expression Compile();
 }

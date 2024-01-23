@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.Globalization;
+using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
@@ -51,6 +52,9 @@ internal sealed class ModExpression : BinaryExpression
 
         return new ModExpression(newLeft, newRight);
     }
+
+    public override Expression Compile()
+        => Expression.MakeBinary(ExpressionType.Modulo, Left.Compile(), Right.Compile());
 
     public override string ToString(CultureInfo cultureInfo)
         => $"({Left.ToString(cultureInfo)} % {Right.ToString(cultureInfo)})";

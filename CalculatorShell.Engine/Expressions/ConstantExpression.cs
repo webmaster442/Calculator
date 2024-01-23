@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
@@ -18,4 +19,6 @@ internal sealed class ConstantExpression : IExpression
 
     public string ToString(CultureInfo cultureInfo)
         => Value.ToString(cultureInfo) ?? string.Empty;
+
+    public Expression Compile() => Expression.Constant(Value);
 }

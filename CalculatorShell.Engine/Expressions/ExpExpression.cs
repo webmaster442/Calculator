@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Linq.Expressions;
 
 using CalculatorShell.Engine.Algortihms;
 
@@ -44,6 +45,9 @@ internal sealed class ExpExpression : BinaryExpression
         // x ^ y;  no simplification
         return new ExpExpression(newLeft, newRight);
     }
+
+    public override Expression Compile() 
+        => Expression.Call(typeof(NumberMath).GetMethod(nameof(NumberMath.Pow))!, Left.Compile(), Right.Compile());
 
     public override string ToString(CultureInfo cultureInfo)
     {

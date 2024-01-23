@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
@@ -12,6 +13,9 @@ internal class VariableExpression : IExpression
         _variables = variables;
         _idendifier = idendifier;
     }
+
+    public Expression Compile()
+        => Expression.Parameter(typeof(Number), _idendifier);
 
     public Number Evaluate()
         => _variables.Get(_idendifier);
