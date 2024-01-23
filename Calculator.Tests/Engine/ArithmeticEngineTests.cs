@@ -43,14 +43,8 @@ internal class ArithmeticEngineTests
     public async Task ExecuteAsync_ReturnsNumber_WhenOk(string input, string expected)
     {
         var result = await _engine.ExecuteAsync(input, CancellationToken.None);
-        result.When(number =>
-        {
-            Assert.That(number.ToString(CultureInfo.InvariantCulture), Is.EqualTo(expected));
-        },
-        exception =>
-        {
-            Assert.Fail($"{exception.Message}\r\n{exception.StackTrace}");
-        });
+        result.When(number => Assert.That(number.ToString(CultureInfo.InvariantCulture), Is.EqualTo(expected)),
+        exception => Assert.Fail($"{exception.Message}\r\n{exception.StackTrace}"));
     }
 
     [TestCase("")]
@@ -65,14 +59,8 @@ internal class ArithmeticEngineTests
     public async Task ExecuteAsync_Returns_Exception_WhenInvalid(string input)
     {
         var result = await _engine.ExecuteAsync(input, CancellationToken.None);
-        result.When(number =>
-        {
-            Assert.Fail("Should have thrown");
-        },
-        exception =>
-        {
-            Assert.That(exception, Is.TypeOf<EngineException>());
-        });
+        result.When(number => Assert.Fail("Should have thrown"),
+        exception => Assert.That(exception, Is.TypeOf<EngineException>()));
     }
 
     [TestCase("0/0")]
