@@ -7,14 +7,14 @@ internal sealed class Tokenizer
 {
     private readonly string _function;
     private readonly CultureInfo _culture;
-    private readonly IReadOnlyDictionary<string, SingleParamFunction> _functions;
-    private readonly IReadOnlyDictionary<string, DoubleParamFunction> _doubleFunctions;
+    private readonly IReadOnlyDictionary<string, SingleParameterFunction> _functions;
+    private readonly IReadOnlyDictionary<string, DoubleParameterFunction> _doubleFunctions;
     private int _index;
 
     public Tokenizer(string expression,
                      CultureInfo culture,
-                     IReadOnlyDictionary<string, SingleParamFunction> functions,
-                     IReadOnlyDictionary<string, DoubleParamFunction> doubleFunctions)
+                     IReadOnlyDictionary<string, SingleParameterFunction> functions,
+                     IReadOnlyDictionary<string, DoubleParameterFunction> doubleFunctions)
     {
         _function = expression;
         _culture = culture;

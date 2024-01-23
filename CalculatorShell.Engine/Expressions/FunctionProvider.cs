@@ -5,24 +5,21 @@ using CalculatorShell.Engine.Algortihms;
 
 namespace CalculatorShell.Engine.Expressions;
 
-public delegate Number SingleParamFunction(Number arg);
-public delegate Number DoubleParamFunction(Number arg1, Number arg2);
-
 internal class FunctionProvider
 {
-    private readonly Dictionary<string, SingleParamFunction> _singleParam;
-    private readonly Dictionary<string, DoubleParamFunction> _doublePram;
+    private readonly Dictionary<string, SingleParameterFunction> _singleParam;
+    private readonly Dictionary<string, DoubleParameterFunction> _doublePram;
 
-    public IReadOnlyDictionary<string, SingleParamFunction> SingleParameterFunctions
+    public IReadOnlyDictionary<string, SingleParameterFunction> SingleParameterFunctions
         => _singleParam;
 
-    public IReadOnlyDictionary<string, DoubleParamFunction> DoubleParameterFunctions
+    public IReadOnlyDictionary<string, DoubleParameterFunction> DoubleParameterFunctions
         => _doublePram;
 
     public FunctionProvider()
     {
-        _singleParam = new();
-        _doublePram = new();
+        _singleParam = new(StringComparer.OrdinalIgnoreCase);
+        _doublePram = new(StringComparer.OrdinalIgnoreCase);
 
         Fill(typeof(NumberMath));
     }
@@ -40,15 +37,13 @@ internal class FunctionProvider
             {
                 continue;
             }
-            if (parameters.Length == 1
-                && Delegate.CreateDelegate(typeof(SingleParamFunction), candidate) is SingleParamFunction f1)
+            if (parameters.Length == 1)
             {
-                _singleParam.Add(candidate.Name.ToLower(), f1);
+                _singleParam.Add(candidate.Name, new SingleParameterFunction(candidate));
             }
-            if (parameters.Length == 2
-                && Delegate.CreateDelegate(typeof(DoubleParamFunction), candidate) is DoubleParamFunction f2)
+            if (parameters.Length == 2)
             {
-                _doublePram.Add(candidate.Name.ToLower(), f2);
+                _doublePram.Add(candidate.Name, new DoubleParameterFunction(candidate));
             }
         }
     }

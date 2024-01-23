@@ -10,15 +10,14 @@ internal class ExpressionParser
     private IVariables _variables;
     private int _tokenIndex = 0;
 
-    private readonly IReadOnlyDictionary<string, SingleParamFunction> _functions;
-    private readonly IReadOnlyDictionary<string, DoubleParamFunction> _doubleFunctions;
+    private readonly IReadOnlyDictionary<string, SingleParameterFunction> _functions;
+    private readonly IReadOnlyDictionary<string, DoubleParameterFunction> _doubleFunctions;
     private static readonly TokenSet FirstFunction = new(TokenType.Function);
     private static readonly TokenSet FirstFactor = FirstFunction + new TokenSet(TokenType.Variable | TokenType.OpenParen);
     private static readonly TokenSet FirstFactorPrefix = FirstFactor + TokenType.Constant;
     private static readonly TokenSet FirstUnaryExp = FirstFactorPrefix + TokenType.Minus;
     private static readonly TokenSet FirstMultExp = new(FirstUnaryExp);
     private static readonly TokenSet FirstExpExp = new(FirstUnaryExp);
-
 
     private bool Next()
     {
@@ -44,8 +43,8 @@ internal class ExpressionParser
     private bool Check(TokenSet tokens)
         => tokens.Contains(_currentToken.Type);
 
-    public ExpressionParser(IReadOnlyDictionary<string, SingleParamFunction> functions,
-                            IReadOnlyDictionary<string, DoubleParamFunction> doubleFunctions)
+    public ExpressionParser(IReadOnlyDictionary<string, SingleParameterFunction> functions,
+                            IReadOnlyDictionary<string, DoubleParameterFunction> doubleFunctions)
     {
         _tokens = Array.Empty<Token>();
         _currentToken = new Token("", TokenType.None);
@@ -88,7 +87,6 @@ internal class ExpressionParser
             ? throw new EngineException($"Trailing characters: {leftover}")
             : exp;
     }
-
 
     private IExpression ParseAddExpression()
     {
@@ -177,7 +175,6 @@ internal class ExpressionParser
         throw new EngineException("Invalid expression");
     }
 
-
     private IExpression ParseUnaryExpression()
     {
         var negate = false;
@@ -261,7 +258,6 @@ internal class ExpressionParser
 
         return exp;
     }
-
 
     private IExpression ParseFunction()
     {

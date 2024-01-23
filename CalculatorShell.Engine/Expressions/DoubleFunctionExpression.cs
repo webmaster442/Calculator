@@ -1,13 +1,14 @@
 ﻿using System.Globalization;
+using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
 internal sealed partial class DoubleFunctionExpression : BinaryExpression
 {
-    private readonly DoubleParamFunction _function;
+    private readonly DoubleParameterFunction _function;
     private readonly string _name;
 
-    public DoubleFunctionExpression(IExpression left, IExpression right, DoubleParamFunction function, string name) : base(left, right)
+    public DoubleFunctionExpression(IExpression left, IExpression right, DoubleParameterFunction function, string name) : base(left, right)
     {
         _function = function;
         _name = name;
@@ -28,12 +29,14 @@ internal sealed partial class DoubleFunctionExpression : BinaryExpression
         {
             return new DoubleFunctionExpression(newLeft, newRight, _function, _name);
         }
-
     }
+
+    public override Expression Compile() 
+        => Expression.Call(_function.MethodInfo, Left.Compile(), Right.Compile());
 
     public override string ToString(CultureInfo cultureInfo)
         => $"{_name}({Left.ToString(cultureInfo)}; {Right.ToString(cultureInfo)})";
 
     protected override Number Evaluate(Number number1, Number number2)
-        => _function.Invoke(number1, number2);
+        => _function.Evaluate(number1, number2);
 }
