@@ -9,4 +9,6 @@ public interface IArithmeticEngine
     AngleSystem AngleSystem { get; set; }
     Task<EngineResult> ExecuteAsync(string expression, CancellationToken cancellationToken);
     IExpression Parse(string expression);
+    IEnumerable<(double x, double y)> Iterate(string expression, double from, double to, double steps);
+
 }

@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Linq.Expressions;
 
 using CalculatorShell.Engine.Algortihms;
 using CalculatorShell.Engine.Expressions;
@@ -54,5 +55,24 @@ public sealed class ArithmeticEngine : IArithmeticEngine
                 return new EngineResult(ex);
             }
         }, cancellationToken);
+    }
+
+    public IEnumerable<(double x, double y)> Iterate(string expression, double from, double to, double steps)
+    {
+        var body = Parse(expression).Simplify().Compile();
+        var parameters = body.Flatten().OfType<ParameterExpression>().ToArray();
+
+        if (parameters.Length != 1)
+            throw new EngineException("Expression must have only one variable parameter to iterate");
+
+        Func<Number, Number> compiled = Expression.Lambda<Func<Number, Number>>(body, parameters).Compile();
+
+        double current = from;
+        double step = (to - from) / steps;
+        while (current <= to)
+        {
+            yield return(current, compiled.Invoke(new Number(current)).ToDouble());
+            current += step;
+        }
     }
 }
