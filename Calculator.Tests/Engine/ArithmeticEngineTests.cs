@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Linq.Expressions;
 
 using CalculatorShell.Engine;
 
@@ -45,6 +46,32 @@ internal class ArithmeticEngineTests
         var result = await _engine.ExecuteAsync(input, CancellationToken.None);
         result.When(number => Assert.That(number.ToString(CultureInfo.InvariantCulture), Is.EqualTo(expected)),
         exception => Assert.Fail($"{exception.Message}\r\n{exception.StackTrace}"));
+    }
+
+    [TestCaseSource(nameof(ValidTestCases))]
+    public void SimplifiedExpression_Compile_ReturnsNumber_WhenOk(string input, string expected) 
+    {
+        var lambdaBody = _engine.Parse(input).Simplify().Compile();
+
+        var parameters = lambdaBody.Flatten().OfType<ParameterExpression>().ToArray();
+
+        if (parameters.Length == 0)
+        {
+            parameters = new ParameterExpression[]
+            {
+                Expression.Parameter(typeof(Number)),
+                Expression.Parameter(typeof(Number)),
+            };
+        }
+
+        var lmbd = Expression.Lambda<Func<Number, Number, Number>>(
+            lambdaBody, parameters);
+
+        Func<Number, Number, Number> compiled = lmbd.Compile();
+
+        var result = compiled.Invoke(new Number(1.0d), new Number(1.0d)).ToString(CultureInfo.InvariantCulture);
+
+        Assert.That(result, Is.EqualTo(expected));
     }
 
     [TestCase("")]

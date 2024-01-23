@@ -55,7 +55,7 @@ cplx(1; 0) + cplx(1; 0) | real: 2 imaginary: 0
 cplx(1; 0) - cplx(1; 0) | real: 0 imaginary: 0
 cplx(1; 0) * cplx(4; 0) | real: 4 imaginary: 0
 cplx(1; 0) / cplx(4; 0) | real: 0.25 imaginary: 0
-x + 4 | 5
+x + 4 + y | 6
 factorial(20) | 2432902008176640000
 factorial(1) | 1
 factorial(0) | 0
