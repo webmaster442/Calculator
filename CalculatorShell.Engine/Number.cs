@@ -176,7 +176,7 @@ public class Number :
 
     }
 
-    private static Number Parse(string? s, IFormatProvider? provider, AngleSystem angleSystem)
+    private static Number Parse(string? s, IFormatProvider? provider)
     {
         if (IntegerParser.TryParse(s, provider, out Int128 int128))
             return new Number(int128);
@@ -186,11 +186,11 @@ public class Number :
         throw EngineException.CreateNumberParse(s);
     }
 
-    public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, AngleSystem angleSystem, [MaybeNullWhen(false)] out Number result)
+    public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out Number result)
     {
         try
         {
-            result = Parse(s, provider, angleSystem);
+            result = Parse(s, provider);
             return true;
         }
         catch (Exception)

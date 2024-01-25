@@ -55,14 +55,14 @@ internal class ExpressionParser
         _tokenIndex = 0;
     }
 
-    public IExpression Parse(string function, CultureInfo culture, IVariables variables, AngleSystem angleSystem)
+    public IExpression Parse(string function, CultureInfo culture, IVariables variables)
     {
         _firstAddExp = new TokenSet(FirstUnaryExp);
         _tokens = new Tokenizer(function,
                                 culture,
                                 _functions,
                                 _doubleFunctions)
-                       .Tokenize(angleSystem)
+                       .Tokenize()
                        .ToArray();
 
         _currentToken = new Token("", TokenType.None);

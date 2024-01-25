@@ -35,7 +35,7 @@ public sealed class ArithmeticEngine : IArithmeticEngine
     }
 
     public IExpression Parse(string expression)
-        => _parser.Parse(expression, Culture, Variables, AngleSystem).Simplify();
+        => _parser.Parse(expression, Culture, Variables).Simplify();
 
     public Task<EngineResult> ExecuteAsync(string expression, CancellationToken cancellationToken)
     {
@@ -45,8 +45,7 @@ public sealed class ArithmeticEngine : IArithmeticEngine
             {
                 IExpression expr = _parser.Parse(expression,
                                                  Culture,
-                                                 Variables,
-                                                 AngleSystem);
+                                                 Variables);
 
                 return new EngineResult(expr.Evaluate());
             }

@@ -23,7 +23,7 @@ internal sealed class Tokenizer
         _index = 0;
     }
 
-    public IEnumerable<Token> Tokenize(AngleSystem angleSystem)
+    public IEnumerable<Token> Tokenize()
     {
         while (_index < _function.Length)
         {
@@ -39,7 +39,7 @@ internal sealed class Tokenizer
 
                 string id = identifier.ToString();
 
-                if (Number.TryParse(id, _culture, angleSystem, out Number? parsed))
+                if (Number.TryParse(id, _culture, out Number? parsed))
                 {
                     yield return new Token(id, TokenType.Constant, parsed);
                 }
