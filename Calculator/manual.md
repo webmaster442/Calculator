@@ -8,8 +8,6 @@
 6. Integers in octal. E.g: `Ox77`
 7. Integers in binary. E.g: `Bx1001`
 
----
-
 # Recognized constants
 
 * pi
@@ -43,8 +41,6 @@
 * tib,
 * pib,
 * eib
-
----
 
 # Commands
 
@@ -162,7 +158,7 @@ Gets the current month's ballance
 
 **Parameters:** No parameters are needed
 
-# expense
+## expense
 
 Add an expense to the expenses
 
@@ -203,6 +199,12 @@ Changes the angle mode to gradians, which divides the circle into 400 parts
 ## list
 
 Lists currently set variables.
+
+**Parameters:** No parameters are needed
+
+## man
+
+Opens the manual.
 
 **Parameters:** No parameters are needed
 
@@ -318,8 +320,6 @@ Example: `unset x`
 prints out current program version
 
 **Parameters:** No parameters are needed
-
----
 
 # Functions 
 
