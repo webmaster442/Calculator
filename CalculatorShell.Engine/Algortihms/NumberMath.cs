@@ -1,5 +1,7 @@
 ﻿using System.Numerics;
 
+using CalculatorShell.Engine.Expressions;
+
 namespace CalculatorShell.Engine.Algortihms;
 
 internal static class NumberMath
@@ -136,4 +138,12 @@ internal static class NumberMath
     [EngineFunction]
     public static Number Shr(Number a, Number b)
         => new(a.ToInt128() >> ToInt32(b));
+
+    [EngineFunction]
+    public static Number Random(Number minimum, Number maximum)
+    {
+        var min = minimum.ToInt128().ToLong();
+        var max = maximum.ToInt128().ToLong();
+        return new((Int128)System.Random.Shared.NextInt64(min, max));
+    }
 }
