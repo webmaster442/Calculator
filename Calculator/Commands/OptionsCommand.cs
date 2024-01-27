@@ -67,7 +67,7 @@ internal class OptionsCommand : ShellCommandAsync
         Host.Mediator.Notify(new SetOptions(modified));
 
         var fileName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "calculator.json");
-        using var stream = File.OpenRead(fileName);
+        using var stream = File.Create(fileName);
 
         await JsonSerializer.SerializeAsync(stream, modified);
     }

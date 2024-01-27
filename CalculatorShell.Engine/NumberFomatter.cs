@@ -8,18 +8,13 @@ public static class NumberFomatter
 {
     public static string ToString(Number number, CultureInfo cultureInfo, bool thousands)
     {
-        switch (number.NumberType)
+        return number.NumberType switch
         {
-            case NumberType.Double:
-            case NumberType.Integer:
-                return Format(number.ToString(cultureInfo), cultureInfo, thousands);
-            case NumberType.Complex:
-                return Format(number.ToComplex(), cultureInfo, thousands);
-            case NumberType.Fraction:
-                return Format(number.ToFraction(), cultureInfo, thousands);
-            default:
-                throw new UnreachableException();
-        }
+            NumberType.Double or NumberType.Integer => Format(number.ToString(cultureInfo), cultureInfo, thousands),
+            NumberType.Complex => Format(number.ToComplex(), cultureInfo, thousands),
+            NumberType.Fraction => Format(number.ToFraction(), cultureInfo, thousands),
+            _ => throw new UnreachableException(),
+        };
     }
 
     private static string Format(Fraction fraction, CultureInfo cultureInfo, bool thousands)
@@ -49,6 +44,9 @@ public static class NumberFomatter
         Stack<char> result = new(textForm.Length * 2);
         int count = 0;
         bool decimalSplitterFound = false;
+
+        bool containsDecimal = textForm.Contains(cultureInfo.NumberFormat.NumberDecimalSeparator);
+
         foreach (var chr in textForm.Reverse()) 
         {
             if (chr == cultureInfo.NumberFormat.NumberDecimalSeparator[0])
@@ -56,11 +54,12 @@ public static class NumberFomatter
                 result.Push(chr);
                 decimalSplitterFound = true;
             }
-            else if (decimalSplitterFound)
+            else if (decimalSplitterFound || !containsDecimal)
             {
                 if (count == 3)
                 {
                     result.Push(cultureInfo.NumberFormat.NumberGroupSeparator[0]);
+                    result.Push(chr);
                     count = 0;
                 }
                 else

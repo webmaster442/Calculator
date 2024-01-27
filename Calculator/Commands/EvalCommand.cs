@@ -1,4 +1,5 @@
-﻿using Calculator.Messages;
+﻿using Calculator.Internal;
+using Calculator.Messages;
 
 using CalculatorShell.Core;
 using CalculatorShell.Core.Mediator;
@@ -30,8 +31,12 @@ internal class EvalCommand : ShellCommandAsync,
 
     public override async Task ExecuteInternal(Arguments args, CancellationToken cancellationToken)
     {
+        var options = Host.Mediator.Request<Options, OptionsRequest>(new OptionsRequest())
+            ?? throw new InvalidOperationException("Couldn't get options");
+
+
         EngineResult result = await _engine.ExecuteAsync(string.Join(' ', args.AsEnumerable()), cancellationToken);
-        result.When(number => Host.Output.Result(number.ToString(Host.CultureInfo)),
+        result.When(number => Host.Output.Result(NumberFomatter.ToString(number, Host.CultureInfo, options.GroupThousands)),
                     exception =>
                     {
                         Host.Log.Exception(exception);
