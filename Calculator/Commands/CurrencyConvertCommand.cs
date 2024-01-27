@@ -4,11 +4,11 @@ using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 
-internal sealed class CurrencyCommand : ShellCommandAsync
+internal sealed class CurrencyConvertCommand : ShellCommandAsync
 {
     private readonly string[] _currencies;
 
-    public CurrencyCommand(IHost host) : base(host)
+    public CurrencyConvertCommand(IHost host) : base(host)
     {
         _currencies =
         [
@@ -49,7 +49,7 @@ internal sealed class CurrencyCommand : ShellCommandAsync
         ];
     }
 
-    public override string[] Names => ["currency"];
+    public override string[] Names => ["currency-convert"];
 
     public override string Synopsys
         => "Converts between currency exchange rates";

@@ -20,7 +20,7 @@ internal sealed class UnitConvertConmmand : ShellCommand
         }
     }
 
-    public override string[] Names => ["unitconvert"];
+    public override string[] Names => ["unit-convert"];
 
     public override string Synopsys
         => "Converts a value given in a unit to an other unit";

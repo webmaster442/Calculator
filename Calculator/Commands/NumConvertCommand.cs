@@ -3,16 +3,16 @@ using CalculatorShell.Engine.MathComponents;
 
 namespace Calculator.Commands;
 
-internal sealed class ConvertCommand : ShellCommand
+internal sealed class NumConvertCommand : ShellCommand
 {
     private readonly NumberSystemConverter _converter;
 
-    public ConvertCommand(IHost host) : base(host)
+    public NumConvertCommand(IHost host) : base(host)
     {
         _converter = new NumberSystemConverter();
     }
 
-    public override string[] Names => ["convert"];
+    public override string[] Names => ["num-convert"];
 
     public override string Synopsys
         => "Converts between number systems";
