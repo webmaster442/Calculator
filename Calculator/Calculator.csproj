@@ -32,10 +32,11 @@
     <PackageReference Include="PrettyPrompt" Version="4.1.1" />
     <PackageReference Include="Spectre.Console" Version="0.48.0" />
     <PackageReference Include="Spectre.Console.Cli" Version="0.48.0" />
-    <PackageReference Include="UnitsNet" Version="5.42.0" />
+    <PackageReference Include="UnitsNet" Version="5.43.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Calculator.Tests\Calculator.Tests.csproj" />
     <ProjectReference Include="..\Calculator.Web\Calculator.Web.csproj" />
     <ProjectReference Include="..\CalculatorShell.Core\CalculatorShell.Core.csproj" />
     <ProjectReference Include="..\CalculatorShell.Engine\CalculatorShell.Engine.csproj" />
