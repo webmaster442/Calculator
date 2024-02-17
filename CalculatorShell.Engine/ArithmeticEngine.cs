@@ -17,12 +17,11 @@ public sealed class ArithmeticEngine : IArithmeticEngine
         Culture = culture;
         AngleSystem = AngleSystem.Deg;
         _functionProvider = new();
-        _parser = new ExpressionParser(_functionProvider.SingleParameterFunctions,
-                                       _functionProvider.DoubleParameterFunctions);
+        _parser = new ExpressionParser(_functionProvider);
     }
 
     public IEnumerable<string> Functions
-        => _functionProvider.SingleParameterFunctions.Keys.Concat(_functionProvider.DoubleParameterFunctions.Keys).Order();
+        => _functionProvider.FunctionNames;
 
     public IVariables Variables { get; }
 

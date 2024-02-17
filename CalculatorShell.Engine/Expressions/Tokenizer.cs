@@ -7,19 +7,16 @@ internal sealed class Tokenizer
 {
     private readonly string _function;
     private readonly CultureInfo _culture;
-    private readonly IReadOnlyDictionary<string, SingleParameterFunction> _functions;
-    private readonly IReadOnlyDictionary<string, DoubleParameterFunction> _doubleFunctions;
+    private readonly HashSet<string> _knownFunctions;
     private int _index;
 
     public Tokenizer(string expression,
                      CultureInfo culture,
-                     IReadOnlyDictionary<string, SingleParameterFunction> functions,
-                     IReadOnlyDictionary<string, DoubleParameterFunction> doubleFunctions)
+                     IEnumerable<string> functions)
     {
         _function = expression;
         _culture = culture;
-        _functions = functions;
-        _doubleFunctions = doubleFunctions;
+        _knownFunctions = functions.ToHashSet(StringComparer.InvariantCultureIgnoreCase);
         _index = 0;
     }
 
@@ -43,8 +40,7 @@ internal sealed class Tokenizer
                 {
                     yield return new Token(id, TokenType.Constant, parsed);
                 }
-                else if (_functions.ContainsKey(id)
-                    || _doubleFunctions.ContainsKey(id))
+                else if (_knownFunctions.Contains(id))
                 {
                     yield return new Token(id, TokenType.Function);
                 }

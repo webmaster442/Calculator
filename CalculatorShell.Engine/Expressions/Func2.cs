@@ -3,12 +3,12 @@ using System.Reflection;
 
 namespace CalculatorShell.Engine.Expressions;
 
-public class DoubleParameterFunction : BaseFunction
+public class Func2 : BaseFunction
 {
 
     private readonly Func<Number, Number, Number> _function;
 
-    public DoubleParameterFunction(MethodInfo methodInfo) : base(methodInfo)
+    public Func2(MethodInfo methodInfo) : base(methodInfo)
     {
         _function = Delegate.CreateDelegate(typeof(Func<Number, Number, Number>), MethodInfo) as Func<Number, Number, Number>
             ?? throw new UnreachableException("Delegate compile failed");

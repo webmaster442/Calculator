@@ -5,22 +5,14 @@ using CalculatorShell.Engine.Algortihms;
 
 namespace CalculatorShell.Engine.Expressions;
 
-internal class FunctionProvider
+internal sealed class FunctionProvider : IFunctionProvider
 {
-    private readonly Dictionary<string, SingleParameterFunction> _singleParam;
-    private readonly Dictionary<string, DoubleParameterFunction> _doublePram;
+    private record class FunctionEntry(int ParamCount, BaseFunction Function);
 
-    public IReadOnlyDictionary<string, SingleParameterFunction> SingleParameterFunctions
-        => _singleParam;
-
-    public IReadOnlyDictionary<string, DoubleParameterFunction> DoubleParameterFunctions
-        => _doublePram;
-
+    private readonly Dictionary<string, FunctionEntry> _functions;
     public FunctionProvider()
     {
-        _singleParam = new(StringComparer.OrdinalIgnoreCase);
-        _doublePram = new(StringComparer.OrdinalIgnoreCase);
-
+        _functions = new Dictionary<string, FunctionEntry>(StringComparer.InvariantCultureIgnoreCase);
         Fill(typeof(NumberMath));
     }
 
@@ -38,13 +30,35 @@ internal class FunctionProvider
                 continue;
             }
             if (parameters.Length == 1)
-            {
-                _singleParam.Add(candidate.Name, new SingleParameterFunction(candidate));
-            }
-            if (parameters.Length == 2)
-            {
-                _doublePram.Add(candidate.Name, new DoubleParameterFunction(candidate));
-            }
+                _functions.Add(candidate.Name, new FunctionEntry(parameters.Length, new Func1(candidate)));
+            else if (parameters.Length == 2)
+                _functions.Add(candidate.Name, new FunctionEntry(parameters.Length, new Func2(candidate)));
+            else if (parameters.Length == 3)
+                _functions.Add(candidate.Name, new FunctionEntry(parameters.Length, new Func3(candidate)));
         }
+    }
+
+    public IEnumerable<string> FunctionNames
+        => _functions.Keys.Order();
+
+
+    public int ArgumentCount(string functionName)
+    {
+        if (_functions.TryGetValue(functionName, out FunctionEntry? value))
+            return value.ParamCount;
+
+        return -1;
+    }
+
+    public IExpression? CreateExpression(string name, Queue<IExpression> parameters)
+    {
+        int count = ArgumentCount(name);
+        return count switch
+        {
+            1 => new Func1Expression(parameters.Dequeue(), (Func1)_functions[name].Function, name),
+            2 => new Func2Expression(parameters.Dequeue(), parameters.Dequeue(), (Func2)_functions[name].Function, name),
+            3 => new Func3Expression(parameters.Dequeue(), parameters.Dequeue(), parameters.Dequeue(), (Func3)_functions[name].Function, name),
+            _ => null,
+        };
     }
 }

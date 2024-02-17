@@ -10,14 +10,13 @@ internal class ExpressionParser
     private IVariables _variables;
     private int _tokenIndex = 0;
 
-    private readonly IReadOnlyDictionary<string, SingleParameterFunction> _functions;
-    private readonly IReadOnlyDictionary<string, DoubleParameterFunction> _doubleFunctions;
     private static readonly TokenSet FirstFunction = new(TokenType.Function);
     private static readonly TokenSet FirstFactor = FirstFunction + new TokenSet(TokenType.Variable | TokenType.OpenParen);
     private static readonly TokenSet FirstFactorPrefix = FirstFactor + TokenType.Constant;
     private static readonly TokenSet FirstUnaryExp = FirstFactorPrefix + TokenType.Minus;
     private static readonly TokenSet FirstMultExp = new(FirstUnaryExp);
     private static readonly TokenSet FirstExpExp = new(FirstUnaryExp);
+    private readonly IFunctionProvider _functionProvider;
 
     private bool Next()
     {
@@ -43,16 +42,14 @@ internal class ExpressionParser
     private bool Check(TokenSet tokens)
         => tokens.Contains(_currentToken.Type);
 
-    public ExpressionParser(IReadOnlyDictionary<string, SingleParameterFunction> functions,
-                            IReadOnlyDictionary<string, DoubleParameterFunction> doubleFunctions)
+    public ExpressionParser(IFunctionProvider functionProvider)
     {
         _tokens = Array.Empty<Token>();
         _currentToken = new Token("", TokenType.None);
         _firstAddExp = new TokenSet(FirstUnaryExp);
         _variables = null!;
-        _functions = functions;
-        _doubleFunctions = doubleFunctions;
         _tokenIndex = 0;
+        _functionProvider = functionProvider;
     }
 
     public IExpression Parse(string function, CultureInfo culture, IVariables variables)
@@ -60,8 +57,7 @@ internal class ExpressionParser
         _firstAddExp = new TokenSet(FirstUnaryExp);
         _tokens = new Tokenizer(function,
                                 culture,
-                                _functions,
-                                _doubleFunctions)
+                                _functionProvider.FunctionNames)
                        .Tokenize()
                        .ToArray();
 
@@ -265,7 +261,7 @@ internal class ExpressionParser
         string name = _currentToken.Value;
         var opType = _currentToken.Type;
 
-        int argumentCount = GetCount(name);
+        int argumentCount = _functionProvider.ArgumentCount(name);
         if (argumentCount < 1)
             throw new EngineException($"Unexpected Function type: {name}");
 
@@ -279,22 +275,7 @@ internal class ExpressionParser
         }
         Eat(TokenType.CloseParen);
 
-        if (argumentCount == 1)
-            return new SingleFunctionExpression(parameters.Dequeue(), _functions[name], name);
-
-        if (argumentCount == 2)
-            return new DoubleFunctionExpression(parameters.Dequeue(), parameters.Dequeue(), _doubleFunctions[name], name);
-
-        throw new EngineException($"Unexpected Function type: {name}");
-    }
-
-    private int GetCount(string name)
-    {
-        if (_functions.ContainsKey(name))
-            return 1;
-        if (_doubleFunctions.ContainsKey(name))
-            return 2;
-
-        return -1;
+        return _functionProvider.CreateExpression(name, parameters)
+            ?? throw new EngineException($"Unexpected Function type: {name}");
     }
 }
