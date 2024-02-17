@@ -327,25 +327,12 @@ public class Number :
 
     public static bool operator ==(Number? left, Number? right)
     {
-        if (left == null && right == null)
-            return true;
-
-        if (left == null || right == null)
-            return false;
-
-        return Decide(left, right) switch
-        {
-            NumberType.Complex => left.ToComplex() == right.ToComplex(),
-            NumberType.Fraction => left.ToFraction() == right.ToFraction(),
-            NumberType.Double => left.ToDouble() == right.ToDouble(),
-            NumberType.Integer => left.ToInt128() == right.ToInt128(),
-            _ => throw new UnreachableException(),
-        };
+        return left?.Equals(right) == true;
     }
 
     public static bool operator !=(Number? left, Number? right)
     {
-        return !(left == right);
+        return left?.Equals(right) == false;
     }
 
     public override string ToString()
@@ -398,7 +385,18 @@ public class Number :
 
     public bool Equals(Number? other)
     {
-        return this == other;
+
+        if (object.ReferenceEquals(other, null))
+            return false;
+
+        return Decide(this, other) switch
+        {
+            NumberType.Complex => this.ToComplex() == other.ToComplex(),
+            NumberType.Fraction => this.ToFraction() == other.ToFraction(),
+            NumberType.Double => this.ToDouble() == other.ToDouble(),
+            NumberType.Integer => this.ToInt128() == other.ToInt128(),
+            _ => throw new UnreachableException(),
+        };
     }
 
     public override int GetHashCode()
