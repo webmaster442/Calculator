@@ -12,7 +12,9 @@ public class Number :
     ISubtractionOperators<Number, Number, Number>,
     IMultiplyOperators<Number, Number, Number>,
     IDivisionOperators<Number, Number, Number>,
-    IUnaryNegationOperators<Number, Number>
+    IUnaryNegationOperators<Number, Number>,
+    IComparisonOperators<Number, Number, bool>,
+    IEquatable<Number?>
 {
     private readonly Complex _complex;
     private readonly Fraction _fraction;
@@ -44,6 +46,9 @@ public class Number :
         _int128 = int128;
         NumberType = NumberType.Integer;
     }
+
+    public static Number FromInteger(long n)
+        => new Number((Int128)n);
 
     internal Number(JsonNumber number)
     {
@@ -272,6 +277,77 @@ public class Number :
         };
     }
 
+    public static bool operator >(Number left, Number right)
+    {
+        return Decide(left, right) switch
+        {
+            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '>'),
+            NumberType.Fraction => left.ToFraction() > right.ToFraction(),
+            NumberType.Double => left.ToDouble() > right.ToDouble(),
+            NumberType.Integer => left.ToInt128() > right.ToInt128(),
+            _ => throw new UnreachableException(),
+        };
+    }
+
+    public static bool operator >=(Number left, Number right)
+    {
+        return Decide(left, right) switch
+        {
+            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '>'),
+            NumberType.Fraction => left.ToFraction() >= right.ToFraction(),
+            NumberType.Double => left.ToDouble() >= right.ToDouble(),
+            NumberType.Integer => left.ToInt128() >= right.ToInt128(),
+            _ => throw new UnreachableException(),
+        };
+    }
+
+    public static bool operator <(Number left, Number right)
+    {
+        return Decide(left, right) switch
+        {
+            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '>'),
+            NumberType.Fraction => left.ToFraction() < right.ToFraction(),
+            NumberType.Double => left.ToDouble() < right.ToDouble(),
+            NumberType.Integer => left.ToInt128() < right.ToInt128(),
+            _ => throw new UnreachableException(),
+        };
+    }
+
+    public static bool operator <=(Number left, Number right)
+    {
+        return Decide(left, right) switch
+        {
+            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '>'),
+            NumberType.Fraction => left.ToFraction() <= right.ToFraction(),
+            NumberType.Double => left.ToDouble() <= right.ToDouble(),
+            NumberType.Integer => left.ToInt128() <= right.ToInt128(),
+            _ => throw new UnreachableException(),
+        };
+    }
+
+    public static bool operator ==(Number? left, Number? right)
+    {
+        if (left == null && right == null)
+            return true;
+
+        if (left == null || right == null)
+            return false;
+
+        return Decide(left, right) switch
+        {
+            NumberType.Complex => left.ToComplex() == right.ToComplex(),
+            NumberType.Fraction => left.ToFraction() == right.ToFraction(),
+            NumberType.Double => left.ToDouble() == right.ToDouble(),
+            NumberType.Integer => left.ToInt128() == right.ToInt128(),
+            _ => throw new UnreachableException(),
+        };
+    }
+
+    public static bool operator !=(Number? left, Number? right)
+    {
+        return !(left == right);
+    }
+
     public override string ToString()
     {
         return ToString(CultureInfo.InvariantCulture);
@@ -313,5 +389,20 @@ public class Number :
             Type = NumberType.ToString(),
             Value = GetRawString(),
         };
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as Number);
+    }
+
+    public bool Equals(Number? other)
+    {
+        return this == other;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(_complex, _fraction, _double, _int128, NumberType);
     }
 }
