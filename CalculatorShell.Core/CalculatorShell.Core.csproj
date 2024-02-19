@@ -8,11 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Calculator.Tests" />
+    <Compile Remove="LineReader\**" />
+    <EmbeddedResource Remove="LineReader\**" />
+    <None Remove="LineReader\**" />
   </ItemGroup>
-  
+
   <ItemGroup>
-    <Folder Include="LineReader\" />
+    <InternalsVisibleTo Include="Calculator.Tests" />
   </ItemGroup>
   
   <ItemGroup>
