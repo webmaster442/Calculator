@@ -11,8 +11,9 @@ internal sealed class TerminalHost : IHost, IHelpDataSetter
 {
     private readonly TerminalInput _input;
     private readonly TerminalOutput _output;
+    private readonly ICurrentDirectoryProvider _currentDirectoryProvider;
 
-    public TerminalHost()
+    public TerminalHost(ICurrentDirectoryProvider currentDirectoryProvider)
     {
         _input = new TerminalInput();
         _output = new TerminalOutput();
@@ -20,6 +21,7 @@ internal sealed class TerminalHost : IHost, IHelpDataSetter
         WebServices = new WebServices();
         Dialogs = new TerminalDialogs();
         Log = new MemoryLog();
+        _currentDirectoryProvider = currentDirectoryProvider;
     }
 
     public ITerminalInput Input => _input;
@@ -39,8 +41,8 @@ internal sealed class TerminalHost : IHost, IHelpDataSetter
 
     public ILog Log { get; }
 
-    public string CurrentDirectory 
-        => Environment.CurrentDirectory;
+    public string CurrentDirectory
+        => _currentDirectoryProvider.CurrentDirectory;
 
     public void SetCommandData(IReadOnlyDictionary<string, string> commandHelps,
                                  IReadOnlyDictionary<string, IArgumentCompleter> completers,

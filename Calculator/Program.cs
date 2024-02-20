@@ -4,9 +4,15 @@ using Calculator;
 
 Console.OutputEncoding = Encoding.UTF8;
 
-var host = new TerminalHost();
+var dirProvider = new CurrentDirectoryProvider();
 
-using (var app = new App(host, host.Input, host, TimeProvider.System))
+var host = new TerminalHost(dirProvider);
+
+using (var app = new App(host,
+                         host.Input,
+                         host,
+                         TimeProvider.System,
+                         dirProvider))
 {
     await app.Run();
 }

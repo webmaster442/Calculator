@@ -23,6 +23,7 @@ internal sealed class App :
     private readonly HashSet<string> _exitCommands;
     private readonly ITerminalInput _input;
     private readonly TimeProvider _timeProvider;
+    private readonly ICurrentDirectoryProvider _currentDirectoryProvider;
     private CancellationTokenSource? _currentTokenSource;
 
     private AngleSystem _angleSystem;
@@ -32,9 +33,9 @@ internal sealed class App :
     public App(IHost host, 
                ITerminalInput input, 
                IHelpDataSetter uiDataSetter,
-               TimeProvider timeProvider)
+               TimeProvider timeProvider,
+               ICurrentDirectoryProvider currentDirectoryProvider)
     {
-        Environment.CurrentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         _options = new Options();
         _commandQue = new Queue<string>();
         _host = host;
@@ -44,6 +45,7 @@ internal sealed class App :
         _host.Mediator.Register(this);
         _input = input;
         _timeProvider = timeProvider;
+        _currentDirectoryProvider = currentDirectoryProvider;
         uiDataSetter.SetCommandData(_loader.CommandHelps, _loader.CompletableCommands, _exitCommands);
     }
 
@@ -111,7 +113,7 @@ internal sealed class App :
     private FormattedString CreatePrompt()
     {
         string timeString = _timeProvider.GetLocalNow().DateTime.ToShortTimeString();
-        string text = $"Calc ({_angleSystem}) | {timeString}\r\n{Environment.CurrentDirectory} >";
+        string text = $"Calc ({_angleSystem}) | {timeString}\r\n{_currentDirectoryProvider.CurrentDirectory} >";
         int linesplit = text.IndexOf('\n');
         int secondLine = text.Length - linesplit - " >".Length;
         return new FormattedString(text,
@@ -158,9 +160,9 @@ internal sealed class App :
         {
             var info = new DirectoryInfo(message.CurrentFolder);
             if (info.LinkTarget != null)
-                Environment.CurrentDirectory = info.LinkTarget;
+                _currentDirectoryProvider.CurrentDirectory = info.LinkTarget;
             else
-                Environment.CurrentDirectory = message.CurrentFolder;
+                _currentDirectoryProvider.CurrentDirectory = message.CurrentFolder;
         }
         catch (Exception ex)
         {

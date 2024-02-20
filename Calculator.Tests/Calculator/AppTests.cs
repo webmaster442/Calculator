@@ -1,6 +1,4 @@
-﻿using System;
-
-using CalculatorShell.Core;
+﻿using CalculatorShell.Core;
 
 using NSubstitute;
 
@@ -11,6 +9,7 @@ internal class AppTests
     private TestHost _host;
     private IHelpDataSetter _helpDataSetter;
     private TimeProvider _timeProvider;
+    private ICurrentDirectoryProvider _currentDirectoryProvider;
 
     private App _sut;
 
@@ -23,8 +22,11 @@ internal class AppTests
         _timeProvider = Substitute.For<TimeProvider>();
         _timeProvider.GetUtcNow().Returns(new DateTimeOffset(new DateTime(2024, 01, 01, 12, 00, 0)));
         _timeProvider.LocalTimeZone.Returns(TimeZoneInfo.Utc);
+        _currentDirectoryProvider = Substitute.For<ICurrentDirectoryProvider>();
 
-        _sut = new App(_host, _input, _helpDataSetter, _timeProvider);
+        _currentDirectoryProvider.CurrentDirectory.Returns(@"/test");
+
+        _sut = new App(_host, _input, _helpDataSetter, _timeProvider, _currentDirectoryProvider);
     }
 
     [TearDown]
@@ -41,7 +43,7 @@ internal class AppTests
 
         string expectedPrompt = """
             Calc (Rad) | 12:00
-            C:\Users\ruzsi >
+            /test >
             """;
 
         Assert.That(_input.Prompt.ToString(), Is.EqualTo(expectedPrompt));
@@ -55,7 +57,7 @@ internal class AppTests
 
         string expectedPrompt = """
             Calc (Grad) | 12:00
-            C:\Users\ruzsi >
+            /test >
             """;
 
         Assert.That(_input.Prompt.ToString(), Is.EqualTo(expectedPrompt));
@@ -69,7 +71,7 @@ internal class AppTests
 
         string expectedPrompt = """
             Calc (Deg) | 12:00
-            C:\Users\ruzsi >
+            /test >
             """;
 
         Assert.That(_input.Prompt.ToString(), Is.EqualTo(expectedPrompt));
