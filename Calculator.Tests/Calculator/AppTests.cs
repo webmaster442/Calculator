@@ -11,11 +11,14 @@ internal class AppTests
     private TimeProvider _timeProvider;
     private ICurrentDirectoryProvider _currentDirectoryProvider;
 
+    private MultiLineComparer Comparer { get; set; }
+
     private App _sut;
 
     [SetUp]
     public void OneTimeSetup()
     {
+        Comparer = new MultiLineComparer();
         _host = new TestHost();
         _input = new TestTerminalInput();
         _helpDataSetter = Substitute.For<IHelpDataSetter>();
@@ -46,7 +49,7 @@ internal class AppTests
             /test >
             """;
 
-        Assert.That(_input.Prompt.ToString(), Is.EqualTo(expectedPrompt));
+        Assert.That(_input.Prompt.ToString(), Is.EqualTo(expectedPrompt).Using(Comparer));
     }
 
     [Test]
@@ -60,7 +63,7 @@ internal class AppTests
             /test >
             """;
 
-        Assert.That(_input.Prompt.ToString(), Is.EqualTo(expectedPrompt));
+        Assert.That(_input.Prompt.ToString(), Is.EqualTo(expectedPrompt).Using(Comparer));
     }
 
     [Test]
@@ -74,6 +77,6 @@ internal class AppTests
             /test >
             """;
 
-        Assert.That(_input.Prompt.ToString(), Is.EqualTo(expectedPrompt));
+        Assert.That(_input.Prompt.ToString(), Is.EqualTo(expectedPrompt).Using(Comparer));
     }
 }

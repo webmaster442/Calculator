@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CalculatorShell.Core;
+﻿using CalculatorShell.Core;
 
 namespace Calculator;
 internal class CurrentDirectoryProvider : ICurrentDirectoryProvider
