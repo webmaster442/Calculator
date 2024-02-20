@@ -6,7 +6,7 @@ namespace CalculatorShell.Core;
 
 public interface IHost
 {
-    CultureInfo CultureInfo { get; set; }
+    CultureInfo CultureInfo { get; }
     ITerminalOutput Output { get; }
     IMediator Mediator { get; }
     IWebServices WebServices { get; }

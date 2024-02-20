@@ -19,7 +19,7 @@ internal sealed class TerminalInput : ITerminalInput
         }
     }
 
-    public CultureInfo CultureInfo { get; set; }
+    public CultureInfo CultureInfo { get; }
 
     public char[] Separators { get; set; }
 

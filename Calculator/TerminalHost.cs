@@ -28,12 +28,7 @@ internal sealed class TerminalHost : IHost, IHelpDataSetter
 
     public CultureInfo CultureInfo
     {
-        get => _input.CultureInfo;
-        set
-        {
-            _input.CultureInfo = value;
-            _output.CultureInfo = value;
-        }
+        get;
     }
 
     public IMediator Mediator { get; }

@@ -22,35 +22,41 @@ internal sealed class App :
     private readonly Expenses _expenses;
     private readonly HashSet<string> _exitCommands;
     private readonly ITerminalInput _input;
+    private readonly TimeProvider _timeProvider;
     private CancellationTokenSource? _currentTokenSource;
 
     private AngleSystem _angleSystem;
     private Queue<string> _commandQue;
     private Options _options;
 
-    public App(IHost host, ITerminalInput input, IHelpDataSetter uiDataSetter)
+    public App(IHost host, 
+               ITerminalInput input, 
+               IHelpDataSetter uiDataSetter,
+               TimeProvider timeProvider)
     {
         Environment.CurrentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         _options = new Options();
         _commandQue = new Queue<string>();
-        _host = new TerminalHost();
+        _host = host;
         _loader = new(typeof(App), _host);
         _expenses = new Expenses(_host);
         _exitCommands = ["exit", "quit"];
         _host.Mediator.Register(this);
         _input = input;
+        _timeProvider = timeProvider;
         uiDataSetter.SetCommandData(_loader.CommandHelps, _loader.CompletableCommands, _exitCommands);
     }
 
-    public async Task Run()
+    public async Task Run(bool singleRun = false)
     {
         bool run = true;
 
         ExecuteAutoRuns();
 
+        _input.Prompt = CreatePrompt();
+
         while (run)
         {
-            _input.Prompt = CreatePrompt();
             var cmdAndArgs = GetCommandAndArgs();
             if (_exitCommands.Contains(cmdAndArgs.cmd))
             {
@@ -62,7 +68,8 @@ internal sealed class App :
                 try
                 {
                     _host.Log.Info($"Executing: {cmdAndArgs.cmd} {string.Join(' ', cmdAndArgs.Arguments.AsEnumerable())}");
-                    Console.CancelKeyPress += OnCancelKeyPress;
+                    if (!singleRun)
+                        Console.CancelKeyPress += OnCancelKeyPress;
                     _currentTokenSource = new CancellationTokenSource();
 
                     var command = _loader.Commands[cmdAndArgs.cmd];
@@ -76,7 +83,8 @@ internal sealed class App :
                 }
                 finally
                 {
-                    Console.CancelKeyPress -= OnCancelKeyPress;
+                    if (!singleRun)
+                        Console.CancelKeyPress -= OnCancelKeyPress;
                     _currentTokenSource?.Cancel();
                     _currentTokenSource = null;
                 }
@@ -91,13 +99,19 @@ internal sealed class App :
                     _host.Output.Error("Execution stopped");
                 }
             }
+
             _host.Output.BlankLine();
+            _input.Prompt = CreatePrompt();
+
+            if (singleRun)
+                run = false;
         }
     }
 
     private FormattedString CreatePrompt()
     {
-        string text = $"Calc ({_angleSystem}) | {DateTime.Now.ToShortTimeString()}\r\n{Environment.CurrentDirectory} >";
+        string timeString = _timeProvider.GetLocalNow().DateTime.ToShortTimeString();
+        string text = $"Calc ({_angleSystem}) | {timeString}\r\n{Environment.CurrentDirectory} >";
         int linesplit = text.IndexOf('\n');
         int secondLine = text.Length - linesplit - " >".Length;
         return new FormattedString(text,

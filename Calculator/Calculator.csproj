@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="Calculator.Tests" />
     <Content Include="Calculator.ico" />
   </ItemGroup>
 
@@ -39,7 +40,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Calculator.Tests\Calculator.Tests.csproj" />
     <ProjectReference Include="..\Calculator.Web\Calculator.Web.csproj" />
     <ProjectReference Include="..\CalculatorShell.Core\CalculatorShell.Core.csproj" />
     <ProjectReference Include="..\CalculatorShell.Engine\CalculatorShell.Engine.csproj" />
