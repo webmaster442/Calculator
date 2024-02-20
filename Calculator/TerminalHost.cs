@@ -5,11 +5,9 @@ using Calculator.Web;
 using CalculatorShell.Core;
 using CalculatorShell.Core.Mediator;
 
-using PrettyPrompt.Highlighting;
-
 namespace Calculator;
 
-internal sealed class TerminalHost : IHost
+internal sealed class TerminalHost : IHost, IHelpDataSetter
 {
     private readonly TerminalInput _input;
     private readonly TerminalOutput _output;
@@ -27,12 +25,6 @@ internal sealed class TerminalHost : IHost
     public ITerminalInput Input => _input;
 
     public ITerminalOutput Output => _output;
-
-    public FormattedString Prompt
-    {
-        get => _input.Prompt;
-        set => _input.Prompt = value;
-    }
 
     public CultureInfo CultureInfo
     {
@@ -55,8 +47,8 @@ internal sealed class TerminalHost : IHost
     public string CurrentDirectory 
         => Environment.CurrentDirectory;
 
-    internal void SetCommandData(IReadOnlyDictionary<string, string> commandHelps,
+    public void SetCommandData(IReadOnlyDictionary<string, string> commandHelps,
                                  IReadOnlyDictionary<string, IArgumentCompleter> completers,
-                                 HashSet<string> exitCommands)
+                                 ISet<string> exitCommands)
         => _input.SetCommandData(commandHelps, completers, exitCommands);
 }

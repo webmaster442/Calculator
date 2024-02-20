@@ -17,17 +17,18 @@ internal sealed class App :
     IRequestProvider<IEnumerable<string>, CommandList>,
     IRequestProvider<Options, OptionsRequest>
 {
-    private readonly TerminalHost _host;
+    private readonly IHost _host;
     private readonly CommandLoader _loader;
     private readonly Expenses _expenses;
     private readonly HashSet<string> _exitCommands;
+    private readonly ITerminalInput _input;
     private CancellationTokenSource? _currentTokenSource;
 
     private AngleSystem _angleSystem;
     private Queue<string> _commandQue;
     private Options _options;
 
-    public App()
+    public App(IHost host, ITerminalInput input, IHelpDataSetter uiDataSetter)
     {
         Environment.CurrentDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         _options = new Options();
@@ -36,8 +37,9 @@ internal sealed class App :
         _loader = new(typeof(App), _host);
         _expenses = new Expenses(_host);
         _exitCommands = ["exit", "quit"];
-        _host.SetCommandData(_loader.CommandHelps, _loader.CompletableCommands, _exitCommands);
         _host.Mediator.Register(this);
+        _input = input;
+        uiDataSetter.SetCommandData(_loader.CommandHelps, _loader.CompletableCommands, _exitCommands);
     }
 
     public async Task Run()
@@ -48,7 +50,7 @@ internal sealed class App :
 
         while (run)
         {
-            _host.Prompt = CreatePrompt();
+            _input.Prompt = CreatePrompt();
             var cmdAndArgs = GetCommandAndArgs();
             if (_exitCommands.Contains(cmdAndArgs.cmd))
             {
@@ -108,7 +110,7 @@ internal sealed class App :
         if (_commandQue.Count > 0)
             return ArgumentsFactory.Create(_commandQue.Dequeue(), _host.CultureInfo);
 
-        return _host.Input.ReadLine();
+        return _input.ReadLine();
     }
 
     private void ExecuteAutoRuns()

@@ -9,10 +9,14 @@ namespace Calculator;
 
 internal sealed class TerminalInput : ITerminalInput
 {
-    public FormattedString Prompt
+    public object Prompt
     {
         get => _configuration.Prompt;
-        set => _configuration.Prompt = value;
+        set
+        {
+            if (value is FormattedString formatted)
+                _configuration.Prompt = formatted;
+        }
     }
 
     public CultureInfo CultureInfo { get; set; }
@@ -42,7 +46,7 @@ internal sealed class TerminalInput : ITerminalInput
 
     internal void SetCommandData(IReadOnlyDictionary<string, string> commandHelps,
                                  IReadOnlyDictionary<string, IArgumentCompleter> completers,
-                                 HashSet<string> exitCommands)
+                                 ISet<string> exitCommands)
     {
         var dict = commandHelps.ToDictionary();
         foreach (var cmd in exitCommands)
