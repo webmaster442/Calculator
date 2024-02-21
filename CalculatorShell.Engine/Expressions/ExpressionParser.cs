@@ -11,6 +11,7 @@ internal class ExpressionParser
     private int _tokenIndex = 0;
 
     private static readonly TokenSet FirstFunction = new(TokenType.Function);
+    private static readonly TokenSet Comparison = new(TokenType.SmallerThan | TokenType.SmallerThanEqual | TokenType.GreaterThan | TokenType.GreaterThanEqual | TokenType.Equal | TokenType.NotEqual);
     private static readonly TokenSet FirstFactor = FirstFunction + new TokenSet(TokenType.Variable | TokenType.OpenParen);
     private static readonly TokenSet FirstFactorPrefix = FirstFactor + TokenType.Constant;
     private static readonly TokenSet FirstUnaryExp = FirstFactorPrefix + TokenType.Minus;
@@ -117,7 +118,7 @@ internal class ExpressionParser
     {
         if (Check(FirstExpExp))
         {
-            var exp = ParseExpExpression();
+            var exp = ParseExponentOrComparisionExpression();
 
             while (Check(new TokenSet(TokenType.Multiply | TokenType.Divide | TokenType.Mod)))
             {
@@ -127,7 +128,7 @@ internal class ExpressionParser
                 {
                     throw new EngineException("Expected an expression after * or / operator");
                 }
-                var right = ParseExpExpression();
+                var right = ParseExponentOrComparisionExpression();
 
                 exp = opType switch
                 {
@@ -143,26 +144,32 @@ internal class ExpressionParser
         throw new EngineException("Invalid expression");
     }
 
-    private IExpression ParseExpExpression()
+    private IExpression ParseExponentOrComparisionExpression()
     {
         if (Check(FirstUnaryExp))
         {
             var exp = ParseUnaryExpression();
 
-            if (Check(new TokenSet(TokenType.Exponent)))
+            if (Check(new TokenSet(TokenType.Exponent) + Comparison))
             {
                 var opType = _currentToken.Type;
                 Eat(opType);
                 if (!Check(FirstUnaryExp))
                 {
-                    throw new EngineException("Expected an expression after ^ operator");
+                    throw new EngineException("Expected an expression after exponent or comparision operator");
                 }
                 var right = ParseUnaryExpression();
 
                 exp = opType switch
                 {
                     TokenType.Exponent => new ExpExpression(exp, right),
-                    _ => throw new EngineException($"Expected exponent, got: {opType}"),
+                    TokenType.GreaterThan => new GreaterThanExpression(exp, right),
+                    TokenType.GreaterThanEqual => new GreaterThanOrEqualExpression(exp, right),
+                    TokenType.SmallerThan => new LessThanExpression(exp, right),
+                    TokenType.SmallerThanEqual => new LessThanOrEqualExpression(exp, right),
+                    TokenType.Equal => new EqualExpression(exp, right),
+                    TokenType.NotEqual => new NotEqualExpression(exp, right),
+                    _ => throw new EngineException($"Expected exponent or comparison, got: {opType}"),
                 };
             }
 

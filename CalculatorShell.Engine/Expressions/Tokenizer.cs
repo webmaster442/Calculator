@@ -50,6 +50,42 @@ internal sealed class Tokenizer
                 }
             }
 
+            if (_index < _function.Length && 
+                IsComparisionOperatorChar(_function[_index]))
+            {
+                StringBuilder opBuffer = new();
+                while (_index < _function.Length
+                    && IsComparisionOperatorChar(_function[_index]))
+                {
+                    opBuffer.Append(_function[_index++]);
+                }    
+                string op = opBuffer.ToString();
+
+                switch (op)
+                {
+                    case "<":
+                        yield return new Token("<", TokenType.SmallerThan);
+                        break;
+                    case ">":
+                        yield return new Token(">", TokenType.GreaterThan);
+                        break;
+                    case "<=":
+                        yield return new Token("<=", TokenType.SmallerThanEqual);
+                        break;
+                    case ">=":
+                        yield return new Token(">=", TokenType.GreaterThanEqual);
+                        break;
+                    case "==":
+                        yield return new Token("==", TokenType.Equal);
+                        break;
+                    case "!=":
+                        yield return new Token("!=", TokenType.NotEqual);
+                        break;
+                    default:
+                        throw new EngineException($"Invalid token '{op}' in function: {_function}");
+                }
+            }
+
             int nextIndex = _index++;
 
             if (nextIndex < _function.Length)
@@ -94,6 +130,14 @@ internal sealed class Tokenizer
             }
         }
         yield return new Token("", TokenType.Eof);
+    }
+
+    private static bool IsComparisionOperatorChar(char c)
+    {
+        return c == '<'
+            || c == '>'
+            || c == '='
+            || c == '!';
     }
 
     private static bool IsIdentifierChar(char c, char? prev, NumberFormatInfo numberFormatInfo)

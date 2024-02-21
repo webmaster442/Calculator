@@ -14,7 +14,12 @@ internal enum TokenType : uint
     Exponent = 128,
     Function = 256,
     ArgumentDivider = 512,
-
+    GreaterThan = 1024,
+    GreaterThanEqual = 2048,
+    SmallerThan = 4096,
+    SmallerThanEqual = 8192,
+    Equal = 16384,
+    NotEqual = 32768,
     OpenParen = 0x20000000,
     CloseParen = 0x40000000,
     Eof = 0x80000000
