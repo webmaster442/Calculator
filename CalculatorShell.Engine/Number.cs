@@ -152,35 +152,6 @@ public class Number :
         };
     }
 
-    private static NumberType Decide(Number left, Number right, bool isDivision = false)
-    {
-        if (left.NumberType == NumberType.Integer
-            && right.NumberType == NumberType.Integer
-            && isDivision)
-        {
-            return NumberType.Fraction;
-        }
-        else if (left.NumberType == right.NumberType)
-        {
-            return left.NumberType;
-        }
-        else if (left.NumberType == NumberType.Complex
-            || right.NumberType == NumberType.Complex)
-        {
-            return NumberType.Complex;
-        }
-        else if (left.NumberType == NumberType.Integer && right.NumberType == NumberType.Fraction
-            || right.NumberType == NumberType.Integer && left.NumberType == NumberType.Fraction)
-        {
-            return NumberType.Fraction;
-        }
-        else
-        {
-            return NumberType.Double;
-        }
-
-    }
-
     private static Number Parse(string? s, IFormatProvider? provider)
     {
         if (IntegerParser.TryParse(s, provider, out Int128 int128))
@@ -207,7 +178,7 @@ public class Number :
 
     public static Number operator +(Number left, Number right)
     {
-        return Decide(left, right) switch
+        return TypeDecider.Decide(left.NumberType, right.NumberType) switch
         {
             NumberType.Complex => new Number(left.ToComplex() + right.ToComplex()),
             NumberType.Fraction => new Number(left.ToFraction() + right.ToFraction()),
@@ -219,7 +190,7 @@ public class Number :
 
     public static Number operator -(Number left, Number right)
     {
-        return Decide(left, right) switch
+        return TypeDecider.Decide(left.NumberType, right.NumberType) switch
         {
             NumberType.Complex => new Number(left.ToComplex() - right.ToComplex()),
             NumberType.Fraction => new Number(left.ToFraction() - right.ToFraction()),
@@ -231,7 +202,7 @@ public class Number :
 
     public static Number operator *(Number left, Number right)
     {
-        return Decide(left, right) switch
+        return TypeDecider.Decide(left.NumberType, right.NumberType) switch
         {
             NumberType.Complex => new Number(left.ToComplex() * right.ToComplex()),
             NumberType.Fraction => new Number(left.ToFraction() * right.ToFraction()),
@@ -243,7 +214,7 @@ public class Number :
 
     public static Number operator /(Number left, Number right)
     {
-        return Decide(left, right, isDivision: true) switch
+        return TypeDecider.Decide(left.NumberType, right.NumberType, isDivision: true) switch
         {
             NumberType.Complex => new Number(left.ToComplex() / right.ToComplex()),
             NumberType.Fraction => new Number(left.ToFraction() / right.ToFraction()),
@@ -255,7 +226,7 @@ public class Number :
 
     public static Number operator %(Number left, Number right)
     {
-        return Decide(left, right, isDivision: true) switch
+        return TypeDecider.Decide(left.NumberType, right.NumberType, isDivision: true) switch
         {
             NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '%'),
             NumberType.Fraction => new Number(left.ToFraction() % right.ToFraction()),
@@ -279,7 +250,7 @@ public class Number :
 
     public static bool operator >(Number left, Number right)
     {
-        return Decide(left, right) switch
+        return TypeDecider.Decide(left.NumberType, right.NumberType) switch
         {
             NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '>'),
             NumberType.Fraction => left.ToFraction() > right.ToFraction(),
@@ -291,7 +262,7 @@ public class Number :
 
     public static bool operator >=(Number left, Number right)
     {
-        return Decide(left, right) switch
+        return TypeDecider.Decide(left.NumberType, right.NumberType) switch
         {
             NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '>'),
             NumberType.Fraction => left.ToFraction() >= right.ToFraction(),
@@ -303,7 +274,7 @@ public class Number :
 
     public static bool operator <(Number left, Number right)
     {
-        return Decide(left, right) switch
+        return TypeDecider.Decide(left.NumberType, right.NumberType) switch
         {
             NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '>'),
             NumberType.Fraction => left.ToFraction() < right.ToFraction(),
@@ -315,7 +286,7 @@ public class Number :
 
     public static bool operator <=(Number left, Number right)
     {
-        return Decide(left, right) switch
+        return TypeDecider.Decide(left.NumberType, right.NumberType) switch
         {
             NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '>'),
             NumberType.Fraction => left.ToFraction() <= right.ToFraction(),
@@ -389,7 +360,7 @@ public class Number :
         if (object.ReferenceEquals(other, null))
             return false;
 
-        return Decide(this, other) switch
+        return TypeDecider.Decide(this.NumberType, other.NumberType) switch
         {
             NumberType.Complex => this.ToComplex() == other.ToComplex(),
             NumberType.Fraction => this.ToFraction() == other.ToFraction(),
