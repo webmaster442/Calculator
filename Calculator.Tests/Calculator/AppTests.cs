@@ -79,4 +79,34 @@ internal class AppTests
 
         Assert.That(_input.Prompt.ToString(), Is.EqualTo(expectedPrompt).Using(Comparer));
     }
+
+    [Test]
+    public async Task TestBcdEncode()
+    {
+        _input.InputText = "bcdencode 12";
+        await _sut.Run(singleRun: true);
+
+        string expected = """
+            0001 0010
+            """;
+
+        string? actual = _host.Output.ToString()?.Trim();
+
+        Assert.That(actual, Is.EqualTo(expected).Using(Comparer));
+    }
+
+    [Test]
+    public async Task TestBcdDecode()
+    {
+        _input.InputText = "bcddecode \"0001 0010\"";
+        await _sut.Run(singleRun: true);
+
+        string expected = """
+            12
+            """;
+
+        string? actual = _host.Output.ToString()?.Trim();
+
+        Assert.That(actual, Is.EqualTo(expected).Using(Comparer));
+    }
 }

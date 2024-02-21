@@ -1,4 +1,7 @@
-﻿using Calculator.Internal;
+﻿using System.Security.Cryptography.Xml;
+
+using Calculator.Commands;
+using Calculator.Internal;
 using Calculator.Messages;
 
 using CalculatorShell.Core;
@@ -53,7 +56,7 @@ internal sealed class App :
     {
         bool run = true;
 
-        ExecuteAutoRuns();
+        ExecuteAutoRuns(singleRun);
 
         _input.Prompt = CreatePrompt();
 
@@ -129,10 +132,13 @@ internal sealed class App :
         return _input.ReadLine();
     }
 
-    private void ExecuteAutoRuns()
+    private void ExecuteAutoRuns(bool singleRun)
     {
         foreach (var cmd in _loader.AutoExecCommands.OrderBy(x => x.Priority))
         {
+            if (cmd is IntroAutoExec && singleRun)
+                continue;
+
             _host.Log.Info($"{cmd.LogMessage}");
             cmd.Execute(_host);
         }
