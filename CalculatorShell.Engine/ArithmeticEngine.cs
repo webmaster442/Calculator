@@ -58,7 +58,7 @@ public sealed class ArithmeticEngine : IArithmeticEngine
     public IEnumerable<(double x, double y)> Iterate(string expression, double from, double to, double steps)
     {
         var body = Parse(expression).Simplify().Compile();
-        var parameters = body.Flatten().OfType<ParameterExpression>().ToArray();
+        var parameters = ExpressionFlattener.Flatten(body).OfType<ParameterExpression>().ToArray();
 
         if (parameters.Length != 1)
             throw new EngineException("Expression must have only one variable parameter to iterate");

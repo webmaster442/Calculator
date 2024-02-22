@@ -2,6 +2,7 @@
 using System.Linq.Expressions;
 
 using CalculatorShell.Engine;
+using CalculatorShell.Engine.Expressions;
 
 namespace Calculator.Tests.Engine;
 
@@ -16,7 +17,11 @@ internal class ArithmeticEngineTests
     {
         _variables = new Varialbes();
         _variables.Set("x", new Number(1.0));
-        _variables.Set("y", new Number(1.0));
+        _variables.Set("y", new Number(2.0));
+
+        _variables.Set("a", Number.FromInteger(10));
+        _variables.Set("b", Number.FromInteger(15));
+
         _engine = new ArithmeticEngine(_variables, CultureInfo.InvariantCulture);
     }
 
@@ -54,7 +59,7 @@ internal class ArithmeticEngineTests
     {
         var lambdaBody = _engine.Parse(input).Simplify().Compile();
 
-        var parameters = lambdaBody.Flatten().OfType<ParameterExpression>().ToArray();
+        var parameters =  ExpressionFlattener.Flatten(lambdaBody).OfType<ParameterExpression>().ToArray();
 
         if (parameters.Length == 0)
         {
@@ -70,7 +75,7 @@ internal class ArithmeticEngineTests
 
         Func<Number, Number, Number> compiled = lmbd.Compile();
 
-        var result = compiled.Invoke(new Number(1.0d), new Number(1.0d)).ToString(CultureInfo.InvariantCulture);
+        var result = compiled.Invoke(new Number(1.0d), new Number(2.0d)).ToString(CultureInfo.InvariantCulture);
 
         Assert.That(result, Is.EqualTo(expected));
     }
@@ -142,6 +147,12 @@ internal class ArithmeticEngineTests
     [TestCase("1==2", "0")]
     [TestCase("1!=2", "1")]
     [TestCase("1<=2", "1")]
+    [TestCase("x<y", "(x < y)")]
+    [TestCase("x>y", "(x > y)")]
+    [TestCase("x<=y", "(x <= y)")]
+    [TestCase("x>=y", "(x >= y)")]
+    [TestCase("x==y", "(x == y)")]
+    [TestCase("x!=y", "(x != y)")]
     public void Parse_Simplifies_WhenOk(string input, string expected)
     {
         var expr = _engine.Parse(input);

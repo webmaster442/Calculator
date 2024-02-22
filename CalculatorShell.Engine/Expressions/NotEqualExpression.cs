@@ -3,14 +3,14 @@ using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
-internal class NotEqualExpression : BinaryExpression
+internal class NotEqualExpression : ComparisonExpression
 {
     public NotEqualExpression(IExpression left, IExpression right) : base(left, right)
     {
     }
 
     public override Expression Compile()
-        => Expression.MakeBinary(ExpressionType.NotEqual, Left.Compile(), Right.Compile());
+        => Expression.Call(_castMethod, Expression.MakeBinary(ExpressionType.NotEqual, Left.Compile(), Right.Compile()));
 
     public override IExpression Simplify()
     {

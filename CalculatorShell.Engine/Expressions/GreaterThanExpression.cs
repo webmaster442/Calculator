@@ -3,14 +3,14 @@ using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
-internal class GreaterThanExpression : BinaryExpression
+internal class GreaterThanExpression : ComparisonExpression
 {
     public GreaterThanExpression(IExpression left, IExpression right) : base(left, right)
     {
     }
 
     public override Expression Compile()
-        => Expression.MakeBinary(ExpressionType.GreaterThan, Left.Compile(), Right.Compile());
+        => Expression.Call(_castMethod, Expression.MakeBinary(ExpressionType.GreaterThan, Left.Compile(), Right.Compile()));
 
     public override IExpression Simplify()
     {

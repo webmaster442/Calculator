@@ -7,35 +7,6 @@ namespace CalculatorShell.Engine;
 
 public static class ExpressionExtensions
 {
-    internal static IEnumerable<Expression> Flatten(this Expression expression)
-    {
-        Stack<Expression> expressions = new();
-        expressions.Push(expression);
-
-        while (expressions.Count > 0)
-        {
-            Expression? n = expressions.Pop();
-
-            if (n != null)
-            {
-                yield return n;
-            }
-
-            if (n is BinaryExpression binary)
-            {
-                if (binary.Left != null)
-                    expressions.Push(binary.Left);
-                if (binary.Right != null)
-                    expressions.Push(binary.Right);
-            }
-            else if (n is UnaryExpression unary
-                && unary.Operand != null)
-            {
-                expressions.Push(unary.Operand);
-            }
-        }
-    }
-
     private static IEnumerable<ILogicExpression> Flatten(this ILogicExpression expression)
     {
         Stack<ILogicExpression> expressions = new();

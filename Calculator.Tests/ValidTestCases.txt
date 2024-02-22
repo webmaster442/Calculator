@@ -55,7 +55,7 @@ cplx(1; 0) + cplx(1; 0) | real: 2 imaginary: 0
 cplx(1; 0) - cplx(1; 0) | real: 0 imaginary: 0
 cplx(1; 0) * cplx(4; 0) | real: 4 imaginary: 0
 cplx(1; 0) / cplx(4; 0) | real: 0.25 imaginary: 0
-x + 4 + y | 6
+x + 4 + y | 7
 factorial(20) | 2432902008176640000
 factorial(1) | 1
 factorial(0) | 0
@@ -76,3 +76,9 @@ atan(1) | 45
 3 <= 3 | 1
 8 <= 3 | 0
 2 >= 5 | 0
+a < b | 1
+a > b | 0
+a <= b | 1
+a >= b | 0
+a != b | 1
+a == b | 0
