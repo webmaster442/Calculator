@@ -5,63 +5,46 @@ namespace CalculatorShell.Engine.Expressions;
 
 internal sealed class Tokenizer
 {
-    private readonly string _function;
+    private readonly string _expression;
     private readonly CultureInfo _culture;
     private readonly HashSet<string> _knownFunctions;
-    private int _index;
 
     public Tokenizer(string expression,
                      CultureInfo culture,
                      IEnumerable<string> functions)
     {
-        _function = expression;
+        _expression = expression;
         _culture = culture;
         _knownFunctions = functions.ToHashSet(StringComparer.InvariantCultureIgnoreCase);
-        _index = 0;
     }
 
     public IEnumerable<Token> Tokenize()
     {
-        while (_index < _function.Length)
+        for (int i = 0; i < _expression.Length; i++)
         {
-            if (IsIdentifierChar(_function[_index], null, _culture.NumberFormat))
+            if (IsIdentifierChar(_expression[i], null, _culture.NumberFormat))
             {
-                StringBuilder identifier = new();
-                identifier.Append(_function[_index++]);
-                while (_index < _function.Length
-                    && IsIdentifierChar(_function[_index], _function[_index - 1], _culture.NumberFormat))
-                {
-                    identifier.Append(_function[_index++]);
-                }
+                string identifier = ReadIdentifier(i);
 
-                string id = identifier.ToString();
-
-                if (Number.TryParse(id, _culture, out Number? parsed))
+                if (Number.TryParse(identifier, _culture, out Number? parsed))
                 {
-                    yield return new Token(id, TokenType.Constant, parsed);
+                    yield return new Token(identifier, TokenType.Constant, parsed);
                 }
-                else if (_knownFunctions.Contains(id))
+                else if (_knownFunctions.Contains(identifier))
                 {
-                    yield return new Token(id, TokenType.Function);
+                    yield return new Token(identifier, TokenType.Function);
                 }
                 else
                 {
-                    yield return new Token(id, TokenType.Variable);
+                    yield return new Token(identifier, TokenType.Variable);
                 }
+                i += (identifier.Length - 1);
+                continue;
             }
-
-            if (_index < _function.Length && 
-                IsComparisionOperatorChar(_function[_index]))
+            if (IsComparisionOperatorChar(_expression[i]))
             {
-                StringBuilder opBuffer = new();
-                while (_index < _function.Length
-                    && IsComparisionOperatorChar(_function[_index]))
-                {
-                    opBuffer.Append(_function[_index++]);
-                }    
-                string op = opBuffer.ToString();
-
-                switch (op)
+                string comparison = ReadComparisonOperator(i);
+                switch (comparison)
                 {
                     case "<":
                         yield return new Token("<", TokenType.SmallerThan);
@@ -82,54 +65,80 @@ internal sealed class Tokenizer
                         yield return new Token("!=", TokenType.NotEqual);
                         break;
                     default:
-                        throw new EngineException($"Invalid token '{op}' in function: {_function}");
+                        throw new EngineException($"Invalid token '{comparison}' in function: {_expression}");
                 }
+                i += (comparison.Length -1);
+                continue;
             }
 
-            int nextIndex = _index++;
-
-            if (nextIndex < _function.Length)
+            switch (_expression[i])
             {
-                switch (_function[nextIndex])
-                {
-                    case ' ':
-                    case '\t':
-                    case '\r':
-                    case '\n':
-                        continue;
-                    case '+':
-                        yield return new Token("+", TokenType.Plus);
-                        break;
-                    case '-':
-                        yield return new Token("-", TokenType.Minus);
-                        break;
-                    case '*':
-                        yield return new Token("*", TokenType.Multiply);
-                        break;
-                    case '/':
-                        yield return new Token("/", TokenType.Divide);
-                        break;
-                    case '%':
-                        yield return new Token("%", TokenType.Mod);
-                        break;
-                    case '^':
-                        yield return new Token("^", TokenType.Exponent);
-                        break;
-                    case '(':
-                        yield return new Token("(", TokenType.OpenParen);
-                        break;
-                    case ')':
-                        yield return new Token(")", TokenType.CloseParen);
-                        break;
-                    case ';':
-                        yield return new Token(";", TokenType.ArgumentDivider);
-                        break;
-                    default:
-                        throw new EngineException($"Invalid token '{_function[_index - 1]}' in function: {_function}");
-                }
+                case ' ':
+                case '\t':
+                case '\r':
+                case '\n':
+                    continue;
+                case '+':
+                    yield return new Token("+", TokenType.Plus);
+                    break;
+                case '-':
+                    yield return new Token("-", TokenType.Minus);
+                    break;
+                case '*':
+                    yield return new Token("*", TokenType.Multiply);
+                    break;
+                case '/':
+                    yield return new Token("/", TokenType.Divide);
+                    break;
+                case '%':
+                    yield return new Token("%", TokenType.Mod);
+                    break;
+                case '^':
+                    yield return new Token("^", TokenType.Exponent);
+                    break;
+                case '(':
+                    yield return new Token("(", TokenType.OpenParen);
+                    break;
+                case ')':
+                    yield return new Token(")", TokenType.CloseParen);
+                    break;
+                case ';':
+                    yield return new Token(";", TokenType.ArgumentDivider);
+                    break;
+                default:
+                    throw new EngineException($"Invalid token '{_expression[i]}' in function: {_expression}");
             }
+
         }
-        yield return new Token("", TokenType.Eof);
+        yield return new Token(string.Empty, TokenType.Eof, null);
+    }
+
+    private string ReadComparisonOperator(int startIndex)
+    {
+        StringBuilder op = new();
+        int i = startIndex;
+        while (i < _expression.Length
+            && IsComparisionOperatorChar(_expression[i]))
+        {
+            op.Append(_expression[i]);
+            ++i;
+        }
+        return op.ToString();
+    }
+
+    private string ReadIdentifier(int startIndex)
+    {
+        StringBuilder identifier = new();
+        int i = startIndex;
+        char? previous = i - 1 > 0 ? _expression[i - 1] : null;
+        while (i < _expression.Length
+            && IsIdentifierChar(_expression[i], previous, _culture.NumberFormat))
+        {
+            identifier.Append(_expression[i]);
+            ++i;
+            previous = _expression[i - 1];
+        }
+        return identifier.ToString();
     }
 
     private static bool IsComparisionOperatorChar(char c)

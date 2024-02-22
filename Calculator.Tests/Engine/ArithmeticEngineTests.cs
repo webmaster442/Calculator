@@ -41,6 +41,7 @@ internal class ArithmeticEngineTests
 
 
     [TestCaseSource(nameof(ValidTestCases))]
+    [CancelAfter(1000)]
     public async Task ExecuteAsync_ReturnsNumber_WhenOk(string input, string expected)
     {
         var result = await _engine.ExecuteAsync(input, CancellationToken.None);
@@ -83,6 +84,7 @@ internal class ArithmeticEngineTests
     [TestCase("Cplx(1,1)")]
     [TestCase("Cplx(1;1)%Cplx(1;1)")]
     [TestCase("foo")]
+    [CancelAfter(1000)]
     public async Task ExecuteAsync_Returns_Exception_WhenInvalid(string input)
     {
         var result = await _engine.ExecuteAsync(input, CancellationToken.None);
@@ -134,6 +136,12 @@ internal class ArithmeticEngineTests
     [TestCase("x-0", "x")]
     [TestCase("x--y", "(x + y)")]
     [TestCase("x-y", "(x - y)")]
+    [TestCase("1<2", "1")]
+    [TestCase("1>2", "0")]
+    [TestCase("1>=2", "0")]
+    [TestCase("1==2", "0")]
+    [TestCase("1!=2", "1")]
+    [TestCase("1<=2", "1")]
     public void Parse_Simplifies_WhenOk(string input, string expected)
     {
         var expr = _engine.Parse(input);
