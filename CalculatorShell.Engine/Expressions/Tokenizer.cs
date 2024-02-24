@@ -105,6 +105,12 @@ internal sealed class Tokenizer
                 case ';':
                     yield return new Token(";", TokenType.ArgumentDivider);
                     break;
+                case '?':
+                    yield return new Token("?", TokenType.TennaryCheck);
+                    break;
+                case ':':
+                    yield return new Token(":", TokenType.TennaryElse);
+                    break;
                 default:
                     throw new EngineException($"Invalid token '{_expression[i]}' in function: {_expression}");
             }

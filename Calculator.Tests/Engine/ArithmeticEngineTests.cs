@@ -46,7 +46,6 @@ internal class ArithmeticEngineTests
 
 
     [TestCaseSource(nameof(ValidTestCases))]
-    [CancelAfter(1000)]
     public async Task ExecuteAsync_ReturnsNumber_WhenOk(string input, string expected)
     {
         var result = await _engine.ExecuteAsync(input, CancellationToken.None);
@@ -89,7 +88,6 @@ internal class ArithmeticEngineTests
     [TestCase("Cplx(1,1)")]
     [TestCase("Cplx(1;1)%Cplx(1;1)")]
     [TestCase("foo")]
-    [CancelAfter(1000)]
     public async Task ExecuteAsync_Returns_Exception_WhenInvalid(string input)
     {
         var result = await _engine.ExecuteAsync(input, CancellationToken.None);

@@ -12,6 +12,7 @@ internal class ExpressionParser
 
     private static readonly TokenSet FirstFunction = new(TokenType.Function);
     private static readonly TokenSet Comparison = new(TokenType.SmallerThan | TokenType.SmallerThanEqual | TokenType.GreaterThan | TokenType.GreaterThanEqual | TokenType.Equal | TokenType.NotEqual);
+    private static readonly TokenSet Tennary = new(TokenType.TennaryCheck | TokenType.TennaryElse);
     private static readonly TokenSet FirstFactor = FirstFunction + new TokenSet(TokenType.Variable | TokenType.OpenParen);
     private static readonly TokenSet FirstFactorPrefix = FirstFactor + TokenType.Constant;
     private static readonly TokenSet FirstUnaryExp = FirstFactorPrefix + TokenType.Minus;
@@ -91,10 +92,15 @@ internal class ExpressionParser
         {
             var exp = ParseMultExpression();
 
-            while (Check(new TokenSet(TokenType.Plus | TokenType.Minus)))
+            while (Check(new TokenSet(TokenType.Plus | TokenType.Minus | TokenType.TennaryCheck)))
             {
+                if (Check(new TokenSet(TokenType.TennaryCheck)))
+                {
+                    return ParseTennary(exp);
+                }
                 var opType = _currentToken.Type;
                 Eat(opType);
+
                 if (!Check(FirstMultExp))
                 {
                     throw new EngineException("Expected an expression after + or - operator");
@@ -118,7 +124,7 @@ internal class ExpressionParser
     {
         if (Check(FirstExpExp))
         {
-            var exp = ParseExponentOrComparisionExpression();
+            var exp = ParseHighestLevel();
 
             while (Check(new TokenSet(TokenType.Multiply | TokenType.Divide | TokenType.Mod)))
             {
@@ -128,7 +134,7 @@ internal class ExpressionParser
                 {
                     throw new EngineException("Expected an expression after * or / operator");
                 }
-                var right = ParseExponentOrComparisionExpression();
+                var right = ParseHighestLevel();
 
                 exp = opType switch
                 {
@@ -144,7 +150,7 @@ internal class ExpressionParser
         throw new EngineException("Invalid expression");
     }
 
-    private IExpression ParseExponentOrComparisionExpression()
+    private IExpression ParseHighestLevel()
     {
         if (Check(FirstUnaryExp))
         {
@@ -158,6 +164,7 @@ internal class ExpressionParser
                 {
                     throw new EngineException("Expected an expression after exponent or comparision operator");
                 }
+
                 var right = ParseUnaryExpression();
 
                 exp = opType switch
@@ -176,6 +183,29 @@ internal class ExpressionParser
             return exp;
         }
         throw new EngineException("Invalid expression");
+    }
+
+    private TennaryExpression ParseTennary(IExpression check)
+    {
+        var opType = _currentToken.Type;
+
+        if (Check(new TokenSet(TokenType.TennaryCheck)))
+            Eat(opType);
+        else
+            throw new EngineException($"Expected ?, got: {opType}");
+
+        IExpression trueExpression = ParseUnaryExpression();
+
+        opType = _currentToken.Type;
+
+        if (Check(new TokenSet(TokenType.TennaryElse)))
+            Eat(opType);
+        else
+            throw new EngineException($"Expected :, got: {opType}");
+
+        IExpression falseExpression = ParseUnaryExpression();
+
+        return new TennaryExpression(check, trueExpression, falseExpression);
     }
 
     private IExpression ParseUnaryExpression()
