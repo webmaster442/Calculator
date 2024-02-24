@@ -7,8 +7,9 @@ public interface IArithmeticEngine
     IVariables Variables { get; }
     CultureInfo Culture { get; set; }
     AngleSystem AngleSystem { get; set; }
-    Task<EngineResult> ExecuteAsync(string expression, CancellationToken cancellationToken);
-    IExpression Parse(string expression);
-    IEnumerable<(double x, double y)> Iterate(string expression, double from, double to, double steps);
+    IEnumerable<string> Functions { get; }
+    Task<EngineResult> ExecuteAsync(string expression, CancellationToken cancellationToken = default);
+    IAsyncEnumerable<(double x, double y)> Iterate(string expression, double from, double to, double steps, CancellationToken cancellationToken = default);
+    Task<IExpression> ParseAsync(string expression, CancellationToken cancellationToken = default);
 
 }

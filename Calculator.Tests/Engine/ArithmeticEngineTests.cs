@@ -2,7 +2,6 @@
 using System.Linq.Expressions;
 
 using CalculatorShell.Engine;
-using CalculatorShell.Engine.Expressions;
 
 namespace Calculator.Tests.Engine;
 
@@ -54,9 +53,9 @@ internal class ArithmeticEngineTests
     }
 
     [TestCaseSource(nameof(ValidTestCases))]
-    public void SimplifiedExpression_Compile_ReturnsNumber_WhenOk(string input, string expected) 
+    public async Task SimplifiedExpression_Compile_ReturnsNumber_WhenOk(string input, string expected) 
     {
-        var lambdaBody = _engine.Parse(input).Simplify().Compile();
+        var lambdaBody = (await _engine.ParseAsync(input)).Simplify().Compile();
 
         var parameters =  ExpressionFlattener.Flatten(lambdaBody).OfType<ParameterExpression>().ToArray();
 
@@ -99,7 +98,7 @@ internal class ArithmeticEngineTests
     [TestCase("y/0")]
     public void Parse_Simplify_Throws_WhenInvalid(string input)
     {
-        Assert.Throws<EngineException>(() => _engine.Parse(input));
+        Assert.ThrowsAsync<EngineException>(async () => await _engine.ParseAsync(input));
     }
 
     [TestCase("0/y", "0")]
@@ -151,9 +150,9 @@ internal class ArithmeticEngineTests
     [TestCase("x>=y", "(x >= y)")]
     [TestCase("x==y", "(x == y)")]
     [TestCase("x!=y", "(x != y)")]
-    public void Parse_Simplifies_WhenOk(string input, string expected)
+    public async Task Parse_Simplifies_WhenOk(string input, string expected)
     {
-        var expr = _engine.Parse(input);
+        var expr = await _engine.ParseAsync(input);
         Assert.That(expr.ToString(CultureInfo.InvariantCulture), Is.EqualTo(expected));
     }
 }

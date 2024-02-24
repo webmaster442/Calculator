@@ -11,4 +11,8 @@
 		<InternalsVisibleTo Include="Calculator.Tests" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+	</ItemGroup>
+
 </Project>

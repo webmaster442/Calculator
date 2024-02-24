@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace CalculatorShell.Engine.Expressions;
@@ -18,13 +19,16 @@ internal sealed class Tokenizer
         _knownFunctions = functions.ToHashSet(StringComparer.InvariantCultureIgnoreCase);
     }
 
-    public IEnumerable<Token> Tokenize()
+    public async IAsyncEnumerable<Token> Tokenize([EnumeratorCancellation]CancellationToken cancellationToken)
     {
         for (int i = 0; i < _expression.Length; i++)
         {
+            if (cancellationToken.IsCancellationRequested)
+                break;
+
             if (IsIdentifierChar(_expression[i], null, _culture.NumberFormat))
             {
-                string identifier = ReadIdentifier(i);
+                string identifier = await ReadIdentifier(i);
 
                 if (Number.TryParse(identifier, _culture, out Number? parsed))
                 {
@@ -43,7 +47,7 @@ internal sealed class Tokenizer
             }
             if (IsComparisionOperatorChar(_expression[i]))
             {
-                string comparison = ReadComparisonOperator(i);
+                string comparison = await ReadComparisonOperator(i);
                 switch (comparison)
                 {
                     case "<":
@@ -119,7 +123,7 @@ internal sealed class Tokenizer
         yield return new Token(string.Empty, TokenType.Eof, null);
     }
 
-    private string ReadComparisonOperator(int startIndex)
+    private Task<string> ReadComparisonOperator(int startIndex)
     {
         StringBuilder op = new();
         int i = startIndex;
@@ -129,10 +133,10 @@ internal sealed class Tokenizer
             op.Append(_expression[i]);
             ++i;
         }
-        return op.ToString();
+        return Task.FromResult(op.ToString());
     }
 
-    private string ReadIdentifier(int startIndex)
+    private Task<string> ReadIdentifier(int startIndex)
     {
         StringBuilder identifier = new();
         int i = startIndex;
@@ -144,7 +148,7 @@ internal sealed class Tokenizer
             ++i;
             previous = _expression[i - 1];
         }
-        return identifier.ToString();
+        return Task.FromResult(identifier.ToString());
     }
 
     private static bool IsComparisionOperatorChar(char c)
@@ -158,7 +162,7 @@ internal sealed class Tokenizer
     private static bool IsIdentifierChar(char c, char? prev, NumberFormatInfo numberFormatInfo)
     {
         return
-            numberFormatInfo.NumberDecimalSeparator.Any(x => x == c)
+            numberFormatInfo.NumberDecimalSeparator.AsParallel().Any(x => x == c)
             || c == '_'
             || ('a' <= c && c <= 'z')
             || ('A' <= c && c <= 'Z')

@@ -54,14 +54,16 @@ internal class ExpressionParser
         _functionProvider = functionProvider;
     }
 
-    public IExpression Parse(string function, CultureInfo culture, IVariables variables)
+    public async Task<IExpression> Parse(string function, CultureInfo culture, IVariables variables, CancellationToken cancellationtoken = default)
     {
         _firstAddExp = new TokenSet(FirstUnaryExp);
-        _tokens = new Tokenizer(function,
-                                culture,
-                                _functionProvider.FunctionNames)
-                       .Tokenize()
-                       .ToArray();
+        var tokenizer = new Tokenizer(function,
+                                 culture,
+                                 _functionProvider.FunctionNames);
+
+        _tokens = await tokenizer
+            .Tokenize(cancellationtoken)
+            .ToArrayAsync();
 
         _currentToken = new Token("", TokenType.None);
         _variables = variables;

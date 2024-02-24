@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 using CalculatorShell.Engine.Algortihms;
 using CalculatorShell.Engine.Expressions;
@@ -33,31 +34,37 @@ public sealed class ArithmeticEngine : IArithmeticEngine
         set => NumberMath.AngleSystem = value;
     }
 
-    public IExpression Parse(string expression)
-        => _parser.Parse(expression, Culture, Variables).Simplify();
-
-    public Task<EngineResult> ExecuteAsync(string expression, CancellationToken cancellationToken)
+    public async Task<IExpression> ParseAsync(string expression, CancellationToken cancellationToken = default)
     {
-        return Task.Run(() =>
-        {
-            try
-            {
-                IExpression expr = _parser.Parse(expression,
-                                                 Culture,
-                                                 Variables);
-
-                return new EngineResult(expr.Evaluate());
-            }
-            catch (Exception ex)
-            {
-                return new EngineResult(ex);
-            }
-        }, cancellationToken);
+        var exp = await _parser.Parse(expression, Culture, Variables, cancellationToken);
+        return exp.Simplify();
     }
 
-    public IEnumerable<(double x, double y)> Iterate(string expression, double from, double to, double steps)
+    public async Task<EngineResult> ExecuteAsync(string expression, CancellationToken cancellationToken = default)
     {
-        var body = Parse(expression).Simplify().Compile();
+        try
+        {
+            IExpression expr = await _parser.Parse(expression,
+                                                   Culture,
+                                                   Variables,
+                                                   cancellationToken);
+
+            return new EngineResult(expr.Evaluate());
+        }
+        catch (Exception ex)
+        {
+            return new EngineResult(ex);
+        }
+    }
+
+    public async IAsyncEnumerable<(double x, double y)> Iterate(string expression,
+                                                                double from,
+                                                                double to,
+                                                                double steps,
+                                                                [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        var expr = await ParseAsync(expression, cancellationToken);
+        var body = expr.Simplify().Compile();
         var parameters = ExpressionFlattener.Flatten(body).OfType<ParameterExpression>().ToArray();
 
         if (parameters.Length != 1)
@@ -69,7 +76,10 @@ public sealed class ArithmeticEngine : IArithmeticEngine
         double step = (to - from) / steps;
         while (current <= to)
         {
-            yield return(current, compiled.Invoke(new Number(current)).ToDouble());
+            if (cancellationToken.IsCancellationRequested)
+                break;
+
+            yield return (current, compiled.Invoke(new Number(current)).ToDouble());
             current += step;
         }
     }
