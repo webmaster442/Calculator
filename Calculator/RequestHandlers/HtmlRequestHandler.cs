@@ -38,6 +38,7 @@ internal abstract class HtmlRequestHandler : IRequestHandler
             return true;
         }
 
+        context.Response.Headers.Add(HttpRequestHeader.CacheControl, "no-store");
         var content = RenderContent(template);
         context.Transfer(content, MediaTypeNames.Text.Html, HttpStatusCode.OK);
         return true;
