@@ -10,5 +10,5 @@ public interface IDialogs
     Task<string> SelectFile(CancellationToken cancellationToken);
     Task<string> SelectDirectory(CancellationToken cancellationToken);
     Task<IReadOnlyList<SelectionListItem>> SelectionList(string title, IEnumerable<SelectionListItem> items, CancellationToken cancellationToken);
-    void OpenServerDocument(string document);
+    void OpenServerDocument(ServerDocument document);
 }

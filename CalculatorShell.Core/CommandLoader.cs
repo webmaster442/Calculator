@@ -40,9 +40,14 @@ public sealed class CommandLoader : IDisposable
         {
             try
             {
-                if (Activator.CreateInstance(type) is TType cmd)
+                if (type.GetConstructors().First().GetParameters().Length > 0
+                    && Activator.CreateInstance(type, host) is TType instanceWithParameter)
                 {
-                    result.Add(cmd);
+                    result.Add(instanceWithParameter);
+                }
+                else if (Activator.CreateInstance(type) is TType instance)
+                {
+                    result.Add(instance);
                 }
             }
             catch (Exception ex)

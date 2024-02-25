@@ -13,7 +13,7 @@ internal sealed class Template
 
     public Template(string content)
     {
-        _stringBuilder = new StringBuilder(content);
+        _stringBuilder = new StringBuilder(content, 8192);
     }
 
     public Template ApplyTag(string tag, string value)

@@ -12,31 +12,33 @@ namespace Calculator.RequestHandlers;
 
 internal abstract class HtmlRequestHandler : IRequestHandler
 {
+    private readonly string _templateContent;
     private readonly string _url;
     private readonly bool _cancache;
-    private readonly Template _template;
     private string? _cache;
 
     protected HtmlRequestHandler(string templateContent, string url, bool cancache)
     {
+        _templateContent = templateContent;
         _url = url;
         _cancache = cancache;
-        _template = new Template(templateContent);
     }
 
     public bool HandleRequest(HttpListenerContext context)
     {
+        var template = new Template(_templateContent);
+
         if (!context.IsMatch("GET", _url))
             return false;
 
         if (_cancache)
         {
-            _cache ??= RenderContent(_template);
+            _cache ??= RenderContent(template);
             context.Transfer(_cache, MediaTypeNames.Text.Html, HttpStatusCode.OK);
             return true;
         }
 
-        var content = RenderContent(_template);
+        var content = RenderContent(template);
         context.Transfer(content, MediaTypeNames.Text.Html, HttpStatusCode.OK);
         return true;
     }

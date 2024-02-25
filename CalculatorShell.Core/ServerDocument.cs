@@ -5,14 +5,8 @@
 
 namespace CalculatorShell.Core;
 
-public interface ILog
+public enum ServerDocument
 {
-    void Exception(Exception ex);
-    void Info(FormattableString text);
-    void Warning(FormattableString text);
-    void Error(FormattableString text);
-
-    IEnumerable<KeyValuePair<DateTime, string>> Entries { get; }
-
-    void Clear();
+    Manual,
+    Log,
 }

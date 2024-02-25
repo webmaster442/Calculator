@@ -213,11 +213,11 @@ internal sealed class TerminalDialogs : IDialogs
         return await selector.ShowAsync(AnsiConsole.Console, cancellationToken);
     }
 
-    public void OpenServerDocument(string document)
+    public void OpenServerDocument(ServerDocument document)
     {
         using var proc = new Process();
         proc.StartInfo.UseShellExecute = true;
-        proc.StartInfo.FileName = $"http://localhost:11111/{document}";
+        proc.StartInfo.FileName = document.ToUrlString();
         proc.Start();
     }
 }

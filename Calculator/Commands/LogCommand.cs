@@ -20,22 +20,6 @@ internal class LogCommand : ShellCommand
 
     public override void ExecuteInternal(Arguments args)
     {
-        foreach (var entry in Render(Host.Log.Entries))
-        {
-            Host.Output.MarkupLine(entry);
-        }
-    }
-
-    private static IEnumerable<string> Render(IEnumerable<string> entries)
-    {
-        foreach (var item in entries)
-        {
-            if (item.Contains(" Warning: "))
-                yield return $"[yellow]{item}[/]";
-            else if (item.Contains(" Error: ") || item.Contains(" Exception: "))
-                yield return $"[red]{item}[/]";
-            else
-                yield return item;
-        }
+        Host.Dialogs.OpenServerDocument(ServerDocument.Log);
     }
 }

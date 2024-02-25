@@ -32,6 +32,10 @@ h1, h2, h3, h4, h5 {
     color: #32d296 !important;
 }
 
+.yellow {
+    color: yellow !important;
+}
+
 .monospaced {
     font-family: 'JetBrains Mono', Consolas, 'Lucida Console', monospace;
 }

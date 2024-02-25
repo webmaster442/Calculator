@@ -23,6 +23,6 @@ internal class ManCommand : ShellCommand
 
     public override void ExecuteInternal(Arguments args)
     {
-        Host.Dialogs.OpenServerDocument("manual.html");
+        Host.Dialogs.OpenServerDocument(ServerDocument.Manual);
     }
 }

@@ -6,6 +6,8 @@
 using Calculator.Internal;
 using Calculator.Resources;
 
+using CalculatorShell.Core;
+
 using Markdig;
 
 namespace Calculator.RequestHandlers;
