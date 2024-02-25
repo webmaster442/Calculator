@@ -35,7 +35,7 @@ public sealed class CommandLoader : IDisposable
         where TType : class
     {
         var types = GetTypesFromAssembly<TType>(atypeFromAssembly);
-        List<TType> result = new List<TType>();
+        List<TType> result = new();
         foreach (var type in types)
         {
             try

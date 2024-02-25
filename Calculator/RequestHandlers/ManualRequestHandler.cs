@@ -3,36 +3,27 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Net;
-using System.Net.Mime;
-
 using Calculator.Internal;
 using Calculator.Resources;
-using Calculator.Web.Server;
 
 using Markdig;
 
 namespace Calculator.RequestHandlers;
 
-internal sealed class ManualRequestHandler : IRequestHandler
+internal sealed class ManualRequestHandler : HtmlRequestHandler
 {
-    private readonly string _content;
-
-    public ManualRequestHandler()
+    public ManualRequestHandler() 
+        : base(Helpers.GetResourceString(ResourceNames.TemplateHtml), "/manual.html", cancache: true)
     {
-        string template = Helpers.GetResourceString(ResourceNames.TemplateHtml);
-        var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-        string rendered = Markdown.ToHtml(Helpers.GetResourceString(ResourceNames.ManualMd), pipeline);
-        _content = template.Replace("<!--{content}-->", rendered);
     }
 
-    public bool HandleRequest(HttpListenerContext context)
+    protected override string RenderContent(Template template)
     {
-        if (!context.IsMatch("GET", "/manual.html"))
-            return false;
+        var pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+        string rendered = Markdown.ToHtml(Helpers.GetResourceString(ResourceNames.ManualMd), pipeline);
 
-        context.Transfer(_content, MediaTypeNames.Text.Html, HttpStatusCode.OK);
-
-        return true;
+        return template
+            .ApplyTag(Template.Content, rendered)
+            .Render();
     }
 }
