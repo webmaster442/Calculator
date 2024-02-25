@@ -26,8 +26,11 @@ internal sealed class Expenses :
         _host = host;
         _folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "CalculatorShell");
         _db = new ExpenseItemDb(_folder);
-        _host.Mediator.Register(this);
+    }
 
+    public void RegisterToMediator()
+    {
+        _host.Mediator.Register(this);
     }
 
     void INotifyTarget<AddExpense>.OnNotify(AddExpense message)

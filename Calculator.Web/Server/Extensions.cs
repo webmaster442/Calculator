@@ -37,4 +37,16 @@ public static class Extensions
             writer.Write(content.ToString());
         }
     }
+
+    public static string ToLogMessage(this HttpListenerContext context)
+    {
+        return $"{context.Request.HttpMethod} {context.Request.Url}";
+    }
+
+    public static bool IsMatch(this HttpListenerContext context, string method, string url)
+    {
+        return context.Request.HttpMethod == method
+            && context.Request.Url != null
+            && context.Request.Url.LocalPath == url;
+    }
 }

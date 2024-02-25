@@ -22,10 +22,10 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="Calculator.Tests" />
-    <Content Include="Calculator.ico" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Calculator.ico" />
     <EmbeddedResource Include="manual.md" />
     <EmbeddedResource Include="Resources\Template.html" />
     <EmbeddedResource Include="Resources\TerminalFragment.json" />

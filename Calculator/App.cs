@@ -8,6 +8,7 @@ using System.Security.Cryptography.Xml;
 using Calculator.Commands;
 using Calculator.Internal;
 using Calculator.Messages;
+using Calculator.Web.Server;
 
 using CalculatorShell.Core;
 using CalculatorShell.Core.Mediator;
@@ -33,6 +34,7 @@ internal sealed class App :
     private readonly TimeProvider _timeProvider;
     private readonly ICurrentDirectoryProvider _currentDirectoryProvider;
     private CancellationTokenSource? _currentTokenSource;
+    private readonly HttpServer _server;
 
     private AngleSystem _angleSystem;
     private Queue<string> _commandQue;
@@ -55,15 +57,18 @@ internal sealed class App :
         _timeProvider = timeProvider;
         _currentDirectoryProvider = currentDirectoryProvider;
         uiDataSetter.SetCommandData(_loader.CommandHelps, _loader.CompletableCommands, _exitCommands);
+        _server = new HttpServer(_host.Log);
     }
 
     public async Task Run(bool singleRun = false)
     {
         bool run = true;
 
+        _expenses.RegisterToMediator();
         ExecuteAutoRuns(singleRun);
-
         _input.Prompt = CreatePrompt();
+
+        StartServer();
 
         while (run)
         {
@@ -118,6 +123,12 @@ internal sealed class App :
         }
     }
 
+    private void StartServer()
+    {
+        var handlers = CommandLoader.LoadAdditionalTypes<IRequestHandler>(typeof(App), _host);
+        _server.Start(handlers);
+    }
+
     private FormattedString CreatePrompt()
     {
         string timeString = _timeProvider.GetLocalNow().DateTime.ToShortTimeString();
@@ -139,7 +150,7 @@ internal sealed class App :
 
     private void ExecuteAutoRuns(bool singleRun)
     {
-        foreach (var cmd in _loader.AutoExecCommands.OrderBy(x => x.Priority))
+        foreach (var cmd in CommandLoader.LoadAdditionalTypes<IAutoExec>(typeof(App), _host).OrderBy(x => x.Priority))
         {
             if (cmd is IntroAutoExec && singleRun)
                 continue;
@@ -160,6 +171,7 @@ internal sealed class App :
             _currentTokenSource = null;
         }
         _loader.Dispose();
+        _server.Dispose();
     }
 
     void INotifyTarget<AngleSystemChange>.OnNotify(AngleSystemChange message)

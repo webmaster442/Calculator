@@ -17,12 +17,11 @@ public sealed class HttpServer : IDisposable
     private readonly ManualResetEvent _stop, _ready;
     private readonly Queue<HttpListenerContext> _queue;
     private readonly ILog _log;
-    private readonly IReadOnlyCollection<IRequestHandler> _handlers;
+    private IReadOnlyCollection<IRequestHandler> _handlers;
     private readonly DefaultRequestHandler _defaultHandler;
     private readonly ExceptionRequestHandler _exceptionHandler;
 
     public HttpServer(ILog log,
-                      IReadOnlyCollection<IRequestHandler> handlers,
                       int maxThreads = 2)
     {
         _defaultHandler = new DefaultRequestHandler();
@@ -35,12 +34,14 @@ public sealed class HttpServer : IDisposable
         _listener = new HttpListener();
         _listenerThread = new Thread(HandleRequests);
         _log = log;
-        _handlers = handlers;
+        _handlers = Array.Empty<IRequestHandler>();
     }
 
-    public void Start(int port = 11111)
+    public void Start(IReadOnlyCollection<IRequestHandler> handlers, int port = 11111)
     {
-        _listener.Prefixes.Add(String.Format(@"http://+:{0}/", port));
+        _handlers = handlers;
+        _listener.Prefixes.Add($"http://127.0.0.1:{port}/");
+        _listener.Prefixes.Add($"http://localhost:{port}/");
         _listener.Start();
         _listenerThread.Start();
 
@@ -49,6 +50,7 @@ public sealed class HttpServer : IDisposable
             _workers[i] = new Thread(Worker);
             _workers[i].Start();
         }
+        _log.Info($"Server started on http://localhost:{port}/");
     }
 
     public void Dispose() => Stop();
@@ -93,13 +95,15 @@ public sealed class HttpServer : IDisposable
     private void Worker()
     {
         WaitHandle[] wait = new[] { _ready, _stop };
-        while (0 == WaitHandle.WaitAny(wait))
+        while (WaitHandle.WaitAny(wait) == 0)
         {
             HttpListenerContext context;
             lock (_queue)
             {
                 if (_queue.Count > 0)
+                {
                     context = _queue.Dequeue();
+                }
                 else
                 {
                     _ready.Reset();
@@ -114,6 +118,8 @@ public sealed class HttpServer : IDisposable
                 {
                     if (handler.HandleRequest(context))
                     {
+                        _log.Info($"Handling: {context.ToLogMessage()}");
+                        _log.Info($"Handler name: {handler.GetType().Name}");
                         handled = true;
                         break;
                     }
@@ -121,6 +127,7 @@ public sealed class HttpServer : IDisposable
 
                 if (!handled)
                 {
+                    _log.Warning($"No handler found for request: {context.ToLogMessage()}");
                     _defaultHandler.HandleRequest(context);
                 }
 

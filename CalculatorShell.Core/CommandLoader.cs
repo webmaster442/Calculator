@@ -11,11 +11,7 @@ public sealed class CommandLoader : IDisposable
 {
     private readonly Dictionary<string, IShellCommand> _commands;
     private readonly Dictionary<string, string> _commandHelps;
-    private readonly List<IAutoExec> _autoExecCommands;
     private readonly Dictionary<string, IArgumentCompleter> _completable;
-
-    public IReadOnlyList<IAutoExec> AutoExecCommands
-        => _autoExecCommands;
 
     public IReadOnlyDictionary<string, IShellCommand> Commands
         => _commands;
@@ -31,22 +27,22 @@ public sealed class CommandLoader : IDisposable
     {
         _commands = new Dictionary<string, IShellCommand>();
         _commandHelps = new Dictionary<string, string>();
-        _autoExecCommands = new List<IAutoExec>();
         _completable = new Dictionary<string, IArgumentCompleter>();
         LoadCommands(atypeFromAssembly, host);
-        LoadAutoExec(atypeFromAssembly, host);
     }
 
-    private void LoadAutoExec(Type atypeFromAssembly, IHost host)
+    public static IReadOnlyList<TType> LoadAdditionalTypes<TType>(Type atypeFromAssembly, IHost host)
+        where TType : class
     {
-        IEnumerable<Type> autoExecCommandTypes = GetTypesFromAssembly<IAutoExec>(atypeFromAssembly);
-        foreach (Type type in autoExecCommandTypes)
+        var types = GetTypesFromAssembly<TType>(atypeFromAssembly);
+        List<TType> result = new List<TType>();
+        foreach (var type in types)
         {
             try
             {
-                if (Activator.CreateInstance(type) is IAutoExec cmd)
+                if (Activator.CreateInstance(type) is TType cmd)
                 {
-                    _autoExecCommands.Add(cmd);
+                    result.Add(cmd);
                 }
             }
             catch (Exception ex)
@@ -54,6 +50,7 @@ public sealed class CommandLoader : IDisposable
                 host.Output.Error(ex);
             }
         }
+        return result;
     }
 
     private void LoadCommands(Type atypeFromAssembly, IHost host)

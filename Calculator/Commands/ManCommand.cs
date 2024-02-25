@@ -23,15 +23,6 @@ internal class ManCommand : ShellCommand
 
     public override void ExecuteInternal(Arguments args)
     {
-        string manualFile = Path.Combine(AppContext.BaseDirectory, "man.html");
-        Open(manualFile);
-    }
-
-    private static void Open(string url)
-    {
-        using var proc = new Process();
-        proc.StartInfo.UseShellExecute = true;
-        proc.StartInfo.FileName = url;
-        proc.Start();
+        Host.Dialogs.OpenServerDocument("manual.html");
     }
 }

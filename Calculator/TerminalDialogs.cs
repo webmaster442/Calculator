@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Diagnostics;
+
 using CalculatorShell.Core;
 
 using Spectre.Console;
@@ -209,5 +211,13 @@ internal sealed class TerminalDialogs : IDialogs
         }
 
         return await selector.ShowAsync(AnsiConsole.Console, cancellationToken);
+    }
+
+    public void OpenServerDocument(string document)
+    {
+        using var proc = new Process();
+        proc.StartInfo.UseShellExecute = true;
+        proc.StartInfo.FileName = $"http://localhost:11111/{document}";
+        proc.Start();
     }
 }
