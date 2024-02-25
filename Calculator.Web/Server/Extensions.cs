@@ -1,0 +1,40 @@
+﻿//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Net;
+using System.Text;
+
+namespace Calculator.Web.Server;
+
+public static class Extensions
+{
+    public static void Transfer(this HttpListenerContext context,
+                                string content,
+                                string mimetype,
+                                HttpStatusCode code)
+    {
+        context.Response.StatusCode = (int)code;
+        context.Response.ContentType = mimetype;
+        context.Response.SendChunked = true;
+        using (var writer = new StreamWriter(context.Response.OutputStream))
+        {
+            writer.Write(content);
+        }
+    }
+
+    public static void Transfer(this HttpListenerContext context,
+                                StringBuilder content,
+                                string mimetype,
+                                HttpStatusCode code)
+    {
+        context.Response.StatusCode = (int)code;
+        context.Response.ContentType = mimetype;
+        context.Response.SendChunked = true;
+        using (var writer = new StreamWriter(context.Response.OutputStream))
+        {
+            writer.Write(content.ToString());
+        }
+    }
+}
