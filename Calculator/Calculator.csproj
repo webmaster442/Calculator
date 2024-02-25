@@ -18,6 +18,9 @@
   <ItemGroup>
     <None Remove="manual.md" />
     <None Remove="Resources\Template.html" />
+    <None Remove="Resources\uikit-icons.min.js" />
+    <None Remove="Resources\uikit.min.css" />
+    <None Remove="Resources\uikit.min.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +32,9 @@
     <EmbeddedResource Include="manual.md" />
     <EmbeddedResource Include="Resources\Template.html" />
     <EmbeddedResource Include="Resources\TerminalFragment.json" />
+    <EmbeddedResource Include="Resources\uikit-icons.min.js" />
+    <EmbeddedResource Include="Resources\uikit.min.css" />
+    <EmbeddedResource Include="Resources\uikit.min.js" />
   </ItemGroup>
 
   <ItemGroup>
