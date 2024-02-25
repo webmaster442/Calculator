@@ -28,4 +28,5 @@ internal sealed class Template
     }
 
     public const string Content = "content";
+    public const string Title = "title";
 }

@@ -1,0 +1,49 @@
+/*-----------------------------------------------------------------------------
+ (c) 2024 Ruzsinszki Gábor
+ This code is licensed under MIT license (see LICENSE for details)
+-----------------------------------------------------------------------------*/
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /*https://fluidtypography.com/#app-get-started*/
+    font-size: clamp(0.875rem, 0.924vw + 0.636rem, 1.375rem);
+    line-height: clamp(1.313rem, 0.878vw + 1.085rem, 1.788rem);
+}
+
+code {
+    color: lightcoral;
+}
+
+h1, h2, h3, h4, h5 {
+    color: lightblue;
+    font-weight: normal;
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0px auto;
+}
+
+.red {
+    color: #f0506e !important;
+}
+
+.green {
+    color: #32d296 !important;
+}
+
+.monospaced {
+    font-family: 'JetBrains Mono', Consolas, 'Lucida Console', monospace;
+}
+
+.monospaced p {
+    margin-bottom: 0;   
+    margin-top: 1rem;
+}
+
+.title {
+    font-size: clamp(3rem, 0.462vw + 2.88rem, 3.25rem);
+    line-height: clamp(4.225rem, -0.508vw + 4.631rem, 4.5rem);
+    border-bottom: 1px solid black;
+    font-weight: bold;
+}

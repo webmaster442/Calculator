@@ -19,14 +19,12 @@ internal sealed class BuiltInFilesRequestHandler : IRequestHandler
         if (context.IsMatch("GET", "/favicon.ico"))
             return Serve(context, ResourceNames.Icon, MediaTypeNames.Image.Icon);
 
-        else if (context.IsMatch("GET", "/uikit.min.css"))
-            return Serve(context, ResourceNames.UiKitCss, MediaTypeNames.Text.Css);
+        else if (context.IsMatch("GET", "/style.css"))
+            return Serve(context, ResourceNames.StyleCss, MediaTypeNames.Text.Css);
 
-        else if (context.IsMatch("GET", "/uikit.min.js"))
-            return Serve(context, ResourceNames.UiKitJs, MediaTypeNames.Text.JavaScript);
+        else if (context.IsMatch("GET", "/script.js"))
+            return Serve(context, ResourceNames.ScriptJs, MediaTypeNames.Text.JavaScript);
 
-        else if (context.IsMatch("GET", "/uikit-icons.min.js"))
-            return Serve(context, ResourceNames.UiKitIconJs, MediaTypeNames.Text.JavaScript);
 
         return false;
     }

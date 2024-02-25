@@ -12,7 +12,6 @@ internal static class ResourceNames
     public const string TerminalFragmentJson = "Calculator.Resources.TerminalFragment.json";
     
     public const string Icon = "Calculator.Calculator.ico";
-    public const string UiKitCss = "Calculator.Resources.uikit.min.css";
-    public const string UiKitJs = "Calculator.Resources.uikit.min.js";
-    public const string UiKitIconJs = "Calculator.Resources.uikit-icons.min.js";
+    public const string StyleCss = "Calculator.Resources.style.css";
+    public const string ScriptJs = "Calculator.Resources.script.js";
 }

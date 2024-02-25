@@ -23,6 +23,7 @@ internal sealed class ManualRequestHandler : HtmlRequestHandler
         string rendered = Markdown.ToHtml(Helpers.GetResourceString(ResourceNames.ManualMd), pipeline);
 
         return template
+            .ApplyTag(Template.Title, "Calculator Shell manual")
             .ApplyTag(Template.Content, rendered)
             .Render();
     }
