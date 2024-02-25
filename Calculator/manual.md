@@ -8,40 +8,15 @@
 6. Integers in octal. E.g: `Ox77`
 7. Integers in binary. E.g: `Bx1001`
 
+---
 # Recognized constants
 
-* pi
-* e 
-* quetta
-* ronna 
-* yotta 
-* zetta 
-* exa 
-* peta 
-* tera 
-* giga 
-* mega 
-* kilo 
-* hecto 
-* deca 
-* deci 
-* centi 
-* milli 
-* micro 
-* nano 
-* pico 
-* femto 
-* atto 
-* zepto 
-* yocto 
-* ronto,
-* kib,
-* mib,
-* gib,
-* tib,
-* pib,
-* eib
+* `pi`, `e`, 
+* `quetta`, `ronna`, `yotta`, `zetta`, `exa`, `peta`, `tera`, `giga`, `mega`, `kilo`, `hecto`, `deca`, `deci`, `centi`
+* `milli`, `micro`, `nano`, `pico`, `femto`, `atto`, `zepto`, `yocto`, `ronto`
+* `kib`, `mib`, `gib`, `tib`, `pib`, `eib`
 
+---
 # Commands
 
 ## bcddecode
@@ -50,7 +25,7 @@ Decode a number from binary coded decimal to decimal
 
 **Parameters:**
 
-1. The number in BCD, with digits seperated by space or _ 
+1. The number in BCD, with digits seperated by space or `_`
 
 Example: `bcddecode 1001 0010`
 
@@ -60,7 +35,7 @@ Encode a number to binary coded decimal
 
 **Parameters:**
 
-1. The number in decimal representation 
+1. The number in decimal representation`
 
 Example: `bcddecode 92`
 
@@ -89,12 +64,12 @@ Converts between color formats.
 
 Recognized color formats:
 
-#rrggbb
-rgb(r,g,b)
-cmyk(c,m,y,k)
-hsl(h, s, l)
-yuv(y,u,v)
-xyz(x,y,z)
+* RGB in hexa: `#rrggbb`
+* RGB in decimal:`rgb(r,g,b)`
+* CMYK: `cmyk(c,m,y,k)`
+* HSL: `hsl(h, s, l)`
+* YUV: `yuv(y,u,v)`
+* XYZ: `xyz(x,y,z)`
 
 ## commands, cmds
 
@@ -109,8 +84,8 @@ Converts between number systems
 **Parameters:**
 
 1. Number in source system
-2. Source number system. Must be in range 2 to 35
-1. Target number system. Must be in range 2 to 35
+2. Source number system. Must be in range `2` to `35`
+1. Target number system. Must be in range `2` to `35`
 
 ## currency
 
@@ -305,7 +280,7 @@ Converts a value given in a unit to an other unit
 
 Example: `unitconvert 33 meter foot`
 
-## unset 
+## unset`
 
 Unset a variable
 
@@ -321,7 +296,8 @@ prints out current program version
 
 **Parameters:** No parameters are needed
 
-# Functions 
+---
+# Functions
 
 The following functions can be used in expression, when using the `eval` command to evaluate expressions:
 
@@ -353,7 +329,7 @@ The following functions can be used in expression, when using the `eval` command
 
     Works on numbers that can be converted to double. Result is affected by current angle system.
 
-* `Ceil(x)` 
+* `Ceil(x)`
 
     Returns the smallest integral value that is greater than or equal to the specified number. Works on numbers that can be converted to double.
 
@@ -370,7 +346,7 @@ The following functions can be used in expression, when using the `eval` command
     Computes the factorial of a given number. Works on numbers that can be converted to double.
 
 * `Floor(x)`
-    
+   `
     Returns the largest integral value less than or equal to the specified number. Works on numbers that can be converted to double.
 
 * `IsPrime(x)`
