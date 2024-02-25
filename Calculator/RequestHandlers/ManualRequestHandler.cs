@@ -12,9 +12,9 @@ using Calculator.Web.Server;
 
 using Markdig;
 
-namespace Calculator.HttpUi;
+namespace Calculator.RequestHandlers;
 
-internal class ManualRequestHandler : IRequestHandler
+internal sealed class ManualRequestHandler : IRequestHandler
 {
     private readonly string _content;
 

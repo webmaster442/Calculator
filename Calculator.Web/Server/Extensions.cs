@@ -38,6 +38,18 @@ public static class Extensions
         }
     }
 
+    public static void Tranfer(this HttpListenerContext context,
+                               Stream content,
+                               string mimetype,
+                               HttpStatusCode code)
+    {
+        context.Response.StatusCode = (int)code;
+        context.Response.ContentType = mimetype;
+        context.Response.SendChunked = false;
+        context.Response.ContentLength64 = content.Length;
+        content.CopyTo(context.Response.OutputStream);
+    }
+
     public static string ToLogMessage(this HttpListenerContext context)
     {
         return $"{context.Request.HttpMethod} {context.Request.Url}";
