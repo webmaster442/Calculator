@@ -7,7 +7,7 @@ public class EngineException : Exception
         return new EngineException($"Can't cast {numberType} to {typeof(TTarget)}");
     }
 
-    internal static EngineException CreateArithmetic(Number left, Number right, char op)
+    internal static EngineException CreateArithmetic(Number left, Number right, string op)
     {
         return new EngineException($"Can't perform operation of '{op}' on {left.NumberType} and {right.NumberType}");
     }

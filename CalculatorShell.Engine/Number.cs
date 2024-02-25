@@ -228,7 +228,7 @@ public class Number :
     {
         return TypeDecider.Decide(left.NumberType, right.NumberType, isDivision: true) switch
         {
-            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '%'),
+            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, "%"),
             NumberType.Fraction => new Number(left.ToFraction() % right.ToFraction()),
             NumberType.Double => new Number(left.ToDouble() % right.ToDouble()),
             NumberType.Integer => new Number(left.ToInt128() % right.ToInt128()),
@@ -252,7 +252,7 @@ public class Number :
     {
         return TypeDecider.Decide(left.NumberType, right.NumberType) switch
         {
-            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '>'),
+            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, ">"),
             NumberType.Fraction => left.ToFraction() > right.ToFraction(),
             NumberType.Double => left.ToDouble() > right.ToDouble(),
             NumberType.Integer => left.ToInt128() > right.ToInt128(),
@@ -264,7 +264,7 @@ public class Number :
     {
         return TypeDecider.Decide(left.NumberType, right.NumberType) switch
         {
-            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '>'),
+            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, ">="),
             NumberType.Fraction => left.ToFraction() >= right.ToFraction(),
             NumberType.Double => left.ToDouble() >= right.ToDouble(),
             NumberType.Integer => left.ToInt128() >= right.ToInt128(),
@@ -276,7 +276,7 @@ public class Number :
     {
         return TypeDecider.Decide(left.NumberType, right.NumberType) switch
         {
-            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '>'),
+            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, "<"),
             NumberType.Fraction => left.ToFraction() < right.ToFraction(),
             NumberType.Double => left.ToDouble() < right.ToDouble(),
             NumberType.Integer => left.ToInt128() < right.ToInt128(),
@@ -288,7 +288,7 @@ public class Number :
     {
         return TypeDecider.Decide(left.NumberType, right.NumberType) switch
         {
-            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, '>'),
+            NumberType.Complex => throw EngineException.CreateArithmetic(left, right, "<="),
             NumberType.Fraction => left.ToFraction() <= right.ToFraction(),
             NumberType.Double => left.ToDouble() <= right.ToDouble(),
             NumberType.Integer => left.ToInt128() <= right.ToInt128(),
@@ -372,6 +372,10 @@ public class Number :
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(_complex, _fraction, _double, _int128, NumberType);
+        return HashCode.Combine(_complex,
+                                _fraction,
+                                _double,
+                                _int128,
+                                NumberType);
     }
 }
