@@ -66,6 +66,11 @@ internal sealed class UnitConvertConmmand : ShellCommand
             .Order()
             .Select(x => (x, string.Empty));
 
-        return results;
+        if (results.Any())
+            return results;
+
+        return _knownConversions
+            .SelectMany(x => x.Value)
+            .Select(x => (x, string.Empty));
     }
 }

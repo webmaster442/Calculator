@@ -108,6 +108,11 @@ internal sealed class CurrencyConvertCommand : ShellCommandAsync
             .Order()
             .Select(x => (x, string.Empty));
 
-        return results;
+        if (results.Any())
+            return results;
+
+        return _currencies
+            .Order()
+            .Select(x => (x, string.Empty));
     }
 }

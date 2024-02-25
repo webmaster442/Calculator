@@ -1,32 +1,37 @@
-﻿namespace CalculatorShell.Engine.MathComponents;
+﻿using System.Globalization;
+
+namespace CalculatorShell.Engine.MathComponents;
 public static class FileSizeCalculator
 {
-    private const long KiB = 1024;
-    private const long MiB = 1024 * KiB;
-    private const long GiB = 1024 * MiB;
-    private const long TiB = 1024 * GiB;
-    private const long PiB = 1024 * TiB;
-    private const long EiB = 1024 * PiB;
+    public const long KiB = 1024;
+    public const long MiB = 1024 * KiB;
+    public const long GiB = 1024 * MiB;
+    public const long TiB = 1024 * GiB;
+    public const long PiB = 1024 * TiB;
+    public const long EiB = 1024 * PiB;
 
     public static long ToBytes(double value, string unit)
         => (long)(value * GetUnit(unit));
 
-    public static string ToHumanReadable(long value)
+    public static string ToHumanReadable(long value, CultureInfo cultureInfo)
     {
+        FormattableString msg;
         if (value > EiB)
-            return $"{(double)value / EiB:0.00} EiB";
-        if (value > PiB)
-            return $"{(double)value / PiB:0.00} PiB";
-        if (value > TiB)
-            return $"{(double)value / TiB:0.00} TiB";
-        if (value > GiB)
-            return $"{(double)value / GiB:0.00} GiB";
-        if (value > MiB)
-            return $"{(double)value / MiB:0.00} MiB";
-        if (value > KiB)
-            return $"{(double)value / KiB:0.00} KiB";
+            msg = $"{(double)value / EiB:N3} EiB";
+        else if (value > PiB)
+            msg = $"{(double)value / PiB:N3} PiB";
+        else if(value > TiB)
+            msg = $"{(double)value / TiB:N3} TiB";
+        else if(value > GiB)
+            msg = $"{(double)value / GiB:N3} GiB";
+        else if(value > MiB)
+            msg = $"{(double)value / MiB:N3} MiB";
+        else if(value > KiB)
+            msg = $"{(double)value / KiB:N3} KiB";
         else
-            return $"{value} byte(s)";
+            msg = $"{value} byte(s)";
+
+        return msg.ToString(cultureInfo);
     }
 
     private static long GetUnit(string unit)

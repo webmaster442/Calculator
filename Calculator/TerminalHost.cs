@@ -22,6 +22,7 @@ internal sealed class TerminalHost : IHost, IHelpDataSetter
         Dialogs = new TerminalDialogs();
         Log = new MemoryLog();
         _currentDirectoryProvider = currentDirectoryProvider;
+        CultureInfo = CultureInfo.InvariantCulture;
     }
 
     public ITerminalInput Input => _input;
