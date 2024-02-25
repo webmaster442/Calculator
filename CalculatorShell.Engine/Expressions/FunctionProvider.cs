@@ -1,4 +1,9 @@
-﻿using System.Data;
+﻿//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Data;
 using System.Reflection;
 
 using CalculatorShell.Engine.Algortihms;

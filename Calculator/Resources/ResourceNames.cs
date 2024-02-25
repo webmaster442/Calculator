@@ -1,4 +1,9 @@
-﻿namespace Calculator.Resources;
+﻿//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+namespace Calculator.Resources;
 
 internal static class ResourceNames
 {

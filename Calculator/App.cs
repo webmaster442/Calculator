@@ -1,4 +1,9 @@
-﻿using System.Security.Cryptography.Xml;
+﻿//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Security.Cryptography.Xml;
 
 using Calculator.Commands;
 using Calculator.Internal;

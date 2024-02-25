@@ -1,4 +1,9 @@
-﻿using CalculatorShell.Engine.LogicExpressions;
+﻿//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using CalculatorShell.Engine.LogicExpressions;
 using CalculatorShell.Engine.Simplification;
 
 using System.Linq.Expressions;
