@@ -34,18 +34,5 @@ internal sealed class MemoryLog : ILog
         => _items.Clear();
 
     public IEnumerable<string> Entries
-    {
-        get
-        {
-            foreach (var item in _items)
-            {
-                if (item.Contains(" Warning: "))
-                    yield return $"[yellow]{item}[/]";
-                else if (item.Contains(" Error: ") || item.Contains(" Exception: "))
-                    yield return $"[red]{item}[/]";
-                else
-                    yield return item;
-            }
-        }
-    }
+        => _items;
 }

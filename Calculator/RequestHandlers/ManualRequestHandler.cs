@@ -12,7 +12,7 @@ namespace Calculator.RequestHandlers;
 
 internal sealed class ManualRequestHandler : HtmlRequestHandler
 {
-    public ManualRequestHandler() 
+    public ManualRequestHandler()
         : base(Helpers.GetResourceString(ResourceNames.TemplateHtml), "/manual.html", cancache: true)
     {
     }
