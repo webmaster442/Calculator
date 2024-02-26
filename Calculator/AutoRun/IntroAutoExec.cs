@@ -13,7 +13,7 @@ internal sealed class IntroAutoExec : IAutoExec
 {
     public string LogMessage => "Printing intro";
 
-    public int Priority => int.MaxValue; //last
+    public int Priority => int.MaxValue - 1; //2nd last
 
     public void Execute(IHost host)
     {
