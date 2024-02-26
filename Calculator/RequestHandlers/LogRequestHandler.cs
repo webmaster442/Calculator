@@ -2,6 +2,7 @@
 
 using Calculator.Internal;
 using Calculator.Resources;
+using Calculator.Web.Server;
 
 using CalculatorShell.Core;
 
