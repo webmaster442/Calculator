@@ -126,7 +126,8 @@ internal sealed class App :
     private void StartServer()
     {
         var handlers = CommandLoader.LoadAdditionalTypes<IRequestHandler>(typeof(App), _host);
-        _server.Start(handlers);
+        int port = _server.Start(handlers);
+        _host.Mediator.Notify(new HttpServerPort(port));
     }
 
     private FormattedString CreatePrompt()

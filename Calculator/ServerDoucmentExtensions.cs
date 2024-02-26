@@ -10,12 +10,12 @@ using CalculatorShell.Core;
 namespace Calculator;
 internal static class ServerDoucmentExtensions
 {
-    public static string ToUrlString(this ServerDocument document)
+    public static string ToUrlString(this ServerDocument document, int port)
     {
         return document switch
         {
-            ServerDocument.Manual => "http://localhost:11111/manual.html",
-            ServerDocument.Log => "http://localhost:11111/log.html",
+            ServerDocument.Manual => $"http://localhost:{port}/manual.html",
+            ServerDocument.Log => $"http://localhost:{port}/log.html",
             _ => throw new UnreachableException(),
         };
     }

@@ -5,13 +5,16 @@
 
 using System.Diagnostics;
 
+using Calculator.Messages;
+
 using CalculatorShell.Core;
+using CalculatorShell.Core.Mediator;
 
 using Spectre.Console;
 
 namespace Calculator;
 
-internal sealed class TerminalDialogs : IDialogs
+internal sealed class TerminalDialogs : IDialogs, INotifyTarget<HttpServerPort>
 {
     private const string LevelUpText = "Go to upper level";
     private const string ActualFolderText = "Selected Folder";
@@ -22,11 +25,14 @@ internal sealed class TerminalDialogs : IDialogs
     private const string SelectActualText = "Select Actual Folder";
 
     private readonly bool _isWindows;
+    private int _serverPort = -1;
 
-    public TerminalDialogs()
+    public TerminalDialogs(IHost host)
     {
         if (Environment.OSVersion.Platform == PlatformID.Win32NT)
             _isWindows = true;
+
+        host.Mediator.Register(this);
     }
 
     private async Task<string> PathSelectPrompt(string startFolder, bool isFileSelector, CancellationToken cancellationToken = default)
@@ -215,9 +221,20 @@ internal sealed class TerminalDialogs : IDialogs
 
     public void OpenServerDocument(ServerDocument document)
     {
+        if (_serverPort == -1)
+        {
+            AnsiConsole.WriteLine("Server not running. Check log for issues");
+            return;
+        }
+
         using var proc = new Process();
         proc.StartInfo.UseShellExecute = true;
-        proc.StartInfo.FileName = document.ToUrlString();
+        proc.StartInfo.FileName = document.ToUrlString(_serverPort);
         proc.Start();
+    }
+
+    void INotifyTarget<HttpServerPort>.OnNotify(HttpServerPort message)
+    {
+        _serverPort = message.Port;
     }
 }

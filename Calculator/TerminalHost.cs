@@ -20,14 +20,14 @@ internal sealed class TerminalHost : IHost, IHelpDataSetter
 
     public TerminalHost(ICurrentDirectoryProvider currentDirectoryProvider)
     {
+        _currentDirectoryProvider = currentDirectoryProvider;
+        CultureInfo = CultureInfo.InvariantCulture;
         _input = new TerminalInput();
         _output = new TerminalOutput();
         Mediator = new Mediator();
         WebServices = new WebServices();
-        Dialogs = new TerminalDialogs();
         Log = new MemoryLog();
-        _currentDirectoryProvider = currentDirectoryProvider;
-        CultureInfo = CultureInfo.InvariantCulture;
+        Dialogs = new TerminalDialogs(this);
     }
 
     public ITerminalInput Input => _input;

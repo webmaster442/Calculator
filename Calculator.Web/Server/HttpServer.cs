@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Net;
+using System.Net.NetworkInformation;
 
 using CalculatorShell.Core;
 
@@ -19,13 +20,11 @@ public sealed class HttpServer : IDisposable
     private readonly ILog _log;
     private IReadOnlyCollection<IRequestHandler> _handlers;
     private readonly DefaultRequestHandler _defaultHandler;
-    private readonly ExceptionRequestHandler _exceptionHandler;
 
     public HttpServer(ILog log,
                       int maxThreads = 2)
     {
         _defaultHandler = new DefaultRequestHandler();
-        _exceptionHandler = new ExceptionRequestHandler();
 
         _workers = new Thread[maxThreads];
         _queue = new Queue<HttpListenerContext>();
@@ -37,8 +36,16 @@ public sealed class HttpServer : IDisposable
         _handlers = Array.Empty<IRequestHandler>();
     }
 
-    public void Start(IReadOnlyCollection<IRequestHandler> handlers, int port = 11111)
+    public int Start(IReadOnlyCollection<IRequestHandler> handlers, int startPort = 11111, int endPort = 11211)
     {
+        int port = FindAvailablePort(startPort, endPort);
+
+        if (port == -1)
+        {
+            _log.Error($"Failed to start server, because no avaliable port can be found in range {startPort} {endPort}");
+            return -1;
+        }
+
         _handlers = handlers;
         _listener.Prefixes.Add($"http://127.0.0.1:{port}/");
         _listener.Prefixes.Add($"http://localhost:{port}/");
@@ -51,6 +58,22 @@ public sealed class HttpServer : IDisposable
             _workers[i].Start();
         }
         _log.Info($"Server started on http://localhost:{port}/");
+
+        return port;
+    }
+
+    private static int FindAvailablePort(int startPort, int endPort)
+    {
+        IPGlobalProperties ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
+        var portsInUse = ipGlobalProperties.GetActiveTcpConnections().Select(x => x.LocalEndPoint.Port).ToHashSet();
+        for (int port=startPort; port<=endPort; port++)
+        {
+            if (!portsInUse.Contains(port))
+            {
+                return port;
+            }
+        }
+        return -1;
     }
 
     public void Dispose() => Stop();
@@ -118,8 +141,7 @@ public sealed class HttpServer : IDisposable
                 {
                     if (handler.HandleRequest(context))
                     {
-                        _log.Info($"Handling: {context.ToLogMessage()}");
-                        _log.Info($"Handler name: {handler.GetType().Name}");
+                        _log.Info($"Handling: {context.ToLogMessage()} with {handler.GetType().Name}");
                         handled = true;
                         break;
                     }
@@ -135,8 +157,6 @@ public sealed class HttpServer : IDisposable
             catch (Exception e)
             {
                 _log.Error($"{e.Message}");
-                _exceptionHandler.Exeption = e;
-                _exceptionHandler.HandleRequest(context);
             }
         }
     }
