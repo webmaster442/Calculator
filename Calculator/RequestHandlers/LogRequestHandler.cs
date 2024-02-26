@@ -12,7 +12,7 @@ internal class LogRequestHandler : HtmlRequestHandler
     private readonly IHost _host;
 
     public LogRequestHandler(IHost host)
-        : base(Helpers.GetResourceString(ResourceNames.TemplateHtml), "/log.html", cancache: false)
+        : base(Helpers.GetResourceString(ResourceNames.LogHtml), "/log.html", cancache: false)
     {
         _host = host;
     }

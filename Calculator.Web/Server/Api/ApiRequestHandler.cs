@@ -10,7 +10,7 @@ using CalculatorShell.Core;
 
 namespace Calculator.Web.Server.Api;
 
-internal abstract class ApiRequestHandler : IRequestHandler
+public abstract class ApiRequestHandler<THandlerType> : IRequestHandler
 {
     private record ApiRoute
     {
@@ -32,21 +32,26 @@ internal abstract class ApiRequestHandler : IRequestHandler
 
 
     private readonly Dictionary<ApiRoute, ApiMethod> _apiRoutes;
+    private readonly Dictionary<ApiRoute, LowLevelApiMethod> _lowLevels;
 
     public ILog Log { get; }
 
     protected ApiRequestHandler(ILog log)
     {
         Log = log;
-        _apiRoutes = new Dictionary<ApiRoute, ApiMethod>();
-        Load();
+        _apiRoutes = Load<ApiMethod>(typeof(ApiResponse));
+        _lowLevels = Load<LowLevelApiMethod>(typeof(void));
+        
     }
 
-    private void Load()
+    private Dictionary<ApiRoute, TDelegate> Load<TDelegate>(Type delegateReturnType)
+        where TDelegate: Delegate
     {
-        var candidates = this.GetType()
+        Dictionary<ApiRoute, TDelegate> results = new();
+
+        var candidates = typeof(THandlerType)
             .GetMethods()
-            .Where(method => method.ReturnType == typeof(ApiResponse));
+            .Where(method => method.ReturnType == delegateReturnType);
 
         foreach (var candidate in candidates)
         {
@@ -54,11 +59,11 @@ internal abstract class ApiRequestHandler : IRequestHandler
             {
                 if (candidate.GetCustomAttribute<PostRouteAttribute>() is PostRouteAttribute postRoute)
                 {
-                    _apiRoutes.Add(ApiRoute.ToApiRoute(postRoute), candidate.CreateDelegate<ApiMethod>());
+                    results.Add(ApiRoute.ToApiRoute(postRoute), candidate.CreateDelegate<TDelegate>(this));
                 }
                 else if (candidate.GetCustomAttribute<GetRouteAttribute>() is GetRouteAttribute getRoute)
                 {
-                    _apiRoutes.Add(ApiRoute.ToApiRoute(getRoute), candidate.CreateDelegate<ApiMethod>());
+                    results.Add(ApiRoute.ToApiRoute(getRoute), candidate.CreateDelegate<TDelegate>(this));
                 }
             }
             catch (Exception ex)
@@ -66,6 +71,8 @@ internal abstract class ApiRequestHandler : IRequestHandler
                 Log.Exception(ex);
             }
         }
+
+        return results;
     }
 
     public bool HandleRequest(HttpListenerContext context)
@@ -79,6 +86,17 @@ internal abstract class ApiRequestHandler : IRequestHandler
         {
             var result = handler.Invoke(context.Request);
             context.Transfer(result.Content, result.MimeType, result.StatusCode);
+            return true;
+        }
+
+        var lowLevelHandler = _lowLevels
+            .Where(route => context.IsMatch(route.Key.Method, route.Key.Path))
+            .Select(route => route.Value)
+            .FirstOrDefault();
+
+        if (lowLevelHandler != null)
+        {
+            lowLevelHandler.Invoke(context);
             return true;
         }
 

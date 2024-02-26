@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Net;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Calculator.Web.Server;
@@ -60,5 +61,20 @@ public static class Extensions
         return context.Request.HttpMethod == method
             && context.Request.Url != null
             && context.Request.Url.LocalPath == url;
+    }
+
+    public static IReadOnlyDictionary<string, string> GetQueryParameters(this Uri uri)
+    {
+        var keyvalues = uri.Query.Split(new char[] { '&', '?' }, StringSplitOptions.RemoveEmptyEntries);
+        Dictionary<string, string> results = new();
+        foreach (var keyvalue in keyvalues)
+        {
+            var parts = keyvalue.Split('=');
+            if (parts.Length == 2)
+            {
+                results.Add(parts[0], parts[1]);
+            }
+        }
+        return results;
     }
 }

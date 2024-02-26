@@ -7,4 +7,6 @@ using System.Net;
 
 namespace Calculator.Web.Server.Api;
 
-public sealed record ApiResponse(HttpStatusCode StatusCode, string Content, string MimeType);
+public sealed record ApiResponse(HttpStatusCode StatusCode,
+                                 string Content,
+                                 string MimeType);
