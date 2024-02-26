@@ -19,9 +19,24 @@ h1, h2, h3, h4, h5 {
     font-weight: normal;
 }
 
+/* Ids ------------------------------------------------------------------------ */
+
+#scroll-button{
+    visibility: collapse;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+}
+
+
+/* Classes -------------------------------------------------------------------- */
 .container {
     max-width: 1280px;
     margin: 0px auto;
+}
+
+.log li:hover {
+    background-color: lightblue;
 }
 
 .red {

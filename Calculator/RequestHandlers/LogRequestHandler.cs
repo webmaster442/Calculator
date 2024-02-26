@@ -30,15 +30,17 @@ internal class LogRequestHandler : HtmlRequestHandler
     private string RenderLog()
     {
         StringBuilder sb = new(4096);
+        sb.AppendLine("<ol class=\"log\">");
         foreach (var item in _host.Log.Entries.OrderBy(x => x.Key))
         {
             if (item.Value.Contains(" Warning: "))
-                sb.AppendLine($"<p class=\"monospaced yellow\"><i>{item.Key}</i> {item.Value}</p>");
+                sb.AppendLine($"<li class=\"monospaced yellow\">{item.Key} {item.Value}</li>");
             else if (item.Value.Contains(" Error: ") || item.Value.Contains(" Exception: "))
-                sb.AppendLine($"<p class=\"monospaced red\"><i>{item.Key}</i> {item.Value}</p>");
+                sb.AppendLine($"<li class=\"monospaced red\">{item.Key} {item.Value}</li>");
             else
-                sb.AppendLine($"<p><i>{item.Key}</i> {item.Value}</p>");
+                sb.AppendLine($"<li>{item.Key} {item.Value}</li>");
         }
+        sb.AppendLine("</ol>");
         return sb.ToString();
     }
 }

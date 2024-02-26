@@ -66,7 +66,7 @@ public abstract class HtmlRequestHandler : IRequestHandler
         }
 
         var nonCachedTemplate = new Template(_templateContent);
-        context.Response.Headers.Add(HttpRequestHeader.CacheControl, "no-store");
+        context.Response.Headers.Add(HttpResponseHeader.CacheControl, "no-store");
         var content = RenderContent(nonCachedTemplate);
         context.Transfer(content, MediaTypeNames.Text.Html, HttpStatusCode.OK);
         return true;
