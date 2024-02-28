@@ -59,7 +59,7 @@ internal sealed class UnitConvertConmmand : ShellCommand
 
     private IEnumerable<(string option, string description)> ProvideAutoCompleteItems(string text, int caret)
     {
-        string currentWord = BaseCompleter.GetWordAtCaret(text, caret);
+        string currentWord = BaseCompleter.GetWordAtCaret(text, caret, out _);
         if (double.TryParse(currentWord, Host.CultureInfo, out _))
         {
             return Enumerable.Empty<(string option, string description)>();

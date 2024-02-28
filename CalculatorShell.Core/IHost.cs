@@ -18,4 +18,5 @@ public interface IHost
     IDialogs Dialogs { get; }
     ILog Log { get; }
     string CurrentDirectory { get; }
+    DateTime Now();
 }

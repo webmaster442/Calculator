@@ -38,4 +38,7 @@ internal class TestHost : IHost
     public string CurrentDirectory { get; } = @"c:\test";
 
     public string OutputText => Output.ToString()!;
+
+    public DateTime Now() 
+        => new DateTime(2024, 01, 04);
 }

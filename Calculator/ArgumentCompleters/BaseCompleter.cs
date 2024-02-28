@@ -31,7 +31,7 @@ internal abstract class BaseCompleter : IArgumentCompleter
         return !info.Attributes.HasFlag(FileAttributes.Hidden);
     }
 
-    public static string GetWordAtCaret(string text, int caret)
+    public static string GetWordAtCaret(string text, int caret, out int wordIndex)
     {
         var words = ArgumentsFactory.Tokenize(text);
         string wordAtCaret = string.Empty;
@@ -45,7 +45,7 @@ internal abstract class BaseCompleter : IArgumentCompleter
             }
             currentIndex += word.Length + 1; // +1 due to word separator
         }
-
+        wordIndex = currentIndex;
         return wordAtCaret;
     }
 

@@ -16,7 +16,7 @@ internal sealed class DirectoryNameCompleter : BaseCompleter
     public override IEnumerable<(string option, string description)> ProvideAutoCompleteItems(string text, int caret)
     {
 
-        string word = GetWordAtCaret(text, caret);
+        string word = GetWordAtCaret(text, caret, out _);
 
         try
         {

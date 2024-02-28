@@ -50,6 +50,9 @@ internal sealed class TerminalHost : IHost, IHelpDataSetter
     public string CurrentDirectory
         => _currentDirectoryProvider.CurrentDirectory;
 
+    public DateTime Now() 
+        => DateTime.Now;
+
     public void SetCommandData(IReadOnlyDictionary<string, string> commandHelps,
                                  IReadOnlyDictionary<string, IArgumentCompleter> completers,
                                  ISet<string> exitCommands)
