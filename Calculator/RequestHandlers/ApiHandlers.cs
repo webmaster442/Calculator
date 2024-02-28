@@ -11,6 +11,7 @@ using Calculator.Web.Server.Api;
 using CalculatorShell.Core;
 
 namespace Calculator.RequestHandlers;
+
 internal class ApiHandlers : ApiRequestHandler<ApiHandlers>
 {
     public ApiHandlers(IHost host) : base(host.Log)

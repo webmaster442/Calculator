@@ -59,6 +59,11 @@ public sealed class Arguments
         return T.Parse(_arguments[index], _formatProvider);
     }
 
+    public T Parse<T>(int index, bool ignoreCase = true) where T: struct, Enum
+    {
+        return Enum.Parse<T>(_arguments[index], ignoreCase);
+    }
+
     public T Parse<T>(string shortName, string longName) where T : IParsable<T>
     {
         var found = FindArgument(shortName, longName)
