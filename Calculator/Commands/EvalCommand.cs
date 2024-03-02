@@ -39,8 +39,7 @@ internal class EvalCommand : ShellCommandAsync,
         var options = Host.Mediator.Request<Options, OptionsRequest>(new OptionsRequest())
             ?? throw new InvalidOperationException("Couldn't get options");
 
-
-        EngineResult result = await _engine.ExecuteAsync(string.Join(' ', args.AsEnumerable()), cancellationToken);
+        EngineResult result = await _engine.ExecuteAsync(args.Text, cancellationToken);
         result.When(number => Host.Output.Result(NumberFomatter.ToString(number, Host.CultureInfo, options.GroupThousands)),
                     exception =>
                     {

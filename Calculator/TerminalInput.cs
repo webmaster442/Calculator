@@ -9,9 +9,9 @@ using CalculatorShell.Core;
 
 using PrettyPrompt.Highlighting;
 
-
 namespace Calculator;
 
+#pragma warning disable CA1001 // Types that own disposable fields should be disposable
 internal sealed class TerminalInput : ITerminalInput
 {
     public object Prompt
@@ -62,3 +62,4 @@ internal sealed class TerminalInput : ITerminalInput
         _callbacks.AutoCompletableCommands = completers;
     }
 }
+#pragma warning restore CA1001 // Types that own disposable fields should be disposable

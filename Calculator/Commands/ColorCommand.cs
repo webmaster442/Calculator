@@ -22,7 +22,7 @@ internal class ColorCommand : ShellCommand
     {
         args.ThrowIfNotSpecifiedAtLeast(1);
 
-        RGB baseRgb = GetRgb(string.Join(' ', args.AsEnumerable()), Host.CultureInfo);
+        RGB baseRgb = GetRgb(args.Text, Host.CultureInfo);
 
         Output(baseRgb);
     }

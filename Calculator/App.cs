@@ -40,8 +40,8 @@ internal sealed class App :
     private Queue<string> _commandQue;
     private Options _options;
 
-    public App(IHost host, 
-               ITerminalInput input, 
+    public App(IHost host,
+               ITerminalInput input,
                IHelpDataSetter uiDataSetter,
                TimeProvider timeProvider,
                ICurrentDirectoryProvider currentDirectoryProvider)
@@ -82,7 +82,7 @@ internal sealed class App :
             {
                 try
                 {
-                    _host.Log.Info($"Executing: {cmdAndArgs.cmd} {string.Join(' ', cmdAndArgs.Arguments.AsEnumerable())}");
+                    _host.Log.Info($"Executing: {cmdAndArgs.cmd} {cmdAndArgs.Arguments.Text}");
                     if (!singleRun)
                         Console.CancelKeyPress += OnCancelKeyPress;
                     _currentTokenSource = new CancellationTokenSource();
@@ -183,10 +183,7 @@ internal sealed class App :
         try
         {
             var info = new DirectoryInfo(message.CurrentFolder);
-            if (info.LinkTarget != null)
-                _currentDirectoryProvider.CurrentDirectory = info.LinkTarget;
-            else
-                _currentDirectoryProvider.CurrentDirectory = message.CurrentFolder;
+            _currentDirectoryProvider.CurrentDirectory = info.LinkTarget ?? message.CurrentFolder;
         }
         catch (Exception ex)
         {

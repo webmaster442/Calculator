@@ -16,7 +16,7 @@ internal class StatCommand : ShellCommand
     public override string[] Names => ["stat"];
 
     public override string Synopsys
-        => "Computes statistical data on a set of numbers"; 
+        => "Computes statistical data on a set of numbers";
 
     public override void ExecuteInternal(Arguments args)
     {

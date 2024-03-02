@@ -16,7 +16,10 @@ public sealed class Arguments
     {
         _arguments = commandLine;
         _formatProvider = formatProvider;
+        Text = string.Join(' ', _arguments);
     }
+
+    public string Text { get; }
 
     public string this[int index]
         => _arguments[index];

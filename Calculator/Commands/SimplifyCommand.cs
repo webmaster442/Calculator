@@ -10,7 +10,7 @@ namespace Calculator.Commands;
 
 internal sealed class SimplifyCommand : ShellCommand
 {
-    private readonly ILogicEngine _engine;
+    private readonly LogicEngine _engine;
 
     public SimplifyCommand(IHost host) : base(host)
     {
@@ -41,10 +41,10 @@ internal sealed class SimplifyCommand : ShellCommand
         }
     }
 
-    private static IReadOnlyList<int> GetMinterms(Arguments args)
+    private static List<int> GetMinterms(Arguments args)
     {
-        List<int> results = new();
-        HashSet<int> skipIndex = new();
+        List<int> results = [];
+        HashSet<int> skipIndex = [];
         int varIndex = args.IndexOf("-v", "--variables");
         skipIndex.Add(varIndex);
         skipIndex.Add(varIndex + 1);
