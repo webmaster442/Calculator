@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Diagnostics;
 using System.Text;
 
 namespace CalculatorShell.Engine.MathComponents;
@@ -44,7 +43,7 @@ public static class BcdConverter
             '7' => "0111",
             '8' => "1000",
             '9' => "1001",
-            _ => throw new UnreachableException(),
+            _ => throw new EngineException($"Invalid symbol: {chr}"),
         };
     }
 
@@ -62,7 +61,7 @@ public static class BcdConverter
             "0111" => '7',
             "1000" => '8',
             "1001" => '9',
-            _ => throw new UnreachableException(),
+            _ => throw new EngineException($"Invalid binary value: {binary}"),
         };
     }
 }
