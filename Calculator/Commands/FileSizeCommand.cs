@@ -10,6 +10,8 @@ using Calculator.ArgumentCompleters;
 using CalculatorShell.Core;
 using CalculatorShell.Engine.MathComponents;
 
+using CommandLine;
+
 namespace Calculator.Commands;
 internal class FileSizeCommand : ShellCommand
 {
@@ -31,14 +33,25 @@ internal class FileSizeCommand : ShellCommand
     public override string Synopsys
         => "Converts file sizes to human readable form";
 
+    internal class FileSizeOptions
+    {
+        [Value(0, HelpText = "File size value", Required = true)]
+        public double Value { get; set; }
+
+        [Value(1, HelpText = "File size unit", Required = false)]
+        public string Unit { get; set; }
+
+        public FileSizeOptions()
+        {
+            Unit = "bytes";
+        }
+    }
+
     public override void ExecuteInternal(Arguments args)
     {
-        args.ThrowIfNotSpecifiedAtLeast(1);
+        var options = args.Parse<FileSizeOptions>(Host);
 
-        double value = args.Parse<double>(0);
-        string unit = args.Length == 1 ? "bytes" : args[1];
-
-        long bytes = FileSizeCalculator.ToBytes(value, unit);
+        long bytes = FileSizeCalculator.ToBytes(options.Value, options.Unit);
 
         string result = FileSizeCalculator.ToHumanReadable(bytes, Host.CultureInfo);
 

@@ -8,6 +8,8 @@ using Calculator.Messages;
 using CalculatorShell.Core;
 using CalculatorShell.Engine.Expenses;
 
+using CommandLine;
+
 namespace Calculator.Commands;
 
 internal class ExpenseCommand : ShellCommand
@@ -21,21 +23,40 @@ internal class ExpenseCommand : ShellCommand
     public override string Synopsys
         => "Add an expense to the expenses";
 
-    protected static ExpenseItem Create(Arguments args, bool income)
+    internal class ExpenseOptons
     {
-        string type = income ? "income" : "expense";
+        [Value(0, HelpText = "Expense or income value")]
+        public decimal Ammount { get; set; }
 
-        args.ThrowIfNotSpecifiedAtLeast(1);
+        [Option('n', "name", HelpText = "Expense or income name")]
+        public string Name { get; set; }
+
+        [Option('c', "category", HelpText = "Expense or income category")]
+        public string Category { get; set; }
+
+        [Option('d', "date", HelpText = "Date of spending or income")]
+        public DateOnly Date { get; set; }
+
+        public ExpenseOptons()
+        {
+            Category = "Not categorized";
+            Name = "Item with no name";
+            Date = new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+        }
+    }
+
+    protected ExpenseItem Create(Arguments args, bool income)
+    {
+        var options = args.Parse<ExpenseOptons>(Host);
 
         return new ExpenseItem
         {
-            Amount = args.Parse<decimal>(0),
-            Name = args["-n", "--name"] ?? $"Unknown {type}",
-            Category = args["-c", "--category"] ?? "Not categorized",
-            Date = args.TryParse("-d", "--date", out DateOnly date) ? date : new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
+            Amount = options.Ammount,
+            Name = options.Name,
+            Category = options.Category,
+            Date = options.Date,
             IsIncome = income
         };
-
     }
 
     public override void ExecuteInternal(Arguments args)

@@ -7,6 +7,8 @@ using Calculator.Messages;
 
 using CalculatorShell.Core;
 
+using CommandLine;
+
 namespace Calculator.Commands;
 
 internal sealed class ExecCommand : ShellCommand
@@ -20,11 +22,22 @@ internal sealed class ExecCommand : ShellCommand
     public override string Synopsys
         => "Executes a file containing calculator commands";
 
+    internal class ExecOptions
+    {
+        [Value(0, HelpText = "File name to execute", Required = true)]
+        public string FileName { get; set; }
+
+        public ExecOptions()
+        {
+            FileName = string.Empty;
+        }
+    }
+
     public override void ExecuteInternal(Arguments args)
     {
-        args.ThrowIfNotSpecifiedAtLeast(1);
-
-        FileInfo fi = new(args[0]);
+        var options = args.Parse<ExecOptions>(Host);
+        
+        FileInfo fi = new(options.FileName);
 
         if (!fi.Exists)
             throw new CommandException($"File doesn't exist: {args[0]}");

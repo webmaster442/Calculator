@@ -15,7 +15,7 @@ internal class ArgumentsFactoryTests
     [Test]
     public void Test_Create_NoQutes()
     {
-        var result = ArgumentsFactory.Create("foo arg1 arg2 arg3", CultureInfo.InvariantCulture);
+        var result = ArgumentsFactory.Create("foo arg1 arg2 arg3");
         Assert.Multiple(() =>
         {
             Assert.That(result.cmd, Is.EqualTo("foo"));
@@ -28,7 +28,7 @@ internal class ArgumentsFactoryTests
     [Test]
     public void Test_Create_WithQutes()
     {
-        var result = ArgumentsFactory.Create("foo \"arg1 arg2\" arg3", CultureInfo.InvariantCulture);
+        var result = ArgumentsFactory.Create("foo \"arg1 arg2\" arg3");
         Assert.Multiple(() =>
         {
             Assert.That(result.cmd, Is.EqualTo("foo"));
@@ -40,7 +40,7 @@ internal class ArgumentsFactoryTests
     [Test]
     public void Test_Create_Empty()
     {
-        var result = ArgumentsFactory.Create("", CultureInfo.InvariantCulture);
+        var result = ArgumentsFactory.Create("");
         Assert.Multiple(() =>
         {
             Assert.That(result.cmd, Is.EqualTo(string.Empty));

@@ -8,6 +8,8 @@ using System.Security.Cryptography;
 using CalculatorShell.Core;
 using CalculatorShell.Engine.MathComponents;
 
+using CommandLine;
+
 namespace Calculator.Commands;
 internal abstract class HashCommandBase : ShellCommandAsync, IDisposable, IProgress<long>
 {
@@ -42,16 +44,29 @@ internal abstract class HashCommandBase : ShellCommandAsync, IDisposable, IProgr
         Dispose(false);
     }
 
+    internal class HashOptions
+    {
+        [Value(0, HelpText = "File name")]
+        public string FileName { get; set; }
+
+        public HashOptions()
+        {
+            FileName = string.Empty;
+        }
+    }
+
     public override async Task ExecuteInternal(Arguments args, CancellationToken cancellationToken)
     {
         HashCalculator hc = new(this);
 
+        var options = args.Parse<HashOptions>(Host);
+
         Stream stream = null!;
         try
         {
-            if (args.Length == 1)
+            if (!string.IsNullOrEmpty(options.FileName))
             {
-                stream = File.OpenRead(args[0]);
+                stream = File.OpenRead(options.FileName);
             }
             else
             {

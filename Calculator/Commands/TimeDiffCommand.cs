@@ -5,6 +5,8 @@
 
 using CalculatorShell.Core;
 
+using CommandLine;
+
 namespace Calculator.Commands;
 
 internal sealed class TimeDiffCommand : TimeCommand
@@ -18,14 +20,20 @@ internal sealed class TimeDiffCommand : TimeCommand
     public override string Synopsys
         => "Calculates the difference between two Date/time values";
 
+    internal class TimeDiffOptions
+    {
+        [Value(0, HelpText = "First date and time", Required = true)]
+        public DateTime A { get; set; }
+
+        [Value(1, HelpText = "Second date and time", Required = true)]
+        public DateTime B { get; set; }
+    }
+
     public override void ExecuteInternal(Arguments args)
     {
-        args.ThrowIfNotSpecifiedAtLeast(2);
+        var options = args.Parse<TimeDiffOptions>(Host);
 
-        DateTime timeA = Parse(args[0]);
-        DateTime timeB = Parse(args[1]);
-
-        TimeSpan result = timeA - timeB;
+        TimeSpan result = options.A - options.B;
 
         Host.Output.Result(result.ToString());
     }

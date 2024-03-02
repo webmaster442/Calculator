@@ -4,8 +4,11 @@
 //-----------------------------------------------------------------------------
 
 using Calculator.ArgumentCompleters;
+using Calculator.Internal;
 
 using CalculatorShell.Core;
+
+using CommandLine;
 
 namespace Calculator.Commands;
 
@@ -62,6 +65,24 @@ internal sealed class CurrencyConvertCommand : ShellCommandAsync
     public override IArgumentCompleter? ArgumentCompleter
         => new DelegatedCompleter(ProvideAutoCompleteItems);
 
+    internal class CurrencyConvertOptions
+    {
+        [Value(0, HelpText = "Target currency", Required = true)]
+        public decimal Ammount { get; set; }
+
+        [Value(1, HelpText = "Source Currency", Required = true)]
+        public string Source { get; set; }
+
+        [Value(2, HelpText = "Target Currency", Required = true)]
+        public string Target { get; set; }
+
+        public CurrencyConvertOptions()
+        {
+            Source = string.Empty;
+            Target = string.Empty;
+        }
+    }
+
     public override async Task ExecuteInternal(Arguments args, CancellationToken cancellationToken)
     {
         Dictionary<string, decimal> currencies = await Host.WebServices.GetCurrencyRates();
@@ -72,20 +93,18 @@ internal sealed class CurrencyConvertCommand : ShellCommandAsync
             return;
         }
 
-        args.ThrowIfNotSpecifiedAtLeast(3);
+        var options = args.Parse<CurrencyConvertOptions>(Host);
+        options.Source = options.Source.ToUpper();
+        options.Target = options.Target.ToUpper();
 
-        decimal ammount = args.Parse<decimal>(0);
-        string soruceCurrency = args[1].ToUpper();
-        string targetCurrency = args[2].ToUpper();
+        if (!currencies.TryGetValue(options.Source, out decimal sourceValue))
+            throw new CommandException($"Unknown currency: {options.Source}");
 
-        if (!currencies.ContainsKey(soruceCurrency))
-            throw new CommandException($"Unknown currency: {soruceCurrency}");
+        if (!currencies.TryGetValue(options.Target, out decimal targetValue))
+            throw new CommandException($"Unknown currency: {options.Target}");
 
-        if (!currencies.ContainsKey(targetCurrency))
-            throw new CommandException($"Unknown currency: {targetCurrency}");
-
-        decimal baseUnitValue = currencies[soruceCurrency] * ammount;
-        decimal resultUnitValue = currencies[targetCurrency] * baseUnitValue;
+        decimal baseUnitValue = sourceValue * options.Ammount;
+        decimal resultUnitValue = targetValue * baseUnitValue;
 
         Host.Output.Result(resultUnitValue.ToString(Host.CultureInfo));
     }

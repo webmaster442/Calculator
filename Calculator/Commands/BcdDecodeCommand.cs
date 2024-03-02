@@ -6,6 +6,8 @@
 using CalculatorShell.Core;
 using CalculatorShell.Engine.MathComponents;
 
+using CommandLine;
+
 namespace Calculator.Commands;
 
 internal class BcdDecodeCommand : ShellCommand
@@ -18,11 +20,22 @@ internal class BcdDecodeCommand : ShellCommand
 
     public override string Synopsys => "Decode a number from binary coded decimal to decimal";
 
+    internal class BcdDecodeOptions
+    {
+        [Value(0, HelpText = "Number to decode", Required = true)]
+        public string Value { get; set; }
+
+        public BcdDecodeOptions() 
+        {
+            Value = string.Empty;
+        }
+    }
+
     public override void ExecuteInternal(Arguments args)
     {
-        args.ThrowIfNotSpecifiedAtLeast(1);
+        var options = args.Parse<BcdDecodeOptions>(Host);
 
-        string result = BcdConverter.BcdDecode(args[0]);
+        string result = BcdConverter.BcdDecode(options.Value);
 
         Host.Output.Result(result);
     }

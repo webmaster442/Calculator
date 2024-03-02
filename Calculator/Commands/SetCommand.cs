@@ -7,6 +7,8 @@ using Calculator.Messages;
 
 using CalculatorShell.Core;
 
+using CommandLine;
+
 namespace Calculator.Commands;
 internal sealed class SetCommand : ShellCommand
 {
@@ -19,11 +21,24 @@ internal sealed class SetCommand : ShellCommand
     public override string Synopsys
         => "Sets a variable";
 
+    internal class SetOptions
+    {
+        [Value(0, HelpText = "Variable name to set", Required = true)]
+        public string Name { get; set; }
+
+        [Value(1, HelpText = "Variable value", Required = true)]
+        public string Expression { get; set; }
+
+        public SetOptions()
+        {
+            Name = string.Empty;
+            Expression = string.Empty;
+        }
+    }
+
     public override void ExecuteInternal(Arguments args)
     {
-        args.ThrowIfNotSpecifiedAtLeast(2);
-        var name = args.AsEnumerable().First();
-        var expression = string.Join(' ', args.AsEnumerable().Skip(1));
-        Host.Mediator.Notify(new SetVariable(name, expression));
+        var options = args.Parse<SetOptions>(Host);
+        Host.Mediator.Notify(new SetVariable(options.Name, options.Expression));
     }
 }

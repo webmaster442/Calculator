@@ -11,7 +11,7 @@ public static class ArgumentsFactory
 {
     public static IReadOnlyList<string> Tokenize(string input)
     {
-        List<string> items = new();
+        List<string> items = [];
         StringBuilder temp = new();
         bool isQutes = false;
 
@@ -49,13 +49,13 @@ public static class ArgumentsFactory
         return items;
     }
 
-    public static (string cmd, Arguments args) Create(string line, IFormatProvider formatProvider)
+    public static (string cmd, Arguments args) Create(string line)
     {
         if (string.IsNullOrEmpty(line))
-            return (string.Empty, new Arguments(Array.Empty<string>(), formatProvider));
+            return (string.Empty, new Arguments(Array.Empty<string>()));
 
         var tokens = Tokenize(line);
 
-        return (tokens[0], new Arguments(tokens.Skip(1).ToArray(), formatProvider));
+        return (tokens[0], new Arguments(tokens.Skip(1).ToArray()));
     }
 }

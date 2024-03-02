@@ -6,6 +6,8 @@
 using CalculatorShell.Core;
 using CalculatorShell.Engine.MathComponents;
 
+using CommandLine;
+
 namespace Calculator.Commands;
 
 internal sealed class NumConvertCommand : ShellCommand
@@ -22,11 +24,28 @@ internal sealed class NumConvertCommand : ShellCommand
     public override string Synopsys
         => "Converts between number systems";
 
+    internal class NumConvertOptions
+    {
+        [Value(0, HelpText = "Number to convert", Required = true)]
+        public string Value { get; set; }
+
+        [Value(1, HelpText = "Source number system", Required = true, Min = 2, Max = 36)]
+        public int Source { get; set; }
+
+        [Value(1, HelpText = "Target number system", Required = true, Min = 2, Max = 36)]
+        public int Target { get; set; }
+
+        public NumConvertOptions()
+        {
+            Value = string.Empty;
+        }
+    }
+
     public override void ExecuteInternal(Arguments args)
     {
-        args.ThrowIfNotSpecifiedAtLeast(3);
+        var options = args.Parse<NumConvertOptions>(Host);
 
-        string result = _converter.Convert(args[0], args.Parse<int>(1), args.Parse<int>(2));
+        string result = _converter.Convert(options.Value, options.Source, options.Target);
 
         Host.Output.Result(result);
     }

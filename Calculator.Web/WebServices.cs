@@ -59,7 +59,7 @@ public sealed class WebServices : IWebServices
         if (DateTime.Now < _cache.CurrecyRatesValidTill)
             return _cache.CurrencyRates;
 
-        using (MnbCurrencyRates.MNBArfolyamServiceSoapClient client = new())
+        await using (MnbCurrencyRates.MNBArfolyamServiceSoapClient client = new())
         {
             var response = await client.GetCurrentExchangeRatesAsync(new MnbCurrencyRates.GetCurrentExchangeRatesRequestBody());
             var rates = DeserializeXML<MNBCurrentExchangeRates>(response.GetCurrentExchangeRatesResponse1.GetCurrentExchangeRatesResult);

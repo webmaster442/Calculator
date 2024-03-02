@@ -144,7 +144,7 @@ internal sealed class App :
     private (string cmd, Arguments Arguments) GetCommandAndArgs()
     {
         if (_commandQue.Count > 0)
-            return ArgumentsFactory.Create(_commandQue.Dequeue(), _host.CultureInfo);
+            return ArgumentsFactory.Create(_commandQue.Dequeue());
 
         return _input.ReadLine();
     }

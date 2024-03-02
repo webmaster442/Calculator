@@ -7,6 +7,8 @@ using Calculator.Messages;
 
 using CalculatorShell.Core;
 
+using CommandLine;
+
 namespace Calculator.Commands;
 
 internal sealed class UnSetCommand : ShellCommand
@@ -20,10 +22,36 @@ internal sealed class UnSetCommand : ShellCommand
     public override string Synopsys
         => "Unset a variable";
 
+    internal class UnSetOptions
+    {
+        [Value(0, HelpText = "Variable name to unset")]
+        public string VariableName { get; set; }
+
+        [Option('a', "all", HelpText = "Remove all variables")]
+        public bool All { get; set; }
+
+        public UnSetOptions()
+        {
+            VariableName = string.Empty;
+        }
+    }
+
     public override void ExecuteInternal(Arguments args)
     {
-        args.ThrowIfNotSpecifiedAtLeast(1);
-        string name = args.IndexOf("-a", "--all") > 0 ? "-+all+-" : args[0];
-        Host.Mediator.Notify(new UnsetVariable(name));
+        var options = args.Parse<UnSetOptions>(Host);
+
+        if (options.All)
+        {
+            Host.Mediator.Notify(new UnsetVariable("-+all+-"));
+            return;
+        }
+
+        if (!string.IsNullOrEmpty(options.VariableName))
+        {
+            Host.Mediator.Notify(new UnsetVariable(options.VariableName));
+            return;
+        }
+
+        Host.Output.Error("No variable name was specified");
     }
 }

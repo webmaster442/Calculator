@@ -16,7 +16,7 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Calculator.Tests" />
   </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\CalculatorShell.Engine\CalculatorShell.Engine.csproj" />
   </ItemGroup>

@@ -7,6 +7,8 @@ using System.Diagnostics;
 
 using CalculatorShell.Core;
 
+using CommandLine;
+
 namespace Calculator.Commands;
 
 internal sealed class TimeAddCommand : TimeCommand
@@ -44,12 +46,28 @@ internal sealed class TimeAddCommand : TimeCommand
     public override string Synopsys
         => "Add or subtract from a given date/time value";
 
+    internal class TimeAddOptions
+    {
+        [Value(0, HelpText = "Date and time for the basis of calculation", Required = true)]
+        public DateTime Start { get; set; }
+
+        [Value(1, HelpText = "Value to add", Required = true)]
+        public string Value { get; set; }
+
+        [Value(2, HelpText = "Value unit", Required = true)]
+        public AddSubtractUnit Unit { get; set; }
+
+        public TimeAddOptions()
+        {
+            Value = string.Empty;
+        }
+    }
+
     public override void ExecuteInternal(Arguments args)
     {
-        args.ThrowIfNotSpecifiedAtLeast(3);
-        DateTime start = Parse(args[0]);
-        AddSubtractUnit unit = args.Parse<AddSubtractUnit>(2);
-        DateTime result = AddSubtractDates(start, args[1], unit);
+        var options = args.Parse<TimeAddOptions>(Host);
+
+        DateTime result = AddSubtractDates(options.Start, options.Value, options.Unit);
         Host.Output.Result(FormatTime(result));
     }
 }

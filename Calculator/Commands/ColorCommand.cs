@@ -6,6 +6,8 @@
 using CalculatorShell.Core;
 using CalculatorShell.Engine.MathComponents.Colors;
 
+using CommandLine;
+
 namespace Calculator.Commands;
 
 internal class ColorCommand : ShellCommand
@@ -18,11 +20,24 @@ internal class ColorCommand : ShellCommand
 
     public override string Synopsys => "Converts between color formats";
 
+
+    internal class ColorOptions
+    {
+        [Value(0, HelpText = "Color value to parse", Required = true)]
+        public string ColorValue { get; set; }
+
+        public ColorOptions()
+        {
+            ColorValue = string.Empty;
+        }
+    }
+
+
     public override void ExecuteInternal(Arguments args)
     {
-        args.ThrowIfNotSpecifiedAtLeast(1);
+        var options = args.Parse<ColorOptions>(Host);
 
-        RGB baseRgb = GetRgb(args.Text, Host.CultureInfo);
+        RGB baseRgb = GetRgb(options.ColorValue, Host.CultureInfo);
 
         Output(baseRgb);
     }

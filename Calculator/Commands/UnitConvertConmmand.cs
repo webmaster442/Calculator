@@ -7,6 +7,8 @@ using Calculator.ArgumentCompleters;
 
 using CalculatorShell.Core;
 
+using CommandLine;
+
 using UnitsNet;
 
 namespace Calculator.Commands;
@@ -47,12 +49,29 @@ internal sealed class UnitConvertConmmand : ShellCommand
         return UnitConverter.ConvertByName(value, quantityName, fromUnit, toUnit);
     }
 
+    internal class UnitConvertOptions
+    {
+        [Value(0, HelpText = "Value to convert", Required = true)]
+        public double Value { get; set; }
+
+        [Value(1, HelpText = "Source unit", Required = true)]
+        public string Source { get; set; }
+
+        [Value(2, HelpText = "Target unit", Required = true)]
+        public string Target { get; set; }
+
+        public UnitConvertOptions()
+        {
+            Source = string.Empty;
+            Target = string.Empty;
+        }
+    }
+
     public override void ExecuteInternal(Arguments args)
     {
-        args.ThrowIfNotSpecifiedAtLeast(3);
-        double value = args.Parse<double>(0);
+        var options = args.Parse<UnitConvertOptions>(Host);
 
-        double result = Convert(value, args[1], args[2]);
+        double result = Convert(options.Value, options.Source, options.Target);
 
         Host.Output.Result(result.ToString(Host.CultureInfo));
     }

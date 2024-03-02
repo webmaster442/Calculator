@@ -8,6 +8,8 @@ using Calculator.Messages;
 
 using CalculatorShell.Core;
 
+using CommandLine;
+
 namespace Calculator.Commands;
 
 internal sealed class CdCommand : ShellCommandAsync
@@ -24,17 +26,25 @@ internal sealed class CdCommand : ShellCommandAsync
     public override IArgumentCompleter? ArgumentCompleter
         => new DirectoryNameCompleter(Host);
 
+    internal class CdOptions
+    {
+        [Value(0, HelpText = "Directory path")]
+        public string Path { get; set; }
+
+        public CdOptions()
+        {
+            Path = string.Empty;
+        }
+    }
+
     public override async Task ExecuteInternal(Arguments args, CancellationToken cancellationToken)
     {
-        string folder;
-        if (args.Length < 1)
+        var options = args.Parse<CdOptions>(Host);
+
+        if (string.IsNullOrEmpty(options.Path))
         {
-            folder = await Host.Dialogs.SelectDirectory(cancellationToken);
+            options.Path = await Host.Dialogs.SelectDirectory(cancellationToken);
         }
-        else
-        {
-            folder = args[0];
-        }
-        Host.Mediator.Notify(new SetCurrentDir(folder));
+        Host.Mediator.Notify(new SetCurrentDir(options.Path));
     }
 }
