@@ -7,8 +7,6 @@ using CalculatorShell.Core;
 
 using CommandLine;
 
-using static Calculator.Commands.UnitConvertConmmand;
-
 namespace Calculator.Commands;
 
 internal sealed class TimeDiffCommand : TimeCommand

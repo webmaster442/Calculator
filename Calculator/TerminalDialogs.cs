@@ -60,7 +60,7 @@ internal sealed class TerminalDialogs : IDialogs, INotifyTarget<HttpServerPort>
             AnsiConsole.Write(path);
             AnsiConsole.WriteLine();
 
-            Dictionary<string, string> folders = new Dictionary<string, string>();
+            Dictionary<string, string> folders = new();
             // get list of drives
 
             try
@@ -152,7 +152,7 @@ internal sealed class TerminalDialogs : IDialogs, INotifyTarget<HttpServerPort>
                     startFolder = lastFolder;
                     AnsiConsole.MarkupLine("[red]You have no access to this folder[/]");
                     AnsiConsole.WriteLine("Press a key to continue");
-                    Console.ReadKey();
+                    _ = Console.ReadKey();
                 }
             }
             else
@@ -165,7 +165,7 @@ internal sealed class TerminalDialogs : IDialogs, INotifyTarget<HttpServerPort>
 
     private static async Task<string> DriveSelectPrompt(int pageSize, CancellationToken cancellationToken)
     {
-        Dictionary<string, string> result = new Dictionary<string, string>();
+        Dictionary<string, string> result = new();
         foreach (string drive in Directory.GetLogicalDrives())
         {
             result.Add(":computer_disk: " + drive, drive);
@@ -207,11 +207,11 @@ internal sealed class TerminalDialogs : IDialogs, INotifyTarget<HttpServerPort>
 
         foreach (var item in items)
         {
-            selector.AddChoices(item, c =>
+            _ = selector.AddChoices(item, c =>
             {
                 if (item.IsChecked)
                 {
-                    c.Select();
+                    _ = c.Select();
                 }
             });
         }
@@ -230,7 +230,7 @@ internal sealed class TerminalDialogs : IDialogs, INotifyTarget<HttpServerPort>
         using var proc = new Process();
         proc.StartInfo.UseShellExecute = true;
         proc.StartInfo.FileName = document.ToUrlString(_serverPort);
-        proc.Start();
+        _ = proc.Start();
     }
 
     void INotifyTarget<HttpServerPort>.OnNotify(HttpServerPort message)

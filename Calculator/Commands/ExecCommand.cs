@@ -39,7 +39,7 @@ internal sealed class ExecCommand : ShellCommand
     public override void ExecuteInternal(Arguments args)
     {
         var options = args.Parse<ExecOptions>(Host);
-        
+
         FileInfo fi = new(options.FileName);
 
         if (!fi.Exists)

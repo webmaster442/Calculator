@@ -29,7 +29,7 @@ internal sealed class ListCommand : ShellCommand
         var response = Host.Mediator.Request<IEnumerable<KeyValuePair<string, Number>>, VariableListRequest>(new VariableListRequest());
         if (response != null && response.Any())
         {
-            TableData table = new TableData("Variable", "Value");
+            TableData table = new("Variable", "Value");
             foreach (var variable in response)
             {
                 table.AddRow(variable.Key, variable.Value.ToString(Host.CultureInfo));

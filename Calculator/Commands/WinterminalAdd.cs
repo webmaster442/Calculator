@@ -3,10 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Text.Json;
+using System.Text.Json.Nodes;
+
 using Calculator.Internal;
 using Calculator.Resources;
-using System.Text.Json.Nodes;
-using System.Text.Json;
 
 using CalculatorShell.Core;
 

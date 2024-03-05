@@ -7,8 +7,6 @@ using CalculatorShell.Core;
 
 using CommandLine.Text;
 
-using static PrettyPrompt.Highlighting.FormattedString.TextElementsEnumerator;
-
 namespace Calculator;
 
 internal static class Extensions

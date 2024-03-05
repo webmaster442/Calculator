@@ -7,8 +7,6 @@ using Calculator.Messages;
 
 using CalculatorShell.Core;
 
-using static Calculator.Commands.ColorCommand;
-
 namespace Calculator.Commands;
 
 internal sealed class CommandsCommand : ShellCommand

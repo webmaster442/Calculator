@@ -8,8 +8,6 @@ using CalculatorShell.Engine.MathComponents;
 
 using CommandLine;
 
-using static Calculator.Commands.BcdDecodeCommand;
-
 namespace Calculator.Commands;
 
 internal class BcdEncodeCommand : ShellCommand

@@ -20,7 +20,7 @@ internal abstract class BaseCompleter : IArgumentCompleter
     protected IHost Host { get; }
 
     protected Options Options
-        => Host.Mediator.Request<Options, OptionsRequest>(new OptionsRequest()) 
+        => Host.Mediator.Request<Options, OptionsRequest>(new OptionsRequest())
             ?? throw new InvalidOperationException("Options shoudln't be null");
 
     protected bool FilterHiddenBasedOnOptons(FileSystemInfo info)

@@ -12,8 +12,6 @@ using Calculator.Messages;
 
 using CalculatorShell.Core;
 
-using static Calculator.Commands.TimeAddCommand;
-
 namespace Calculator.Commands;
 internal class OptionsCommand : ShellCommandAsync
 {

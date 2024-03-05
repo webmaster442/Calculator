@@ -5,8 +5,6 @@
 
 using CalculatorShell.Core;
 
-using static Calculator.Commands.ExpenseCommand;
-
 namespace Calculator.Commands;
 
 internal sealed class WinterminalRemove : ShellCommand

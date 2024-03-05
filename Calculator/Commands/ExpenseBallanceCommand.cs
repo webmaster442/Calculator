@@ -7,8 +7,6 @@ using Calculator.Messages;
 
 using CalculatorShell.Core;
 
-using static Calculator.Commands.HashCommandBase;
-
 namespace Calculator.Commands;
 
 internal class ExpenseBallanceCommand : ShellCommand

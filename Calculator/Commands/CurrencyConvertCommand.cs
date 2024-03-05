@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using Calculator.ArgumentCompleters;
-using Calculator.Internal;
 
 using CalculatorShell.Core;
 

@@ -11,8 +11,6 @@ using CommandLine;
 
 using UnitsNet;
 
-using static Calculator.Commands.UnSetCommand;
-
 namespace Calculator.Commands;
 
 internal sealed class UnitConvertConmmand : ShellCommand

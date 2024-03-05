@@ -7,7 +7,7 @@ using Calculator.Internal;
 
 using CalculatorShell.Core;
 
-namespace Calculator.Commands;
+namespace Calculator.AutoRun;
 
 internal sealed class IntroAutoExec : IAutoExec
 {

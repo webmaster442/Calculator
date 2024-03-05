@@ -10,8 +10,6 @@ using CalculatorShell.Core;
 
 using CommandLine;
 
-using static Calculator.Commands.BcdEncodeCommand;
-
 namespace Calculator.Commands;
 
 internal sealed class CdCommand : ShellCommandAsync

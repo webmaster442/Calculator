@@ -3,9 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Security.Cryptography.Xml;
-
-using Calculator.Commands;
+using Calculator.AutoRun;
 using Calculator.Internal;
 using Calculator.Messages;
 using Calculator.Web.Server;

@@ -24,8 +24,8 @@ internal class LsCommand : ShellCommand
 
     public override void ExecuteInternal(Arguments args)
     {
-        DirectoryInfo di = new DirectoryInfo(Host.CurrentDirectory);
-        TableData table = new TableData("Name", "Extension", "Last write time", "Size", "Attributes");
+        DirectoryInfo di = new(Host.CurrentDirectory);
+        TableData table = new("Name", "Extension", "Last write time", "Size", "Attributes");
         FillDirs(table, di.GetDirectories());
         FillFiles(table, di.GetFiles());
         Host.Output.Table(table);
@@ -77,7 +77,7 @@ internal class LsCommand : ShellCommand
 
         foreach (var chunk in chunks)
         {
-            sb.AppendLine(string.Join(',', chunk));
+            _ = sb.AppendLine(string.Join(',', chunk));
         }
         return sb.ToString();
     }

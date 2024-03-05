@@ -28,7 +28,7 @@ internal class BcdDecodeCommand : ShellCommand
         [Value(0, HelpText = "Number to decode", Required = true)]
         public string Value { get; set; }
 
-        public BcdDecodeOptions() 
+        public BcdDecodeOptions()
         {
             Value = string.Empty;
         }

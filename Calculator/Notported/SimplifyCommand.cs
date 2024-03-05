@@ -3,9 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using CalculatorShell.Core;
-using CalculatorShell.Engine;
-
 namespace Calculator.Notported;
 
 /*internal sealed class SimplifyCommand : ShellCommand

@@ -68,10 +68,10 @@ internal class TerminalOutput : ITerminalOutput
     public void Table(TableData tabledata)
     {
         var table = new Table();
-        table.AddColumns(tabledata.Headers);
+        _ = table.AddColumns(tabledata.Headers);
         foreach (var row in tabledata)
         {
-            table.AddRow(row.Select(x => x.EscapeMarkup()).ToArray());
+            _ = table.AddRow(row.Select(x => x.EscapeMarkup()).ToArray());
         }
         AnsiConsole.Write(table);
     }
@@ -94,7 +94,7 @@ internal class TerminalOutput : ITerminalOutput
         foreach (var item in items)
         {
             var color = _palette[GetIndex(item.Key) % _palette.Length];
-            b.AddItem(item.Key, item.Value, color);
+            _ = b.AddItem(item.Key, item.Value, color);
         }
         AnsiConsole.Write(b);
     }

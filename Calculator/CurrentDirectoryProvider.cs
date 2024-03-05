@@ -9,7 +9,7 @@ namespace Calculator;
 internal class CurrentDirectoryProvider : ICurrentDirectoryProvider
 {
     public string CurrentDirectory
-    { 
+    {
         get => Environment.CurrentDirectory;
         set => Environment.CurrentDirectory = value;
     }
