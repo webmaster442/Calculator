@@ -21,6 +21,9 @@ internal sealed class DegCommand : ShellCommand
     public override string Synopsys
         => "Changes the angle mode to degrees";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
+
     public override void ExecuteInternal(Arguments args)
         => Host.Mediator.Notify(new AngleSystemChange(AngleSystem.Deg));
 }

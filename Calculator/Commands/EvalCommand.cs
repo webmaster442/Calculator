@@ -34,6 +34,9 @@ internal class EvalCommand : ShellCommandAsync,
     public override string Synopsys
         => "Evaluate an expression and writes out the result";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
+
     public override async Task ExecuteInternal(Arguments args, CancellationToken cancellationToken)
     {
         var options = Host.Mediator.Request<Options, OptionsRequest>(new OptionsRequest())

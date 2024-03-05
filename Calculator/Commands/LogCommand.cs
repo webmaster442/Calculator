@@ -18,6 +18,9 @@ internal class LogCommand : ShellCommand
     public override string Synopsys =>
         "Display log entries";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
+
     public override void ExecuteInternal(Arguments args)
     {
         Host.Dialogs.OpenServerDocument(ServerDocument.Log);

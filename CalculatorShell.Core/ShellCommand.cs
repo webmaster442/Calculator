@@ -21,6 +21,8 @@ public abstract class ShellCommand : ISyncShellCommand
 
     public virtual IArgumentCompleter? ArgumentCompleter => null;
 
+    public abstract string HelpMessage { get; }
+
     public abstract void ExecuteInternal(Arguments args);
 
     public void Execute(Arguments args)

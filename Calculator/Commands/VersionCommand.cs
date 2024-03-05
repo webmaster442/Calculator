@@ -20,6 +20,9 @@ internal class VersionCommand : ShellCommand
     public override string Synopsys 
         => "prints out current program version";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
+
     public override void ExecuteInternal(Arguments args)
     {
         Host.Output.Result(Helpers.GetAssemblyVersion().ToString());

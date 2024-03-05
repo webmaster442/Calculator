@@ -23,6 +23,9 @@ internal class ExpenseCommand : ShellCommand
     public override string Synopsys
         => "Add an expense to the expenses";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<ExpenseOptons>();
+
     internal class ExpenseOptons
     {
         [Value(0, HelpText = "Expense or income value")]

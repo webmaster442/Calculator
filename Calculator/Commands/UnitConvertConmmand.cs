@@ -11,6 +11,8 @@ using CommandLine;
 
 using UnitsNet;
 
+using static Calculator.Commands.UnSetCommand;
+
 namespace Calculator.Commands;
 
 internal sealed class UnitConvertConmmand : ShellCommand
@@ -31,6 +33,9 @@ internal sealed class UnitConvertConmmand : ShellCommand
 
     public override string Synopsys
         => "Converts a value given in a unit to an other unit";
+
+    public override string HelpMessage
+        => this.BuildHelpMessage<UnitConvertOptions>();
 
     public override IArgumentCompleter? ArgumentCompleter
         => new DelegatedCompleter(ProvideAutoCompleteItems);

@@ -18,6 +18,9 @@ internal sealed class PwdCommand : ShellCommand
     public override string Synopsys
         => "Returns the current working directory";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
+
     public override void ExecuteInternal(Arguments args)
     {
         Host.Output.Result(Host.CurrentDirectory);

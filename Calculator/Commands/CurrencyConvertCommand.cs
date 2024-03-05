@@ -62,6 +62,9 @@ internal sealed class CurrencyConvertCommand : ShellCommandAsync
     public override string Synopsys
         => "Converts between currency exchange rates";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<CurrencyConvertOptions>();
+
     public override IArgumentCompleter? ArgumentCompleter
         => new DelegatedCompleter(ProvideAutoCompleteItems);
 

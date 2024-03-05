@@ -7,6 +7,8 @@ using Calculator.Messages;
 
 using CalculatorShell.Core;
 
+using static Calculator.Commands.HashCommandBase;
+
 namespace Calculator.Commands;
 
 internal sealed class FunctionsCommand : ShellCommand
@@ -19,6 +21,9 @@ internal sealed class FunctionsCommand : ShellCommand
 
     public override string Synopsys
         => "Prints out the list of available functions in eval mode";
+
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
 
     public override void ExecuteInternal(Arguments args)
     {

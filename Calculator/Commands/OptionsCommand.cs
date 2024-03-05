@@ -12,6 +12,8 @@ using Calculator.Messages;
 
 using CalculatorShell.Core;
 
+using static Calculator.Commands.TimeAddCommand;
+
 namespace Calculator.Commands;
 internal class OptionsCommand : ShellCommandAsync
 {
@@ -23,6 +25,9 @@ internal class OptionsCommand : ShellCommandAsync
 
     public override string Synopsys
         => "Opens the calculator options editor";
+
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
 
     private static SelectionListItem[] GetOptions(Options instance)
     {

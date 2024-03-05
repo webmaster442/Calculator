@@ -19,6 +19,9 @@ internal class LsCommand : ShellCommand
     public override string Synopsys
         => "List files and directories in current directory";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
+
     public override void ExecuteInternal(Arguments args)
     {
         DirectoryInfo di = new DirectoryInfo(Host.CurrentDirectory);
@@ -28,9 +31,9 @@ internal class LsCommand : ShellCommand
         Host.Output.Table(table);
     }
 
-    private string GetAttributeString(FileAttributes attributes)
+    private static string GetAttributeString(FileAttributes attributes)
     {
-        List<string> attrs = new();
+        List<string> attrs = [];
 
         if (attributes.HasFlag(FileAttributes.ReadOnly))
             attrs.Add("Ro");

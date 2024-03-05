@@ -21,6 +21,9 @@ internal sealed class SetCommand : ShellCommand
     public override string Synopsys
         => "Sets a variable";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<SetOptions>();
+
     internal class SetOptions
     {
         [Value(0, HelpText = "Variable name to set", Required = true)]

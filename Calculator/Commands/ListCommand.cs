@@ -21,6 +21,9 @@ internal sealed class ListCommand : ShellCommand
     public override string Synopsys
         => "Lists currently set variables";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
+
     public override void ExecuteInternal(Arguments args)
     {
         var response = Host.Mediator.Request<IEnumerable<KeyValuePair<string, Number>>, VariableListRequest>(new VariableListRequest());

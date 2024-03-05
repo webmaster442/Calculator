@@ -20,6 +20,9 @@ internal class BcdDecodeCommand : ShellCommand
 
     public override string Synopsys => "Decode a number from binary coded decimal to decimal";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<BcdDecodeOptions>();
+
     internal class BcdDecodeOptions
     {
         [Value(0, HelpText = "Number to decode", Required = true)]

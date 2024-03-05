@@ -46,6 +46,9 @@ internal sealed class TimeAddCommand : TimeCommand
     public override string Synopsys
         => "Add or subtract from a given date/time value";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<TimeAddOptions>();
+
     internal class TimeAddOptions
     {
         [Value(0, HelpText = "Date and time for the basis of calculation", Required = true)]

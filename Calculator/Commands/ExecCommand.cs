@@ -22,6 +22,9 @@ internal sealed class ExecCommand : ShellCommand
     public override string Synopsys
         => "Executes a file containing calculator commands";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<ExecOptions>();
+
     internal class ExecOptions
     {
         [Value(0, HelpText = "File name to execute", Required = true)]

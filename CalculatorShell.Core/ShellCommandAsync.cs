@@ -18,6 +18,8 @@ public abstract class ShellCommandAsync : IAsyncShellCommand
 
     public abstract string Synopsys { get; }
 
+    public abstract string HelpMessage { get; }
+
     public virtual IArgumentCompleter? ArgumentCompleter => null;
 
     public async Task Execute(Arguments args, CancellationToken cancellationToken)

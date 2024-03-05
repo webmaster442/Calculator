@@ -5,6 +5,8 @@
 
 using CalculatorShell.Core;
 
+using static Calculator.Commands.UnitConvertConmmand;
+
 namespace Calculator.Commands;
 
 internal class TimeCommand : ShellCommand
@@ -17,6 +19,9 @@ internal class TimeCommand : ShellCommand
 
     public override string Synopsys
         => "Display current Date & time";
+
+    public override string HelpMessage
+        => this.BuildHelpMessage<UnitConvertOptions>();
 
     public override void ExecuteInternal(Arguments args)
     {

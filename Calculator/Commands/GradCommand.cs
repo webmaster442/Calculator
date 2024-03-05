@@ -21,6 +21,9 @@ internal sealed class GradCommand : ShellCommand
     public override string Synopsys
         => "Changes the angle mode to gradians";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
+
     public override void ExecuteInternal(Arguments args)
         => Host.Mediator.Notify(new AngleSystemChange(AngleSystem.Grad));
 }

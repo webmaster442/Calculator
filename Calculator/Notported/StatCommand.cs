@@ -6,8 +6,8 @@
 using CalculatorShell.Core;
 using CalculatorShell.Engine.MathComponents.Stat;
 
-namespace Calculator.Commands;
-internal class StatCommand : ShellCommand
+namespace Calculator.Notported;
+/*internal class StatCommand : ShellCommand
 {
     public StatCommand(IHost host) : base(host)
     {
@@ -35,4 +35,4 @@ internal class StatCommand : ShellCommand
         var result = Statistics.Compute(numbers);
         Host.Output.Result(result.ToString());
     }
-}
+}*/

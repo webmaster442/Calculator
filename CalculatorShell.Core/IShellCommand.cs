@@ -11,4 +11,5 @@ public interface IShellCommand
     string Synopsys { get; }
     string[] Names { get; }
     IArgumentCompleter? ArgumentCompleter { get; }
+    string HelpMessage { get; }
 }

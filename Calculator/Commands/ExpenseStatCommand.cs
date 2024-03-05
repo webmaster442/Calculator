@@ -20,6 +20,9 @@ internal class ExpenseStatCommand : ShellCommand
     public override string Synopsys =>
         "Provides detailed statistics about the monthly expenses and incomes";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
+
     public override void ExecuteInternal(Arguments args)
     {
         var statTable = Host.Mediator.Request<TableData, ExpenseStatRequest>(new ExpenseStatRequest())

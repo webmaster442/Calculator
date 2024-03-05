@@ -5,6 +5,8 @@
 
 using CalculatorShell.Core;
 
+using static Calculator.Commands.ExpenseCommand;
+
 namespace Calculator.Commands;
 
 internal sealed class WinterminalRemove : ShellCommand
@@ -17,6 +19,9 @@ internal sealed class WinterminalRemove : ShellCommand
 
     public override string Synopsys
         => "Remove Calculator Shell profile from Windows terminal";
+
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
 
     public override void ExecuteInternal(Arguments args)
     {

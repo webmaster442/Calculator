@@ -38,6 +38,9 @@ internal sealed class WinterminalAdd : ShellCommand
     public override string Synopsys
         => "Install Calculator Shell profile to Windows terminal";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
+
     public override void ExecuteInternal(Arguments args)
     {
         try

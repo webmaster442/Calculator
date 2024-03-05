@@ -7,6 +7,8 @@ using Calculator.Messages;
 
 using CalculatorShell.Core;
 
+using static Calculator.Commands.ColorCommand;
+
 namespace Calculator.Commands;
 
 internal sealed class CommandsCommand : ShellCommand
@@ -19,6 +21,9 @@ internal sealed class CommandsCommand : ShellCommand
 
     public override string Synopsys
         => "Prints out the list of available commands";
+
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
 
     public override void ExecuteInternal(Arguments args)
     {

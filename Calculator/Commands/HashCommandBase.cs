@@ -55,6 +55,9 @@ internal abstract class HashCommandBase : ShellCommandAsync, IDisposable, IProgr
         }
     }
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<HashOptions>();
+
     public override async Task ExecuteInternal(Arguments args, CancellationToken cancellationToken)
     {
         HashCalculator hc = new(this);

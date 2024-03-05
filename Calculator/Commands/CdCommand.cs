@@ -10,6 +10,8 @@ using CalculatorShell.Core;
 
 using CommandLine;
 
+using static Calculator.Commands.BcdEncodeCommand;
+
 namespace Calculator.Commands;
 
 internal sealed class CdCommand : ShellCommandAsync
@@ -25,6 +27,9 @@ internal sealed class CdCommand : ShellCommandAsync
 
     public override IArgumentCompleter? ArgumentCompleter
         => new DirectoryNameCompleter(Host);
+
+    public override string HelpMessage
+        => this.BuildHelpMessage<CdOptions>();
 
     internal class CdOptions
     {

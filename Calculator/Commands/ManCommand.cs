@@ -21,6 +21,9 @@ internal class ManCommand : ShellCommand
     public override string Synopsys
         => "Opens the manual";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
+
     public override void ExecuteInternal(Arguments args)
     {
         Host.Dialogs.OpenServerDocument(ServerDocument.Manual);

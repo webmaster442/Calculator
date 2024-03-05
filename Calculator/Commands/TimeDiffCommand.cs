@@ -7,6 +7,8 @@ using CalculatorShell.Core;
 
 using CommandLine;
 
+using static Calculator.Commands.UnitConvertConmmand;
+
 namespace Calculator.Commands;
 
 internal sealed class TimeDiffCommand : TimeCommand
@@ -19,6 +21,9 @@ internal sealed class TimeDiffCommand : TimeCommand
 
     public override string Synopsys
         => "Calculates the difference between two Date/time values";
+
+    public override string HelpMessage
+        => this.BuildHelpMessage<TimeDiffOptions>();
 
     internal class TimeDiffOptions
     {

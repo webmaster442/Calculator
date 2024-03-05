@@ -7,6 +7,8 @@ using Calculator.Messages;
 
 using CalculatorShell.Core;
 
+using static Calculator.Commands.HashCommandBase;
+
 namespace Calculator.Commands;
 
 internal class ExpenseBallanceCommand : ShellCommand
@@ -19,6 +21,9 @@ internal class ExpenseBallanceCommand : ShellCommand
 
     public override string Synopsys =>
         "Gets the current month's ballance";
+
+    public override string HelpMessage
+        => this.BuildHelpMessage<OptionsBase>();
 
     public override void ExecuteInternal(Arguments args)
     {

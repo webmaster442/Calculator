@@ -24,6 +24,9 @@ internal sealed class NumConvertCommand : ShellCommand
     public override string Synopsys
         => "Converts between number systems";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<NumConvertOptions>();
+
     internal class NumConvertOptions
     {
         [Value(0, HelpText = "Number to convert", Required = true)]

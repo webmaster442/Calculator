@@ -33,6 +33,9 @@ internal class FileSizeCommand : ShellCommand
     public override string Synopsys
         => "Converts file sizes to human readable form";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<FileSizeOptions>();
+
     internal class FileSizeOptions
     {
         [Value(0, HelpText = "File size value", Required = true)]

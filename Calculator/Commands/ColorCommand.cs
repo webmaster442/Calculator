@@ -18,8 +18,11 @@ internal class ColorCommand : ShellCommand
 
     public override string[] Names => ["color"];
 
-    public override string Synopsys => "Converts between color formats";
+    public override string Synopsys
+        => "Converts between color formats";
 
+    public override string HelpMessage
+        => this.BuildHelpMessage<ColorOptions>();
 
     internal class ColorOptions
     {
