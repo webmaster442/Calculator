@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Text;
+
 using Calculator.AutoRun;
 using Calculator.Internal;
 using Calculator.Messages;
@@ -22,7 +24,8 @@ internal sealed class App :
     INotifyTarget<EnqueCommands>,
     INotifyTarget<SetOptions>,
     IRequestProvider<IEnumerable<string>, CommandList>,
-    IRequestProvider<Options, OptionsRequest>
+    IRequestProvider<Options, OptionsRequest>,
+    IRequestProvider<string, HelpRequestMessage>
 {
     private readonly IHost _host;
     private readonly CommandLoader _loader;
@@ -201,4 +204,30 @@ internal sealed class App :
 
     Options IRequestProvider<Options, OptionsRequest>.OnRequest(OptionsRequest message)
         => _options;
+
+    string IRequestProvider<string, HelpRequestMessage>.OnRequest(HelpRequestMessage message)
+    {
+        var cmd = _loader.Commands
+            .Where(x => string.Compare(x.Key, message.Command, true) == 0)
+            .Select(x => new
+        {
+            x.Value.Synopsys,
+            HelpMessage = x.Value.HelpMessage.TrimEnd()
+        }).FirstOrDefault();
+
+        if (cmd == null)
+            return $"No help was found for command: {message.Command}";
+
+        StringBuilder final = new();
+        final.AppendLine(cmd.Synopsys);
+        final.AppendLine();
+        final.Append(cmd.HelpMessage);
+
+        if (cmd.HelpMessage == ArgumentExtensions.ArgumentHeader)
+        {
+            final.AppendLine(" This command doesn't require any parameters");
+        }
+
+        return final.ToString();
+    }
 }

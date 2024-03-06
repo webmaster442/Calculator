@@ -9,8 +9,10 @@ using CommandLine.Text;
 
 namespace Calculator;
 
-internal static class Extensions
+internal static class ArgumentExtensions
 {
+    public const string ArgumentHeader = "Parameters & arguments:";
+
     public static string BuildHelpMessage<T>(this IShellCommand cmd)
     {
         using CommandLine.Parser p = new(settings =>
@@ -20,14 +22,15 @@ internal static class Extensions
             settings.GetoptMode = true;
         });
 
-        CommandLine.ParserResult<T> result = p.ParseArguments<T>(Enumerable.Empty<string>());
+        CommandLine.ParserResult<T> result = p.ParseArguments<T>(["--help"]);
         var help = HelpText.AutoBuild(result, options =>
         {
             options.AddEnumValuesToHelpText = true;
             options.AutoVersion = false;
             options.AddDashesToOption = true;
-            options.Heading = string.Empty;
+            options.Heading = ArgumentHeader;
             options.Copyright = string.Empty;
+            options.AutoHelp = false;
             return options;
         }, Console.WindowWidth);
 
@@ -50,8 +53,9 @@ internal static class Extensions
                 options.AddEnumValuesToHelpText = true;
                 options.AutoVersion = false;
                 options.AddDashesToOption = true;
-                options.Heading = string.Empty;
+                options.Heading = ArgumentHeader;
                 options.Copyright = string.Empty;
+                options.AutoHelp = false;
                 return options;
             }, Console.WindowWidth);
             var msg = help.ToString();
