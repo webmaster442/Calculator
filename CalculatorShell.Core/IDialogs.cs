@@ -9,6 +9,7 @@ public interface IDialogs
 {
     Task<string> SelectFile(CancellationToken cancellationToken);
     Task<string> SelectDirectory(CancellationToken cancellationToken);
-    Task<IReadOnlyList<SelectionListItem>> SelectionList(string title, IEnumerable<SelectionListItem> items, CancellationToken cancellationToken);
+    Task<SelectionListItem> SelectionList(string title, IEnumerable<SelectionListItem> items, CancellationToken cancellationToken);
+    Task<IReadOnlyList<SelectionListItem>> MultiSelectionList(string title, IEnumerable<SelectionListItem> items, CancellationToken cancellationToken);
     void OpenServerDocument(ServerDocument document);
 }

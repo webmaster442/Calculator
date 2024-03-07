@@ -68,7 +68,7 @@ internal class OptionsCommand : ShellCommandAsync
 
         var currentOptions = GetOptions(options);
 
-        var selected = await Host.Dialogs.SelectionList("Program options", currentOptions, cancellationToken);
+        var selected = await Host.Dialogs.MultiSelectionList("Program options", currentOptions, cancellationToken);
 
         var modified = CreateFromSelection(selected);
 

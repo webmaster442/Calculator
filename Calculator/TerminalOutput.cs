@@ -37,7 +37,9 @@ internal class TerminalOutput : ITerminalOutput
 
     public void Error(Exception ex)
     {
-        if (ex is ComandException or EngineException or CommandException)
+        if (ex is TaskCanceledException
+            or EngineException
+            or CommandException)
         {
             Error(ex.Message);
             return;

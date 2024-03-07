@@ -2,6 +2,7 @@
 
 namespace Calculator.Messages;
 
-internal class HistoryRequestMessage : PayloadBase
+internal class DeleteHistory : PayloadBase
 {
+
 }

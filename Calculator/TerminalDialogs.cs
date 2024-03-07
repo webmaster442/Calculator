@@ -198,7 +198,9 @@ internal sealed class TerminalDialogs : IDialogs, INotifyTarget<HttpServerPort>
     public Task<string> SelectDirectory(CancellationToken cancellationToken)
         => PathSelectPrompt(Environment.CurrentDirectory, isFileSelector: false, cancellationToken);
 
-    public async Task<IReadOnlyList<SelectionListItem>> SelectionList(string title, IEnumerable<SelectionListItem> items, CancellationToken cancellationToken)
+    public async Task<IReadOnlyList<SelectionListItem>> MultiSelectionList(string title,
+                                                                           IEnumerable<SelectionListItem> items,
+                                                                           CancellationToken cancellationToken)
     {
         var selector = new MultiSelectionPrompt<SelectionListItem>()
             .UseConverter(item => item.Description)
@@ -215,6 +217,19 @@ internal sealed class TerminalDialogs : IDialogs, INotifyTarget<HttpServerPort>
                 }
             });
         }
+
+        return await selector.ShowAsync(AnsiConsole.Console, cancellationToken);
+    }
+
+    public async Task<SelectionListItem> SelectionList(string title,
+                                                       IEnumerable<SelectionListItem> items,
+                                                       CancellationToken cancellationToken)
+    {
+        var selector = new SelectionPrompt<SelectionListItem>()
+            .UseConverter(item => item.Description)
+            .Title(title);
+
+        selector.AddChoices(items);
 
         return await selector.ShowAsync(AnsiConsole.Console, cancellationToken);
     }

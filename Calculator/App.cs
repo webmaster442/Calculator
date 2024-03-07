@@ -28,15 +28,18 @@ internal sealed class App :
     IRequestProvider<string, HelpRequestMessage>
 {
     private readonly IHost _host;
-    private readonly CommandLoader _loader;
-    private readonly Expenses _expenses;
-    private readonly HashSet<string> _exitCommands;
     private readonly ITerminalInput _input;
-    private readonly TimeProvider _timeProvider;
     private readonly ICurrentDirectoryProvider _currentDirectoryProvider;
-    private CancellationTokenSource? _currentTokenSource;
-    private readonly HttpServer _server;
+    private readonly TimeProvider _timeProvider;
 
+    private readonly CommandLoader _loader;
+    private readonly HashSet<string> _exitCommands;
+
+    private readonly Expenses _expenses;
+    private readonly HttpServer _server;
+    private readonly History _history;
+
+    private CancellationTokenSource? _currentTokenSource;
     private AngleSystem _angleSystem;
     private Queue<string> _commandQue;
     private Options _options;
@@ -59,6 +62,7 @@ internal sealed class App :
         _currentDirectoryProvider = currentDirectoryProvider;
         uiDataSetter.SetCommandData(_loader.CommandHelps, _loader.CompletableCommands, _exitCommands);
         _server = new HttpServer(_host.Log);
+        _history = new History(_host.Mediator);
     }
 
     public async Task Run(bool singleRun = false)
@@ -66,6 +70,7 @@ internal sealed class App :
         bool run = true;
 
         _expenses.RegisterToMediator();
+        _history.RegisterToMediator();
         ExecuteAutoRuns(singleRun);
         _input.Prompt = CreatePrompt();
 
@@ -103,6 +108,7 @@ internal sealed class App :
                         Console.CancelKeyPress -= OnCancelKeyPress;
                     _currentTokenSource?.Cancel();
                     _currentTokenSource = null;
+                    _host.Mediator.Notify(new AddHistory($"{cmdAndArgs.cmd} {cmdAndArgs.Arguments.Text}"));
                 }
             }
             else if (cmdAndArgs.cmd.Length > 0)

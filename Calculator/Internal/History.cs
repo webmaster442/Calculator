@@ -5,10 +5,11 @@ using CalculatorShell.Core.Mediator;
 namespace Calculator.Internal;
 internal class History
     : IRequestProvider<IEnumerable<string>, HistoryRequestMessage>,
-      INotifyTarget<AddHistory>
+      INotifyTarget<AddHistory>, 
+      INotifyTarget<DeleteHistory>
 {
     private readonly IMediator _mediator;
-    private readonly List<(string cmdline, bool success)> _history;
+    private readonly List<string> _history;
 
     public History(IMediator mediator)
     {
@@ -23,16 +24,16 @@ internal class History
 
     void INotifyTarget<AddHistory>.OnNotify(AddHistory message)
     {
-        _history.Add((message.CommandLine, message.Success));
+        _history.Add(message.CommandLine);
+    }
+
+    void INotifyTarget<DeleteHistory>.OnNotify(DeleteHistory message)
+    {
+        _history.Clear();
     }
 
     IEnumerable<string> IRequestProvider<IEnumerable<string>, HistoryRequestMessage>.OnRequest(HistoryRequestMessage message)
     {
-        if (message.Kind == HistoryRequestMessage.HistoryKind.All)
-            return _history.Select(x => x.cmdline);
-
-        return _history
-            .Where(x => x.success)
-            .Select(x => x.cmdline);
+        return _history;
     }
 }

@@ -5,11 +5,9 @@ namespace Calculator.Messages;
 internal class AddHistory : PayloadBase
 {
     public string CommandLine { get; }
-    public bool Success { get; }
 
-    public AddHistory(string commandLine, bool success)
+    public AddHistory(string commandLine)
     {
         CommandLine = commandLine;
-        Success = success;
     }
 }
