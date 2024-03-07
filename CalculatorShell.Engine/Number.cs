@@ -55,28 +55,6 @@ public class Number :
     public static Number FromInteger(long n)
         => new Number((Int128)n);
 
-    internal Number(JsonNumber number)
-    {
-        NumberType = Enum.Parse<NumberType>(number.Type);
-        switch (NumberType)
-        {
-            case NumberType.Complex:
-                _complex = Complex.Parse(number.Value, CultureInfo.InvariantCulture);
-                break;
-            case NumberType.Fraction:
-                _fraction = Fraction.Parse(number.Value, CultureInfo.InvariantCulture);
-                break;
-            case NumberType.Double:
-                _double = Double.Parse(number.Value, CultureInfo.InvariantCulture);
-                break;
-            case NumberType.Integer:
-                _int128 = Int128.Parse(number.Value, CultureInfo.InvariantCulture);
-                break;
-            default:
-                throw new UnreachableException();
-        }
-    }
-
     public Complex ToComplex()
     {
         return NumberType switch
@@ -331,27 +309,6 @@ public class Number :
     private string ComplexToString(CultureInfo culture)
     {
         return $"real: {_complex.Real.ToString(culture)} imaginary: {_complex.Imaginary.ToString(culture)}";
-    }
-
-    internal JsonNumber ToJsonNumber()
-    {
-        string GetRawString()
-        {
-            return NumberType switch
-            {
-                NumberType.Complex => _complex.ToString(CultureInfo.InvariantCulture),
-                NumberType.Fraction => _fraction.ToString(CultureInfo.InvariantCulture),
-                NumberType.Double => _double.ToString(CultureInfo.InvariantCulture),
-                NumberType.Integer => _int128.ToString(CultureInfo.InvariantCulture),
-                _ => throw new UnreachableException(),
-            };
-        }
-
-        return new JsonNumber
-        {
-            Type = NumberType.ToString(),
-            Value = GetRawString(),
-        };
     }
 
     public override bool Equals(object? obj)

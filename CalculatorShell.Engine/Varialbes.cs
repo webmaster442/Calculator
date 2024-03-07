@@ -71,32 +71,6 @@ public class Varialbes : IVariables
     public bool IsConstant(string name)
         => _constants.Keys.Contains(name);
 
-    public void LoadFromJson(string json)
-    {
-        var data = JsonSerializer.Deserialize<Dictionary<string, JsonNumber>>(json);
-        if (data != null)
-        {
-            _variables.Clear();
-            foreach (var item in data)
-            {
-                if (IsConstant(item.Key))
-                    continue;
-
-                _variables.Add(item.Key, new Number(item.Value));
-            }
-        }
-    }
-
-    public string SaveToJson()
-    {
-        Dictionary<string, JsonNumber> result = new();
-        foreach (var item in _variables)
-        {
-            result.Add(item.Key, item.Value.ToJsonNumber());
-        }
-        return JsonSerializer.Serialize(result);
-    }
-
     public void Set(string name, Number value)
     {
         if (IsConstant(name))
