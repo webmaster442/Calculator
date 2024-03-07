@@ -57,8 +57,8 @@ internal class TerminalOutput : ITerminalOutput
     public void List(string header, IEnumerable<string> data)
     {
         AnsiConsole.MarkupLine($"[green]{header.EscapeMarkup()}[/]");
-        var columns = new Columns(data);
-        AnsiConsole.Write(columns);
+        var str = string.Join(' ', data);
+        AnsiConsole.WriteLine(str);
     }
 
     public void BlankLine()

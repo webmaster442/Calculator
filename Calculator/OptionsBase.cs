@@ -5,6 +5,6 @@
 
 namespace Calculator;
 
-internal class OptionsBase
+internal sealed class OptionsBase
 {
 }
