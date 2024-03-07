@@ -43,12 +43,16 @@ internal class EvalCommand : ShellCommandAsync,
             ?? throw new InvalidOperationException("Couldn't get options");
 
         EngineResult result = await _engine.ExecuteAsync(args.Text, cancellationToken);
-        result.When(number => Host.Output.Result(NumberFomatter.ToString(number, Host.CultureInfo, options.GroupThousands)),
-                    exception =>
-                    {
-                        Host.Log.Exception(exception);
-                        Host.Output.Error(exception);
-                    });
+        result.When(number =>
+        {
+            Host.Output.Result(NumberFomatter.ToString(number, Host.CultureInfo, options.GroupThousands));
+            _engine.Variables.Set("ans", number);
+        },
+        exception =>
+        {
+            Host.Log.Exception(exception);
+            Host.Output.Error(exception);
+        });
     }
 
     void INotifyTarget<AngleSystemChange>.OnNotify(AngleSystemChange message)
@@ -61,6 +65,9 @@ internal class EvalCommand : ShellCommandAsync,
         {
             try
             {
+                if (message.VariableName == "ans")
+                    throw new CommandException("ans can't be written directly");
+
                 _varialbes.Set(message.VariableName, number);
             }
             catch (Exception ex)
