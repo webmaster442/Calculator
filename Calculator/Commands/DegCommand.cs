@@ -18,6 +18,9 @@ internal sealed class DegCommand : ShellCommand
 
     public override string[] Names => ["deg"];
 
+    public override string Category
+        => CommandCategories.Calculation;
+
     public override string Synopsys
         => "Changes the angle mode to degrees";
 

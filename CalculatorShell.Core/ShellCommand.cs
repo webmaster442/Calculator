@@ -16,6 +16,8 @@ public abstract class ShellCommand : ISyncShellCommand
 
     public abstract string[] Names { get; }
 
+    public abstract string Category { get; }
+
     public abstract string Synopsys { get; }
 
     public virtual IArgumentCompleter? ArgumentCompleter => null;

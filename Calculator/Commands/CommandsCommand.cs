@@ -17,6 +17,9 @@ internal sealed class CommandsCommand : ShellCommand
 
     public override string[] Names => ["commands", "cmds"];
 
+    public override string Category
+        => CommandCategories.Program;
+
     public override string Synopsys
         => "Prints out the list of available commands";
 

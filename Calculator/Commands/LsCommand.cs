@@ -16,6 +16,9 @@ internal class LsCommand : ShellCommand
 
     public override string[] Names => ["ls"];
 
+    public override string Category
+        => CommandCategories.FileManagement;
+
     public override string Synopsys
         => "List files and directories in current directory";
 

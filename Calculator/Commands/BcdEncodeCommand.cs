@@ -18,6 +18,9 @@ internal class BcdEncodeCommand : ShellCommand
 
     public override string[] Names => ["bcdencode"];
 
+    public override string Category
+        => CommandCategories.Conversions;
+
     public override string Synopsys => "Encode a number to binary coded decimal";
 
     public override string HelpMessage

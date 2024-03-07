@@ -17,6 +17,10 @@ internal class HistoryCommand : ShellCommandAsync
     public override string Synopsys 
         => "Acces command history";
 
+
+    public override string Category
+        => CommandCategories.Program;
+
     public override string HelpMessage
         => this.BuildHelpMessage<HistoryOptions>();
 

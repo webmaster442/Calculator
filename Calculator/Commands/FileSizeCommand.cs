@@ -28,7 +28,10 @@ internal class FileSizeCommand : ShellCommand
         => new DelegatedCompleter(ProvideAutoCompleteItems);
 
     public override string[] Names
-        => ["filesize"];
+        => ["filesize-convert"];
+
+    public override string Category
+        => CommandCategories.Conversions;
 
     public override string Synopsys
         => "Converts file sizes to human readable form";

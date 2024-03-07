@@ -19,6 +19,9 @@ internal class ManCommand : ShellCommand
     public override string Synopsys
         => "Opens the manual";
 
+    public override string Category
+        => CommandCategories.Program;
+
     public override string HelpMessage
         => this.BuildHelpMessage<OptionsBase>();
 

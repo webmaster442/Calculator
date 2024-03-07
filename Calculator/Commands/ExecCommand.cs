@@ -19,6 +19,10 @@ internal sealed class ExecCommand : ShellCommand
 
     public override string[] Names => ["exec"];
 
+
+    public override string Category
+        => CommandCategories.Program;
+
     public override string Synopsys
         => "Executes a file containing calculator commands";
 

@@ -21,6 +21,9 @@ internal sealed class NumConvertCommand : ShellCommand
 
     public override string[] Names => ["num-convert"];
 
+    public override string Category
+        => CommandCategories.Conversions;
+
     public override string Synopsys
         => "Converts between number systems";
 

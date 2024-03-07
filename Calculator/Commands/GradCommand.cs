@@ -18,6 +18,10 @@ internal sealed class GradCommand : ShellCommand
 
     public override string[] Names => ["grad"];
 
+
+    public override string Category
+        => CommandCategories.Calculation;
+
     public override string Synopsys
         => "Changes the angle mode to gradians";
 

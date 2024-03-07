@@ -17,6 +17,9 @@ internal class IncomeCommand : ExpenseCommand
 
     public override string[] Names => ["income"];
 
+    public override string Category
+        => CommandCategories.Expesnes;
+
     public override string Synopsys
         => "Add an income to the expenses";
 

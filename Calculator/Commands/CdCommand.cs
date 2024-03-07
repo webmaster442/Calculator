@@ -23,6 +23,9 @@ internal sealed class CdCommand : ShellCommandAsync
     public override string Synopsys
         => "Changes the current working directory";
 
+    public override string Category
+        => CommandCategories.FileManagement;
+
     public override IArgumentCompleter? ArgumentCompleter
         => new DirectoryNameCompleter(Host);
 

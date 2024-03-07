@@ -31,6 +31,9 @@ internal class EvalCommand : ShellCommandAsync,
 
     public override string[] Names => ["$", "eval"];
 
+    public override string Category
+        => CommandCategories.Calculation;
+
     public override string Synopsys
         => "Evaluate an expression and writes out the result";
 

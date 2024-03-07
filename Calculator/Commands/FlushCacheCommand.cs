@@ -15,6 +15,9 @@ internal sealed class FlushCacheCommand : ShellCommand
 
     public override string[] Names => ["flushcache"];
 
+    public override string Category
+        => CommandCategories.Program;
+
     public override string Synopsys
         => "Invalidates & deletes cached web service results";
 

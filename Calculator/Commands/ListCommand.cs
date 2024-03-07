@@ -21,6 +21,9 @@ internal sealed class ListCommand : ShellCommand
     public override string Synopsys
         => "Lists currently set variables";
 
+    public override string Category
+        => CommandCategories.Calculation;
+
     public override string HelpMessage
         => this.BuildHelpMessage<OptionsBase>();
 

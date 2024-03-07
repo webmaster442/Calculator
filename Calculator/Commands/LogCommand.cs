@@ -15,6 +15,9 @@ internal class LogCommand : ShellCommand
 
     public override string[] Names => ["log"];
 
+    public override string Category
+        => CommandCategories.Program;
+
     public override string Synopsys =>
         "Display log entries";
 

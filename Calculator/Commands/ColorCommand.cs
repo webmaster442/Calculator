@@ -18,6 +18,9 @@ internal class ColorCommand : ShellCommand
 
     public override string[] Names => ["color"];
 
+    public override string Category
+        => CommandCategories.Conversions;
+
     public override string Synopsys
         => "Converts between color formats";
 

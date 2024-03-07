@@ -17,6 +17,9 @@ internal class ExpenseBallanceCommand : ShellCommand
 
     public override string[] Names => ["expense-ballance"];
 
+    public override string Category
+        => CommandCategories.Expesnes;
+
     public override string Synopsys =>
         "Gets the current month's ballance";
 

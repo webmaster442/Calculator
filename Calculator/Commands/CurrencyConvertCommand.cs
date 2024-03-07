@@ -58,6 +58,9 @@ internal sealed class CurrencyConvertCommand : ShellCommandAsync
 
     public override string[] Names => ["currency-convert"];
 
+    public override string Category
+        => CommandCategories.Conversions;
+
     public override string Synopsys
         => "Converts between currency exchange rates";
 

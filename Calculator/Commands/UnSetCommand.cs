@@ -22,6 +22,10 @@ internal sealed class UnSetCommand : ShellCommand
     public override string Synopsys
         => "Unset a variable";
 
+
+    public override string Category
+        => CommandCategories.Calculation;
+
     public override string HelpMessage
         => this.BuildHelpMessage<UnSetOptions>();
 

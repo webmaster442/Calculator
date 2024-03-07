@@ -16,6 +16,9 @@ internal class HelpCommand : ShellCommand
     public override string Synopsys
         => "Provides help information for a given command";
 
+    public override string Category
+        => CommandCategories.Program;
+
     public override string HelpMessage
         => this.BuildHelpMessage<HelpOptions>();
 

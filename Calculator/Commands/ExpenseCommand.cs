@@ -20,6 +20,9 @@ internal class ExpenseCommand : ShellCommand
 
     public override string[] Names => ["expense"];
 
+    public override string Category
+        => CommandCategories.Expesnes;
+
     public override string Synopsys
         => "Add an expense to the expenses";
 

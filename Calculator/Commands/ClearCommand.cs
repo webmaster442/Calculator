@@ -18,6 +18,9 @@ internal sealed class ClearCommand : ShellCommand
     public override string Synopsys
         => "Clears the terminal output";
 
+    public override string Category
+        => CommandCategories.Program;
+
     public override string HelpMessage
         => this.BuildHelpMessage<OptionsBase>();
 

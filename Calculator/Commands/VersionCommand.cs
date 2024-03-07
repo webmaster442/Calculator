@@ -17,6 +17,9 @@ internal class VersionCommand : ShellCommand
 
     public override string[] Names => ["version"];
 
+    public override string Category
+        => CommandCategories.Program;
+
     public override string Synopsys
         => "prints out current program version";
 

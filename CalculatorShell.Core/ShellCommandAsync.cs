@@ -15,7 +15,7 @@ public abstract class ShellCommandAsync : IAsyncShellCommand
     public IHost Host { get; }
 
     public abstract string[] Names { get; }
-
+    public abstract string Category { get; }
     public abstract string Synopsys { get; }
 
     public abstract string HelpMessage { get; }

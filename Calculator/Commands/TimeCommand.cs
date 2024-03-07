@@ -20,6 +20,9 @@ internal class TimeCommand : ShellCommand
     public override string Synopsys
         => "Display current Date & time";
 
+    public override string Category
+        => CommandCategories.Time;
+
     public override string HelpMessage
         => this.BuildHelpMessage<UnitConvertOptions>();
 

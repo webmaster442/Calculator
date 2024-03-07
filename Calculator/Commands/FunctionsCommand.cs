@@ -17,6 +17,10 @@ internal sealed class FunctionsCommand : ShellCommand
 
     public override string[] Names => ["functions"];
 
+
+    public override string Category
+        => CommandCategories.Program;
+
     public override string Synopsys
         => "Prints out the list of available functions in eval mode";
 

@@ -20,6 +20,10 @@ internal sealed class RadCommand : ShellCommand
     public override string Synopsys
         => "Changes the angle mode to radians";
 
+
+    public override string Category
+        => CommandCategories.Calculation;
+
     public override string HelpMessage
         => this.BuildHelpMessage<OptionsBase>();
 

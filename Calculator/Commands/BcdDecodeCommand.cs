@@ -18,7 +18,11 @@ internal class BcdDecodeCommand : ShellCommand
 
     public override string[] Names => ["bcddecode"];
 
-    public override string Synopsys => "Decode a number from binary coded decimal to decimal";
+    public override string Category
+        => CommandCategories.Conversions;
+
+    public override string Synopsys 
+        => "Decode a number from binary coded decimal to decimal";
 
     public override string HelpMessage
         => this.BuildHelpMessage<BcdDecodeOptions>();

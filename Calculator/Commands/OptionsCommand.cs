@@ -27,6 +27,9 @@ internal class OptionsCommand : ShellCommandAsync
     public override string HelpMessage
         => this.BuildHelpMessage<OptionsBase>();
 
+    public override string Category 
+        => CommandCategories.Program;
+
     private static SelectionListItem[] GetOptions(Options instance)
     {
         return typeof(Options)

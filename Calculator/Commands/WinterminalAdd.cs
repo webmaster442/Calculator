@@ -36,6 +36,9 @@ internal sealed class WinterminalAdd : ShellCommand
 
     public override string[] Names => ["winterminal-add"];
 
+    public override string Category
+        => CommandCategories.WinTerminal;
+
     public override string Synopsys
         => "Install Calculator Shell profile to Windows terminal";
 

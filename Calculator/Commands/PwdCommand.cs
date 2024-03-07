@@ -15,6 +15,9 @@ internal sealed class PwdCommand : ShellCommand
 
     public override string[] Names => ["pwd"];
 
+    public override string Category
+        => CommandCategories.FileManagement;
+
     public override string Synopsys
         => "Returns the current working directory";
 
