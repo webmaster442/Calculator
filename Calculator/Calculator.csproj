@@ -18,6 +18,10 @@
   <ItemGroup>
     <None Remove="Resources\LogHtml.html" />
     <None Remove="Resources\Manual.html" />
+    <None Remove="Resources\Manual\man-colors.md" />
+    <None Remove="Resources\Manual\man-constants.md" />
+    <None Remove="Resources\Manual\man-functionnames.md" />
+    <None Remove="Resources\Manual\man-numberformats.md" />
     <None Remove="Resources\script.js" />
     <None Remove="Resources\style.css" />
     <None Remove="Resources\Template.html" />
@@ -33,6 +37,18 @@
   <ItemGroup>
     <EmbeddedResource Include="Calculator.ico" />
     <EmbeddedResource Include="Resources\LogHtml.html" />
+    <EmbeddedResource Include="Resources\Manual\man-colors.md">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Manual\man-constants.md">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Manual\man-functionnames.md">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Manual\man-numberformats.md">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\script.js" />
     <EmbeddedResource Include="Resources\style.css" />
     <EmbeddedResource Include="Resources\Manual.html" />

@@ -96,6 +96,7 @@ button {
 }
 
 .nav li {
+    background-color: #f1f1f1;
     float: left;
     display: block;
     transition-duration: 0.5s;

@@ -26,7 +26,7 @@ internal sealed class App :
     INotifyTarget<SetCurrentDir>,
     INotifyTarget<EnqueCommands>,
     INotifyTarget<SetOptions>,
-    IRequestProvider<IEnumerable<IGrouping<string, (string, string[])>>, CommandList>,
+    IRequestProvider<IDictionary<string, HashSet<string>>, CommandList>,
     IRequestProvider<Options, OptionsRequest>,
     IRequestProvider<string, HelpRequestMessage>
 {
@@ -208,13 +208,29 @@ internal sealed class App :
     void INotifyTarget<SetOptions>.OnNotify(SetOptions message)
         => _options = message.Options;
 
-    IEnumerable<IGrouping<string, (string, string[])>> IRequestProvider<IEnumerable<IGrouping<string, (string, string[])>>, CommandList>.OnRequest(CommandList message)
+    IDictionary<string, HashSet<string>> IRequestProvider<IDictionary<string, HashSet<string>>, CommandList>.OnRequest(CommandList message)
     {
-        return _loader.Commands.Select(x => (x.Value.Category, x.Value.Names))
-            .Concat(new (string, string[])[] { (CommandCategories.Program, _exitCommands.ToArray()) })
-            .GroupBy(x => x.Item1);
-    }
+        Dictionary<string, HashSet<string>> items = new();
 
+        foreach (var command in _loader.Commands)
+        {
+            if (!items.ContainsKey(command.Value.Category))
+            {
+                items.Add(command.Value.Category, command.Value.Names.ToHashSet());
+            }
+            else
+            {
+                foreach (var name in command.Value.Names)
+                {
+                    items[command.Value.Category].Add(name);
+                }
+            }
+        }
+        foreach (var exitcommand in _exitCommands)
+            items[CommandCategories.Program].Add(exitcommand);
+
+        return items;
+    }
 
     Options IRequestProvider<Options, OptionsRequest>.OnRequest(OptionsRequest message)
         => _options;

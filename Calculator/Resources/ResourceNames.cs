@@ -15,4 +15,9 @@ internal static class ResourceNames
     public const string Icon = "Calculator.Calculator.ico";
     public const string StyleCss = "Calculator.Resources.style.css";
     public const string ScriptJs = "Calculator.Resources.script.js";
+
+    public const string ManColors = "Calculator.Resources.Manual.man-colors.md";
+    public const string ManConstants = "Calculator.Resources.Manual.man-constants.md";
+    public const string ManFunctions = "Calculator.Resources.Manual.man-functionnames.md";
+    public const string ManNumberformats = "Calculator.Resources.Manual.man-numberformats.md";
 }

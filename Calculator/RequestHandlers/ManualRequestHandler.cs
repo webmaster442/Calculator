@@ -18,33 +18,42 @@ namespace Calculator.RequestHandlers;
 
 internal sealed class ManualRequestHandler : IRequestHandler
 {
-    private readonly HashSet<string> _urls;
+    private readonly Dictionary<string, string> _urls;
     private readonly string _menu;
+    private readonly IHost _host;
+    private readonly Dictionary<string, string> _statics;
 
     public ManualRequestHandler(IHost host)
     {
-        var commands = host.Mediator
-            .Request<IEnumerable<IGrouping<string, (string, string[])>>, CommandList>(new CommandList())
-            ?? throw new CommandException("There are no available commands");
-        
-        _urls = commands
+        var commandsByCategory = host.Mediator
+            .Request<IDictionary<string, HashSet<string>>, CommandList>(new CommandList())
+            ?? throw new InvalidOperationException("There are no available commands");
+
+        _urls = commandsByCategory.Values
             .SelectMany(x => x)
-            .SelectMany(x => x.Item2)
-            .Select(x => $"/man-{x}.html")
-            .ToHashSet();
+            .ToDictionary(x => $"/man-{x}.html", x => x);
 
-        _urls.Add("/manual.html");
+        _urls.Add("/manual.html", string.Empty);
 
-        _menu = GenerateCommandMenu(commands);
+        _menu = GenerateCommandMenu(commandsByCategory);
+        _host = host;
+
+        _statics = new Dictionary<string, string>
+        {
+            { "/man-colors.html", Helpers.GetResourceString(ResourceNames.ManColors).MakdownToHtml() },
+            { "/man-constants.html", Helpers.GetResourceString(ResourceNames.ManConstants).MakdownToHtml() },
+            { "/man-functionnames.html", Helpers.GetResourceString(ResourceNames.ManFunctions).MakdownToHtml() },
+            { "/man-numberformats.html", Helpers.GetResourceString(ResourceNames.ManNumberformats).MakdownToHtml() },
+        };
     }
 
-    private static string GenerateCommandMenu(IEnumerable<IGrouping<string, (string, string[])>> commands)
+    private static string GenerateCommandMenu(IDictionary<string, HashSet<string>> commandsByCategory)
     {
         StringBuilder sb = new StringBuilder();
-        foreach (var group in commands)
+        foreach (var category in commandsByCategory)
         {
-            var categoryName = group.Key;
-            var commandNames = group.SelectMany(g => g.Item2);
+            var categoryName = category.Key;
+            var commandNames = category.Value;
             sb.AppendLine($"<li><a href=\"#\">{categoryName}</a>");
             sb.AppendLine("  <ul>");
             foreach (var command in commandNames)
@@ -57,20 +66,61 @@ internal sealed class ManualRequestHandler : IRequestHandler
         return sb.ToString();
     }
 
+    private string RenderHelp(string commandName)
+    {
+        string hlp = _host.Mediator.Request<string, HelpRequestMessage>(new HelpRequestMessage(commandName))
+            ?? throw new InvalidOperationException("There is no available help");
+
+        return $"""
+                <h1 class=\"title\">{commandName}</h1>
+                {hlp.MakdownToHtml()}
+                """;
+    }
+
     public bool HandleRequest(HttpListenerContext context)
     {
-        var url = _urls.FirstOrDefault(url => context.IsMatch("GET", url));
-        if (string.IsNullOrEmpty(url))
+        //entry => { url, command name }
+        var entry = _urls.FirstOrDefault(entry => context.IsMatch("GET", entry.Key));
+
+        if (string.IsNullOrEmpty(entry.Key))
+        {
+            var staticFile = _statics.FirstOrDefault(entry => context.IsMatch("GET", entry.Key));
+            if (!string.IsNullOrEmpty(staticFile.Key))
+            {
+                return RenderStaticFile(context, staticFile);
+            }
             return false;
+        }
 
         string title = "Manual";
+
+        if (!string.IsNullOrEmpty(entry.Value))
+        {
+            title = $"Manual - {entry.Value}";
+        }
 
         var tempate = new Template(Helpers.GetResourceString(ResourceNames.ManualHtml));
         tempate.ApplyTag("menu", _menu);
         tempate.ApplyTag(Template.Title, title);
 
+        if (!string.IsNullOrEmpty(entry.Value))
+        {
+            tempate.ApplyTag(Template.Content, RenderHelp(entry.Value));
+        }
+
 
         context.Transfer(tempate.Render(), MediaTypeNames.Text.Html, HttpStatusCode.OK);
         return true;
+    }
+
+    private bool RenderStaticFile(HttpListenerContext context, KeyValuePair<string, string> staticFile)
+    {
+        var tempate = new Template(Helpers.GetResourceString(ResourceNames.ManualHtml));
+        tempate.ApplyTag("menu", _menu);
+        tempate.ApplyTag(Template.Title, staticFile.Key);
+        tempate.ApplyTag(Template.Content, staticFile.Value);
+        context.Transfer(tempate.Render(), MediaTypeNames.Text.Html, HttpStatusCode.OK);
+        return true;
+
     }
 }
