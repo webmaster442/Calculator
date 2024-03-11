@@ -154,7 +154,6 @@ internal static class QuineMcclusky
 
     public static string GetSimplified(IEnumerable<int> care, string[] variables)
     {
-
         List<Implicant> implicants = new();
         List<int> all = care.Order().Distinct().ToList();
 

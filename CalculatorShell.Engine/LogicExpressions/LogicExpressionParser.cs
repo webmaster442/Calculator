@@ -58,6 +58,12 @@ internal class LogicExpressionParser
 
     public ILogicExpression Parse(int variableCount, IReadOnlyList<int> minterms)
     {
+        if (variableCount < 2 || variableCount > 26)
+            throw new EngineException("Variable count must be between 2 and 26");
+
+        if (minterms.Count == 0)
+            throw new EngineException("No minterms were specified");
+
         return Parse(QuineMcclusky.GetSimplified(minterms, _variables.Take(variableCount).ToArray()));
     }
 
