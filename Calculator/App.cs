@@ -3,10 +3,10 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Linq;
 using System.Text;
 
 using Calculator.AutoRun;
+using Calculator.Configuration;
 using Calculator.Internal;
 using Calculator.Messages;
 using Calculator.Web.Server;
@@ -14,8 +14,6 @@ using Calculator.Web.Server;
 using CalculatorShell.Core;
 using CalculatorShell.Core.Mediator;
 using CalculatorShell.Engine;
-
-using CommandLine;
 
 using PrettyPrompt.Highlighting;
 
@@ -25,13 +23,14 @@ internal sealed class App :
     INotifyTarget<AngleSystemChange>,
     INotifyTarget<SetCurrentDir>,
     INotifyTarget<EnqueCommands>,
-    INotifyTarget<SetOptions>,
+    INotifyTarget<SetConfig>,
     IRequestProvider<IDictionary<string, HashSet<string>>, CommandList>,
-    IRequestProvider<Options, OptionsRequest>,
+    IRequestProvider<Config, ConfigRequest>,
     IRequestProvider<string, HelpRequestMessage>
 {
     private readonly IHost _host;
     private readonly ITerminalInput _input;
+    private readonly IWritableHost _writableHost;
     private readonly ICurrentDirectoryProvider _currentDirectoryProvider;
     private readonly TimeProvider _timeProvider;
 
@@ -45,15 +44,15 @@ internal sealed class App :
     private CancellationTokenSource? _currentTokenSource;
     private AngleSystem _angleSystem;
     private Queue<string> _commandQue;
-    private Options _options;
+    private Config _config;
 
     public App(IHost host,
                ITerminalInput input,
-               IHelpDataSetter uiDataSetter,
+               IWritableHost writableHost,
                TimeProvider timeProvider,
                ICurrentDirectoryProvider currentDirectoryProvider)
     {
-        _options = new Options();
+        _config = new Config();
         _commandQue = new Queue<string>();
         _host = host;
         _loader = new(typeof(App), _host);
@@ -61,9 +60,10 @@ internal sealed class App :
         _exitCommands = ["exit", "quit"];
         _host.Mediator.Register(this);
         _input = input;
+        _writableHost = writableHost;
         _timeProvider = timeProvider;
         _currentDirectoryProvider = currentDirectoryProvider;
-        uiDataSetter.SetCommandData(_loader.CommandHelps, _loader.CompletableCommands, _exitCommands);
+        writableHost.SetCommandData(_loader.CommandHelps, _loader.CompletableCommands, _exitCommands);
         _server = new HttpServer(_host.Log);
         _history = new History(_host.Mediator);
     }
@@ -167,7 +167,7 @@ internal sealed class App :
                 continue;
 
             _host.Log.Info($"{cmd.LogMessage}");
-            cmd.Execute(_host);
+            cmd.Execute(_host, _writableHost);
         }
     }
 
@@ -205,8 +205,8 @@ internal sealed class App :
     void INotifyTarget<EnqueCommands>.OnNotify(EnqueCommands message)
         => _commandQue = new Queue<string>(message.Commands);
 
-    void INotifyTarget<SetOptions>.OnNotify(SetOptions message)
-        => _options = message.Options;
+    void INotifyTarget<SetConfig>.OnNotify(SetConfig message)
+        => _config = message.Config;
 
     IDictionary<string, HashSet<string>> IRequestProvider<IDictionary<string, HashSet<string>>, CommandList>.OnRequest(CommandList message)
     {
@@ -232,8 +232,8 @@ internal sealed class App :
         return items;
     }
 
-    Options IRequestProvider<Options, OptionsRequest>.OnRequest(OptionsRequest message)
-        => _options;
+    Config IRequestProvider<Config, ConfigRequest>.OnRequest(ConfigRequest message)
+        => _config;
 
     string IRequestProvider<string, HelpRequestMessage>.OnRequest(HelpRequestMessage message)
     {

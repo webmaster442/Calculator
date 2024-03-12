@@ -9,5 +9,5 @@ public interface IAutoExec
 {
     string LogMessage { get; }
     int Priority { get; }
-    void Execute(IHost host);
+    void Execute(IHost host, IWritableHost writableHost);
 }

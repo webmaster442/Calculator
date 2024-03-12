@@ -3,18 +3,18 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using Calculator.Internal;
+using Calculator.Configuration;
 
 using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
 
-internal class SetOptions : PayloadBase
+internal class SetConfig : PayloadBase
 {
-    public SetOptions(Options options)
+    public SetConfig(Config config)
     {
-        Options = options;
+        Config = config;
     }
 
-    public Options Options { get; }
+    public Config Config { get; }
 }

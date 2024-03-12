@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Calculator.Configuration;
 using Calculator.Internal;
 using Calculator.Messages;
 
@@ -19,13 +20,13 @@ internal abstract class BaseCompleter : IArgumentCompleter
 
     protected IHost Host { get; }
 
-    protected Options Options
-        => Host.Mediator.Request<Options, OptionsRequest>(new OptionsRequest())
-            ?? throw new InvalidOperationException("Options shoudln't be null");
+    protected Config Config
+        => Host.Mediator.Request<Config, ConfigRequest>(new ConfigRequest())
+            ?? throw new InvalidOperationException("Configuration shoudln't be null");
 
     protected bool FilterHiddenBasedOnOptons(FileSystemInfo info)
     {
-        if (Options.ShowHiddenFiles)
+        if (Config.ShowHiddenFiles)
             return true;
 
         return !info.Attributes.HasFlag(FileAttributes.Hidden);

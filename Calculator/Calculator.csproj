@@ -37,10 +37,10 @@
   <ItemGroup>
     <EmbeddedResource Include="Calculator.ico" />
     <EmbeddedResource Include="Resources\LogHtml.html" />
-    <EmbeddedResource Include="Resources\Manual\man-colors.md"/>
-    <EmbeddedResource Include="Resources\Manual\man-constants.md"/>
-    <EmbeddedResource Include="Resources\Manual\man-functionnames.md"/>
-    <EmbeddedResource Include="Resources\Manual\man-numberformats.md"/>
+    <EmbeddedResource Include="Resources\Manual\man-colors.md" />
+    <EmbeddedResource Include="Resources\Manual\man-constants.md" />
+    <EmbeddedResource Include="Resources\Manual\man-functionnames.md" />
+    <EmbeddedResource Include="Resources\Manual\man-numberformats.md" />
     <EmbeddedResource Include="Resources\script.js" />
     <EmbeddedResource Include="Resources\style.css" />
     <EmbeddedResource Include="Resources\Manual.html" />
@@ -58,6 +58,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Calculator.Configuration\Calculator.Configuration.csproj" />
     <ProjectReference Include="..\Calculator.Web\Calculator.Web.csproj" />
     <ProjectReference Include="..\CalculatorShell.Core\CalculatorShell.Core.csproj" />
     <ProjectReference Include="..\CalculatorShell.Engine\CalculatorShell.Engine.csproj" />

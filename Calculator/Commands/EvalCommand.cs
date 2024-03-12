@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Calculator.Configuration;
 using Calculator.Internal;
 using Calculator.Messages;
 
@@ -42,13 +43,13 @@ internal class EvalCommand : ShellCommandAsync,
 
     public override async Task ExecuteInternal(Arguments args, CancellationToken cancellationToken)
     {
-        var options = Host.Mediator.Request<Options, OptionsRequest>(new OptionsRequest())
-            ?? throw new InvalidOperationException("Couldn't get options");
+        var options = Host.Mediator.Request<Config, ConfigRequest>(new ConfigRequest())
+            ?? throw new InvalidOperationException("Couldn't get configuration");
 
         EngineResult result = await _engine.ExecuteAsync(args.Text, cancellationToken);
         result.When(number =>
         {
-            Host.Output.Result(NumberFomatter.ToString(number, Host.CultureInfo, options.GroupThousands));
+            Host.Output.Result(NumberFomatter.ToString(number, Host.CultureInfo, options.ThousandGroupping));
             _engine.Variables.Set("ans", number);
         },
         exception =>

@@ -17,7 +17,7 @@ internal sealed class WindowsTerminalProfileAutoExec : IAutoExec
 
     public int Priority => int.MaxValue; //last
 
-    public void Execute(IHost host)
+    public void Execute(IHost host, IWritableHost writableHost)
     {
         bool isWindows = RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
         if (isWindows && !IsInstalled())

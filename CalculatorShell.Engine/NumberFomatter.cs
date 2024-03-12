@@ -65,7 +65,7 @@ public static class NumberFomatter
                 {
                     result.Push(cultureInfo.NumberFormat.NumberGroupSeparator[0]);
                     result.Push(chr);
-                    count = 0;
+                    count = 1;
                 }
                 else
                 {

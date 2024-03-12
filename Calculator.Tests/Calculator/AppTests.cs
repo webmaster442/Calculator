@@ -12,7 +12,7 @@ internal class AppTests
 {
     private TestTerminalInput _input;
     private TestHost _host;
-    private IHelpDataSetter _helpDataSetter;
+    private IWritableHost _writableHost;
     private TimeProvider _timeProvider;
     private ICurrentDirectoryProvider _currentDirectoryProvider;
 
@@ -26,7 +26,7 @@ internal class AppTests
         Comparer = new MultiLineComparer();
         _host = new TestHost();
         _input = new TestTerminalInput();
-        _helpDataSetter = Substitute.For<IHelpDataSetter>();
+        _writableHost = Substitute.For<IWritableHost>();
         _timeProvider = Substitute.For<TimeProvider>();
         _timeProvider.GetUtcNow().Returns(new DateTimeOffset(new DateTime(2024, 01, 01, 12, 00, 0)));
         _timeProvider.LocalTimeZone.Returns(TimeZoneInfo.Utc);
@@ -34,7 +34,7 @@ internal class AppTests
 
         _currentDirectoryProvider.CurrentDirectory.Returns(@"/test");
 
-        _sut = new App(_host, _input, _helpDataSetter, _timeProvider, _currentDirectoryProvider);
+        _sut = new App(_host, _input, _writableHost, _timeProvider, _currentDirectoryProvider);
     }
 
     [TearDown]

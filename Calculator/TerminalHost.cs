@@ -12,16 +12,17 @@ using CalculatorShell.Core.Mediator;
 
 namespace Calculator;
 
-internal sealed class TerminalHost : IHost, IHelpDataSetter
+internal sealed class TerminalHost : IHost, IWritableHost
 {
     private readonly TerminalInput _input;
     private readonly TerminalOutput _output;
     private readonly ICurrentDirectoryProvider _currentDirectoryProvider;
+    private CultureInfo _culture;
 
     public TerminalHost(ICurrentDirectoryProvider currentDirectoryProvider)
     {
         _currentDirectoryProvider = currentDirectoryProvider;
-        CultureInfo = CultureInfo.InvariantCulture;
+        _culture = CultureInfo.InvariantCulture;
         _input = new TerminalInput();
         _output = new TerminalOutput();
         Mediator = new Mediator();
@@ -34,10 +35,7 @@ internal sealed class TerminalHost : IHost, IHelpDataSetter
 
     public ITerminalOutput Output => _output;
 
-    public CultureInfo CultureInfo
-    {
-        get;
-    }
+    public CultureInfo CultureInfo => _culture;
 
     public IMediator Mediator { get; }
 
@@ -50,11 +48,23 @@ internal sealed class TerminalHost : IHost, IHelpDataSetter
     public string CurrentDirectory
         => _currentDirectoryProvider.CurrentDirectory;
 
+    string IWritableHost.CurrentDirectory
+    {
+        get => _currentDirectoryProvider.CurrentDirectory;
+        set => _currentDirectoryProvider.CurrentDirectory = value;
+    }
+
+    CultureInfo IWritableHost.CultureInfo
+    {
+        get => _culture;
+        set => _culture = value;
+    }
+
     public DateTime Now()
         => DateTime.Now;
 
-    public void SetCommandData(IReadOnlyDictionary<string, string> commandHelps,
-                                 IReadOnlyDictionary<string, IArgumentCompleter> completers,
-                                 ISet<string> exitCommands)
-        => _input.SetCommandData(commandHelps, completers, exitCommands);
+    void IWritableHost.SetCommandData(IReadOnlyDictionary<string, string> commandHelps, IReadOnlyDictionary<string, IArgumentCompleter> completers, ISet<string> exitCommands)
+    {
+        _input.SetCommandData(commandHelps, completers, exitCommands);
+    }
 }

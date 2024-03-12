@@ -15,7 +15,7 @@ internal sealed class IntroAutoExec : IAutoExec
 
     public int Priority => int.MaxValue - 1; //2nd last
 
-    public void Execute(IHost host)
+    public void Execute(IHost host, IWritableHost writableHost)
     {
         host.Output.MarkupLine($"[blue]Calculator {Helpers.GetAssemblyVersion()}[/] | [aqua italic]https://github.com/webmaster442/Calculator[/]");
         host.Output.MarkupLine("To list commands type [lime]commands[/], to list supported functions type: [green]functions[/]");
