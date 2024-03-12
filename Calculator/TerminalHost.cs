@@ -5,6 +5,8 @@
 
 using System.Globalization;
 
+using Calculator.Configuration;
+using Calculator.Messages;
 using Calculator.Web;
 
 using CalculatorShell.Core;
@@ -24,11 +26,17 @@ internal sealed class TerminalHost : IHost, IWritableHost
         _currentDirectoryProvider = currentDirectoryProvider;
         _culture = CultureInfo.InvariantCulture;
         _input = new TerminalInput();
-        _output = new TerminalOutput();
+        _output = new TerminalOutput(ConfigAccessor);
         Mediator = new Mediator();
         WebServices = new WebServices();
         Log = new MemoryLog();
         Dialogs = new TerminalDialogs(this);
+    }
+
+    private Config ConfigAccessor()
+    {
+        return Mediator.Request<Config, ConfigRequest>(new ConfigRequest())
+            ?? throw new InvalidOperationException("Config was not found");
     }
 
     public ITerminalInput Input => _input;

@@ -111,7 +111,7 @@ internal sealed class CurrencyConvertCommand : ShellCommandAsync
         decimal baseUnitValue = sourceValue * options.Ammount;
         decimal resultUnitValue = targetValue * baseUnitValue;
 
-        Host.Output.Result(resultUnitValue.ToString(Host.CultureInfo));
+        Host.Output.Result(resultUnitValue);
     }
 
     private void PrintTable(Dictionary<string, decimal> currencies)

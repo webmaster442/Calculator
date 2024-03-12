@@ -4,8 +4,12 @@
 //-----------------------------------------------------------------------------
 
 using System.Globalization;
+using System.ServiceModel.Channels;
+
+using Calculator.Configuration;
 
 using CalculatorShell.Core;
+using CalculatorShell.Core.Mediator;
 using CalculatorShell.Engine;
 
 using Spectre.Console;
@@ -16,11 +20,13 @@ internal class TerminalOutput : ITerminalOutput
 {
     internal CultureInfo CultureInfo { get; set; }
     private readonly Color[] _palette;
+    private readonly Func<Config> _configAccessor;
 
-    public TerminalOutput()
+    public TerminalOutput(Func<Config> configAccessor)
     {
         CultureInfo = CultureInfo.InvariantCulture;
         _palette = InitializePalette();
+        _configAccessor = configAccessor;
     }
 
     private Color[] InitializePalette()
@@ -50,6 +56,19 @@ internal class TerminalOutput : ITerminalOutput
 
     public void Error(string message)
         => AnsiConsole.MarkupLine($"[red]{message.EscapeMarkup()}[/]");
+
+    public void Result(double value)
+        => AnsiConsole.MarkupLine($"[green]{NumberFomatter.ToString(value, CultureInfo, _configAccessor().ThousandGroupping)}[/]");
+
+    public void Result(decimal value)
+        => AnsiConsole.MarkupLine($"[green]{NumberFomatter.ToString(value, CultureInfo, _configAccessor().ThousandGroupping)}[/]");
+
+
+    public void Result(Number value)
+        => AnsiConsole.MarkupLine($"[green]{NumberFomatter.ToString(value, CultureInfo, _configAccessor().ThousandGroupping)}[/]");
+
+    public void Result(ICalculatorFormattable value)
+        => AnsiConsole.MarkupLine($"[green]{value.ToString(CultureInfo, _configAccessor().ThousandGroupping)}[/]");
 
     public void Result(string message)
         => AnsiConsole.MarkupLine($"[green]{message.EscapeMarkup()}[/]");

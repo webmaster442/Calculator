@@ -11,6 +11,15 @@ namespace CalculatorShell.Engine;
 
 public static class NumberFomatter
 {
+    public static string ToString(long number, CultureInfo cultureInfo, bool thousands)
+        => Format(number.ToString(cultureInfo), cultureInfo, thousands);
+
+    public static string ToString(double number, CultureInfo cultureInfo, bool thousands)
+        => Format(number.ToString(cultureInfo), cultureInfo, thousands);
+
+    public static string ToString(decimal number, CultureInfo cultureInfo, bool thousands)
+        => Format(number.ToString(cultureInfo), cultureInfo, thousands);
+
     public static string ToString(Number number, CultureInfo cultureInfo, bool thousands)
     {
         return number.NumberType switch

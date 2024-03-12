@@ -41,6 +41,6 @@ internal class StatCommand : ShellCommand
     {
         var options = args.Parse<StatOptions>(Host);
         var result = Statistics.Compute(options.Numbers);
-        Host.Output.Result(result.ToString());
+        Host.Output.Result(result);
     }
 }

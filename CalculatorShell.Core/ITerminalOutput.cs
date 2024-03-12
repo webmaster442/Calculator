@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using CalculatorShell.Engine;
+
 namespace CalculatorShell.Core;
 
 /// <summary>
@@ -34,11 +36,38 @@ public interface ITerminalOutput
     /// <param name="header">List header</param>
     /// <param name="data">List data</param>
     void List(string header, IEnumerable<string> data);
+
     /// <summary>
     /// Display a result
     /// </summary>
-    /// <param name="message">result message</param>
-    void Result(string message);
+    /// <param name="value">result value to display</param>
+    void Result(double value);
+
+    /// <summary>
+    /// Display a result
+    /// </summary>
+    /// <param name="value">result value to display</param>
+    void Result(Number value);
+
+    /// <summary>
+    /// Display a result
+    /// </summary>
+    /// <param name="value">result value to display</param>
+    void Result(decimal value);
+
+    /// <summary>
+    /// Display a result
+    /// </summary>
+    /// <param name="value">result value to display</param>
+    void Result(ICalculatorFormattable value);
+
+
+    /// <summary>
+    /// Display a result
+    /// </summary>
+    /// <param name="value">result value to display</param>
+    void Result(string value);
+
     /// <summary>
     /// Display a markup line
     /// </summary>

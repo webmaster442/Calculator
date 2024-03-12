@@ -3,9 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Globalization;
 using System.Text;
 
 using CalculatorShell.Core;
+using CalculatorShell.Engine;
 
 namespace Calculator.Tests.Calculator;
 
@@ -68,6 +70,26 @@ internal sealed class TestTerminalOutput : ITerminalOutput
     public void Result(string message)
     {
         _buffer.AppendLine(message);
+    }
+
+    public void Result(double value)
+    {
+        _buffer.AppendLine(value.ToString(CultureInfo.InvariantCulture));
+    }
+
+    public void Result(Number value)
+    {
+        _buffer.AppendLine(value.ToString(CultureInfo.InvariantCulture));
+    }
+
+    public void Result(decimal value)
+    {
+        _buffer.AppendLine(value.ToString(CultureInfo.InvariantCulture));
+    }
+
+    public void Result(ICalculatorFormattable value)
+    {
+        _buffer.AppendLine(value.ToString(CultureInfo.InvariantCulture, false));
     }
 
     public void Table(TableData tabledata)

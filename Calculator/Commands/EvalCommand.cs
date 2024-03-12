@@ -49,7 +49,7 @@ internal class EvalCommand : ShellCommandAsync,
         EngineResult result = await _engine.ExecuteAsync(args.Text, cancellationToken);
         result.When(number =>
         {
-            Host.Output.Result(NumberFomatter.ToString(number, Host.CultureInfo, options.ThousandGroupping));
+            Host.Output.Result(number);
             _engine.Variables.Set("ans", number);
         },
         exception =>

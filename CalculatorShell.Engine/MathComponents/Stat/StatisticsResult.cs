@@ -3,9 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Globalization;
+
 namespace CalculatorShell.Engine.MathComponents.Stat;
 
-public sealed class StatisticsResult
+public sealed class StatisticsResult : ICalculatorFormattable
 {
     public double Minimum { get; set; }
     public double Maximum { get; set; }
@@ -15,16 +17,16 @@ public sealed class StatisticsResult
     public double Median { get; set; }
     public double Range => Maximum - Minimum;
 
-    public override string ToString()
+    public string ToString(CultureInfo culture, bool thousandsGrouping)
     {
         return $"""
-            Count:   {Count}
-            Minimum: {Minimum}
-            Maximum: {Maximum}
-            Sum:     {Sum}
-            Mean:    {Mean}
-            Median:  {Median}
-            Range:   {Range}
+            Count:   {NumberFomatter.ToString(Count, culture, thousandsGrouping)}
+            Minimum: {NumberFomatter.ToString(Minimum, culture, thousandsGrouping)}
+            Maximum: {NumberFomatter.ToString(Maximum, culture, thousandsGrouping)}
+            Sum:     {NumberFomatter.ToString(Sum, culture, thousandsGrouping)}
+            Mean:    {NumberFomatter.ToString(Mean, culture, thousandsGrouping)}
+            Median:  {NumberFomatter.ToString(Median, culture, thousandsGrouping)}
+            Range:   {NumberFomatter.ToString(Range, culture, thousandsGrouping)}
             """;
     }
 }

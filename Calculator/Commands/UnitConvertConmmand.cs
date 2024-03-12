@@ -79,7 +79,7 @@ internal sealed class UnitConvertConmmand : ShellCommand
 
         double result = Convert(options.Value, options.Source, options.Target);
 
-        Host.Output.Result(result.ToString(Host.CultureInfo));
+        Host.Output.Result(result);
     }
 
     private IEnumerable<(string option, string description)> ProvideAutoCompleteItems(string text, int caret)
