@@ -1,4 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
 using Calculator.Configuration.Validators;

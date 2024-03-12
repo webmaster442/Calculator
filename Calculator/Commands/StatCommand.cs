@@ -1,4 +1,9 @@
-﻿using CalculatorShell.Core;
+﻿//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using CalculatorShell.Core;
 using CalculatorShell.Engine.MathComponents.Stat;
 
 using CommandLine;
