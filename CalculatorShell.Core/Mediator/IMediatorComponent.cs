@@ -5,6 +5,9 @@
 
 namespace CalculatorShell.Core.Mediator;
 
+/// <summary>
+/// Represents a base interface for components that are able to interact with the mediator
+/// </summary>
 public interface IMediatorComponent
 {
 

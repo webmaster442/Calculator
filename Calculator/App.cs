@@ -63,7 +63,7 @@ internal sealed class App :
         _writableHost = writableHost;
         _timeProvider = timeProvider;
         _currentDirectoryProvider = currentDirectoryProvider;
-        writableHost.SetCommandData(_loader.CommandHelps, _loader.CompletableCommands, _exitCommands);
+        writableHost.SetCommandData(_loader.CommandSynopsyses, _loader.CompletableCommands, _exitCommands);
         _server = new HttpServer(_host.Log);
         _history = new History(_host.Mediator);
     }

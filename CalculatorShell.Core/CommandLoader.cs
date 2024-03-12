@@ -7,22 +7,39 @@ using System.Data;
 
 namespace CalculatorShell.Core;
 
+/// <summary>
+/// Class responsible for loading commands
+/// </summary>
 public sealed class CommandLoader : IDisposable
 {
     private readonly Dictionary<string, IShellCommand> _commands;
     private readonly Dictionary<string, string> _commandHelps;
     private readonly Dictionary<string, IArgumentCompleter> _completable;
 
+    /// <summary>
+    /// Loaded commands
+    /// </summary>
     public IReadOnlyDictionary<string, IShellCommand> Commands
         => _commands;
 
-    public IReadOnlyDictionary<string, string> CommandHelps
+    /// <summary>
+    /// Loaded commands and their descriptions
+    /// </summary>
+    public IReadOnlyDictionary<string, string> CommandSynopsyses
         => _commandHelps;
 
+    /// <summary>
+    /// Commands that have argument completers
+    /// </summary>
     public IReadOnlyDictionary<string, IArgumentCompleter> CompletableCommands
         => _completable;
 
 
+    /// <summary>
+    /// Creates a new instance of command loader
+    /// </summary>
+    /// <param name="atypeFromAssembly">A type that's assembly will be used to search for commands</param>
+    /// <param name="host">Command host API</param>
     public CommandLoader(Type atypeFromAssembly, IHost host)
     {
         _commands = new Dictionary<string, IShellCommand>();
@@ -31,6 +48,13 @@ public sealed class CommandLoader : IDisposable
         LoadCommands(atypeFromAssembly, host);
     }
 
+    /// <summary>
+    /// Loads additional types from an assembly
+    /// </summary>
+    /// <typeparam name="TType">Type to load</typeparam>
+    /// <param name="atypeFromAssembly">A type that's assembly will be used to search for creatable <typeparamref name="TType"/></param>
+    /// <param name="host">Command host API</param>
+    /// <returns>Loaded types in an array</returns>
     public static IReadOnlyList<TType> LoadAdditionalTypes<TType>(Type atypeFromAssembly, IHost host)
         where TType : class
     {
@@ -94,6 +118,7 @@ public sealed class CommandLoader : IDisposable
                     && t.IsAssignableTo(typeof(TInterface)));
     }
 
+    /// <inheritdoc/>
     public void Dispose()
     {
         foreach (var cmd in _commands)

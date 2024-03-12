@@ -92,7 +92,7 @@ internal sealed class CurrencyConvertCommand : ShellCommandAsync
     {
         Dictionary<string, decimal> currencies = await Host.WebServices.GetCurrencyRates();
 
-        if (args.Length == 0)
+        if (args.Count == 0)
         {
             PrintTable(currencies);
             return;

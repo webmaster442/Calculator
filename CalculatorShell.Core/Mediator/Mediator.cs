@@ -7,10 +7,16 @@ using System.Data;
 
 namespace CalculatorShell.Core.Mediator;
 
+/// <summary>
+/// Mediator implementation
+/// </summary>
 public sealed class Mediator : IMediator
 {
     private readonly List<WeakReference> _clients;
 
+    /// <summary>
+    /// Creates a new instance of mediator
+    /// </summary>
     public Mediator()
     {
         _clients = new List<WeakReference>();
@@ -23,6 +29,7 @@ public sealed class Mediator : IMediator
         _clients.AddRange(alive);
     }
 
+    /// <inheritdoc/>
     public void Notify<TMessage>(in TMessage payload)
         where TMessage : PayloadBase
     {
@@ -46,6 +53,7 @@ public sealed class Mediator : IMediator
             Cleanup();
     }
 
+    /// <inheritdoc/>
     public TReturn? Request<TReturn, TMessage>(in TMessage message)
         where TMessage : PayloadBase
         where TReturn : class
@@ -74,11 +82,13 @@ public sealed class Mediator : IMediator
         return result;
     }
 
-    public void Register<TClient>(TClient client) where TClient : IMediatorComponent
+    /// <inheritdoc/>
+    public void Register<TClient>(in TClient client) where TClient : IMediatorComponent
     {
         _clients.Add(new WeakReference(client));
     }
 
+    /// <inheritdoc/>
     public IEnumerable<TReturn> RequestAll<TReturn, TMessage>(TMessage message)
         where TReturn : class
         where TMessage : PayloadBase

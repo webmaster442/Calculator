@@ -7,8 +7,16 @@ using System.Text;
 
 namespace CalculatorShell.Core;
 
+/// <summary>
+/// Argument factory, allows parsing of input to arguments
+/// </summary>
 public static class ArgumentsFactory
 {
+    /// <summary>
+    /// Tokenize a string by splitting it by space. Items in quotes are not splitted.
+    /// </summary>
+    /// <param name="input">Input string to tokenize</param>
+    /// <returns>Tokenized strings in an array</returns>
     public static IReadOnlyList<string> Tokenize(string input)
     {
         List<string> items = [];
@@ -49,6 +57,11 @@ public static class ArgumentsFactory
         return items;
     }
 
+    /// <summary>
+    /// Create command and arguments from an input string 
+    /// </summary>
+    /// <param name="line">input string</param>
+    /// <returns>command name and arguments</returns>
     public static (string cmd, Arguments args) Create(string line)
     {
         if (string.IsNullOrEmpty(line))

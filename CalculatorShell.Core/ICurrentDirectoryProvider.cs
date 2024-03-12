@@ -3,15 +3,15 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace CalculatorShell.Core;
 
+/// <summary>
+/// Current directory provider
+/// </summary>
 public interface ICurrentDirectoryProvider
 {
+    /// <summary>
+    /// Current directory
+    /// </summary>
     string CurrentDirectory { get; set; }
 }

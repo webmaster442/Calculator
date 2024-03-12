@@ -5,7 +5,14 @@
 
 namespace CalculatorShell.Core;
 
+/// <summary>
+/// Represents a shell command that will be executed syncronously
+/// </summary>
 public interface ISyncShellCommand : IShellCommand
 {
+    /// <summary>
+    /// The entry point of the command
+    /// </summary>
+    /// <param name="args">Command arguments</param>
     void Execute(Arguments args);
 }

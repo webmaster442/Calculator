@@ -5,7 +5,16 @@
 
 namespace CalculatorShell.Core;
 
+/// <summary>
+/// Represents a shell command that will be executed asyncronously
+/// </summary>
 public interface IAsyncShellCommand : IShellCommand
 {
+    /// <summary>
+    /// The entry point of the command
+    /// </summary>
+    /// <param name="args">Command arguments</param>
+    /// <param name="cancellationToken">A CancellationToken</param>
+    /// <returns>A task</returns>
     Task Execute(Arguments args, CancellationToken cancellationToken);
 }

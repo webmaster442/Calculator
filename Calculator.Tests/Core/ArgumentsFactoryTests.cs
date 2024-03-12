@@ -44,7 +44,7 @@ internal class ArgumentsFactoryTests
         Assert.Multiple(() =>
         {
             Assert.That(result.cmd, Is.EqualTo(string.Empty));
-            Assert.That(result.args.Length, Is.EqualTo(0));
+            Assert.That(result.args.Count, Is.EqualTo(0));
         });
     }
 
