@@ -2,8 +2,6 @@
 
 using CalculatorShell.Engine.MathComponents;
 
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
-
 namespace Calculator.Tests.MathComponents;
 
 [TestFixture]
