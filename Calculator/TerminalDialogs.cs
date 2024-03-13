@@ -234,6 +234,15 @@ internal sealed class TerminalDialogs : IDialogs, INotifyTarget<HttpServerPort>
         return await selector.ShowAsync(AnsiConsole.Console, cancellationToken);
     }
 
+    public Task<bool> Confirm(string message, CancellationToken cancellationToken)
+    {
+        var prompt = new ConfirmationPrompt(message)
+        {
+            DefaultValue = false,
+        };
+        return prompt.ShowAsync(AnsiConsole.Console, cancellationToken);
+    }
+
     public void OpenServerDocument(ServerDocument document)
     {
         if (_serverPort == -1)

@@ -43,4 +43,12 @@ public interface IDialogs
     /// </summary>
     /// <param name="document">Document to open in the browser</param>
     void OpenServerDocument(ServerDocument document);
+
+    /// <summary>
+    /// Display a confirmation (yes/no) dialog
+    /// </summary>
+    /// <param name="message">Message to show as a confirmation prompt</param>
+    /// <param name="cancellationToken">A cancellationToken</param>
+    /// <returns>true, if yes was selected</returns>
+    Task<bool> Confirm(string message, CancellationToken cancellationToken);
 }

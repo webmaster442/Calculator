@@ -23,9 +23,9 @@ internal sealed class DirectoryNameCompleter : BaseCompleter
             var dirs = new DirectoryInfo(Host.CurrentDirectory)
             .GetDirectories()
             .Where(FilterHiddenBasedOnOptons)
-            .Select(d => (d.Name, $"Last modified: {d.LastWriteTime}"));
+            .Select(d => (d.Name.Contains(' ') ? $"\"{d.Name}\"" : d.Name, $"Last modified: {d.LastWriteTime}"));
 
-            var filtered = dirs.Where(d => d.Name.StartsWith(word)).ToArray();
+            var filtered = dirs.Where(d => d.Item1.StartsWith(word)).ToArray();
 
             if (filtered.Length > 0)
                 return filtered;

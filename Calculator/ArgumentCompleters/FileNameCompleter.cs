@@ -22,9 +22,9 @@ internal sealed class FileNameCompleter : BaseCompleter
             var files = new DirectoryInfo(Host.CurrentDirectory)
                 .GetFiles()
                 .Where(FilterHiddenBasedOnOptons)
-                .Select(f => (f.Name, $"Size: {f.Length}"));
+                .Select(f => (f.Name.Contains(' ') ? $"\"{f.Name}\"" : f.Name, $"Size: {f.Length}"));
 
-            var filtered = files.Where(f => f.Name.StartsWith(word)).ToArray();
+            var filtered = files.Where(f => f.Item1.StartsWith(word)).ToArray();
 
             if (filtered.Length > 0)
                 return filtered;
