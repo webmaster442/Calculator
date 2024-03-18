@@ -20,12 +20,19 @@ public static class NumberFomatter
     public static string ToString(decimal number, CultureInfo cultureInfo, bool thousands)
         => Format(number.ToString(cultureInfo), cultureInfo, thousands);
 
+    public static string ToString(Complex complex, CultureInfo cultureInfo, bool thousands)
+    {
+        string real = Format(complex.Real.ToString(cultureInfo), cultureInfo, thousands);
+        string imaginary = Format(complex.Imaginary.ToString(cultureInfo), cultureInfo, thousands);
+        return $"real: {real} imaginary: {imaginary}";
+    }
+
     public static string ToString(Number number, CultureInfo cultureInfo, bool thousands)
     {
         return number.NumberType switch
         {
             NumberType.Double or NumberType.Integer => Format(number.ToString(cultureInfo), cultureInfo, thousands),
-            NumberType.Complex => Format(number.ToComplex(), cultureInfo, thousands),
+            NumberType.Complex => ToString(number.ToComplex(), cultureInfo, thousands),
             NumberType.Fraction => Format(number.ToFraction(), cultureInfo, thousands),
             _ => throw new UnreachableException(),
         };
@@ -37,13 +44,6 @@ public static class NumberFomatter
         string line2 = Format(fraction.Denominator.ToString(cultureInfo), cultureInfo, thousands);
         string seperator = "-".PadLeft(line1.Length);
         return $"{line1}\r\n{seperator}\r\n{line2}";
-    }
-
-    private static string Format(Complex complex, CultureInfo cultureInfo, bool thousands)
-    {
-        string real = Format(complex.Real.ToString(cultureInfo), cultureInfo, thousands);
-        string imaginary = Format(complex.Imaginary.ToString(cultureInfo), cultureInfo, thousands);
-        return $"real: {real} imaginary: {imaginary}";
     }
 
     private static string Format(string textForm, CultureInfo cultureInfo, bool thousands)

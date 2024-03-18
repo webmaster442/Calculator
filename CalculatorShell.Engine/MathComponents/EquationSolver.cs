@@ -1,28 +1,19 @@
-﻿using System.Numerics;
+﻿//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.Numerics;
 
 namespace CalculatorShell.Engine.MathComponents;
-internal static class EquationSolver
+
+public static class EquationSolver
 {
     private const double Delta = 0.00000000000001;
 
-    private static void AddNormalizedRange(this HashSet<Complex> collection, IEnumerable<Complex> items)
+    public static EquationSolution FindRoots(double x4, double x3, double x2, double x1, double x0)
     {
-        foreach (var item in items)
-        {
-            collection.Add(Normalize(item));
-        }
-    }
-
-    private static Complex Normalize(Complex input)
-    {
-        double newReal = Math.Round(input.Real, 14);
-        double newImaginary = Math.Round(input.Imaginary, 14);
-        return new Complex(newReal, newImaginary);
-    }
-
-    public static IReadOnlySet<Complex> FindRoots(double x4, double x3, double x2, double x1, double x0)
-    {
-        HashSet<Complex> roots = new();
+        EquationSolution roots = new();
         if (x4 != 0.0)
         {
             roots.AddNormalizedRange(Quartic(x3 / x4, x2 / x4, x1 / x4, x0 / x4));
@@ -37,7 +28,7 @@ internal static class EquationSolver
         }
         else if (x1 != 0.0)
         {
-            roots.Add(Linear(x0 / x1));
+            roots.AddNormalizedRange(Linear(x0 / x1));
         }
         else
         {
@@ -47,9 +38,9 @@ internal static class EquationSolver
         return roots;
     }
 
-    private static double Linear(double a)
+    private static IEnumerable<Complex> Linear(double a)
     {
-        return -a;
+        yield return -a;
     }
 
     private static IEnumerable<Complex> Quadratic(double b, double c)
