@@ -3,13 +3,14 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Collections;
 using System.Globalization;
 using System.Numerics;
 using System.Text;
 
 namespace CalculatorShell.Engine.MathComponents;
 
-public class EquationSolution : ICalculatorFormattable
+public class EquationSolution : ICalculatorFormattable, IEnumerable<Complex>
 {
     private static Complex Normalize(Complex input)
     {
@@ -55,4 +56,10 @@ public class EquationSolution : ICalculatorFormattable
         else
             return NumberFomatter.ToString(item, culture, thousandsGrouping);
     }
+
+    public IEnumerator<Complex> GetEnumerator()
+        => _solutions.GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator()
+        => _solutions.GetEnumerator();
 }
