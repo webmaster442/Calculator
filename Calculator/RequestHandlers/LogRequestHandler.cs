@@ -35,17 +35,17 @@ internal class LogRequestHandler : HtmlRequestHandler
     private string RenderLog()
     {
         StringBuilder sb = new(4096);
-        sb.AppendLine("<ol class=\"log\">");
+        _ = sb.AppendLine("<ol class=\"log\">");
         foreach (var item in _host.Log.Entries.OrderBy(x => x.Key))
         {
             if (item.Value.Contains(" Warning: "))
-                sb.AppendLine($"<li class=\"monospaced yellow\">{item.Key} {item.Value}</li>");
+                _ = sb.AppendLine($"<li class=\"monospaced yellow\">{item.Key} {item.Value}</li>");
             else if (item.Value.Contains(" Error: ") || item.Value.Contains(" Exception: "))
-                sb.AppendLine($"<li class=\"monospaced red\">{item.Key} {item.Value}</li>");
+                _ = sb.AppendLine($"<li class=\"monospaced red\">{item.Key} {item.Value}</li>");
             else
-                sb.AppendLine($"<li>{item.Key} {item.Value}</li>");
+                _ = sb.AppendLine($"<li>{item.Key} {item.Value}</li>");
         }
-        sb.AppendLine("</ol>");
+        _ = sb.AppendLine("</ol>");
         return sb.ToString();
     }
 }

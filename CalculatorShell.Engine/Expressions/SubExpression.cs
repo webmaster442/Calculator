@@ -52,7 +52,7 @@ internal sealed class SubExpression : BinaryExpression
         return new SubExpression(newLeft, newRight);
     }
 
-    public override Expression Compile() 
+    public override Expression Compile()
         => Expression.MakeBinary(ExpressionType.Subtract, Left.Compile(), Right.Compile());
 
     public override string ToString(CultureInfo cultureInfo)

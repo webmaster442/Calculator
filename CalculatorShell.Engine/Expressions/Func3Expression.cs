@@ -16,7 +16,7 @@ internal sealed class Func3Expression : IExpression
     private readonly Func3 _function;
     private readonly string _name;
 
-    public Func3Expression(IExpression a1, IExpression a2, IExpression a3, Func3 function, string name) 
+    public Func3Expression(IExpression a1, IExpression a2, IExpression a3, Func3 function, string name)
     {
         _a1 = a1;
         _a2 = a2;

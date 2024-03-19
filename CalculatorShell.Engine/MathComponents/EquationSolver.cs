@@ -94,8 +94,6 @@ public static class EquationSolver
         d = c;
         c = b;
         b = a;
-        a = 1.0;
-
         Complex root1 = new();
         Complex root2 = new();
         Complex root3 = new();

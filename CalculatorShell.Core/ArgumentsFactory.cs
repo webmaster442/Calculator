@@ -32,12 +32,12 @@ public static class ArgumentsFactory
             {
                 if (isQutes)
                 {
-                    temp.Append(chr);
+                    _ = temp.Append(chr);
                 }
                 else
                 {
                     items.Add(temp.ToString());
-                    temp.Clear();
+                    _ = temp.Clear();
                 }
             }
             else if (chr == '"')
@@ -46,7 +46,7 @@ public static class ArgumentsFactory
             }
             else
             {
-                temp.Append(chr);
+                _ = temp.Append(chr);
             }
         }
 

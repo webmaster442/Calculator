@@ -49,19 +49,19 @@ internal sealed class ManualRequestHandler : IRequestHandler
 
     private static string GenerateCommandMenu(IDictionary<string, HashSet<string>> commandsByCategory)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new();
         foreach (var category in commandsByCategory)
         {
             var categoryName = category.Key;
             var commandNames = category.Value;
-            sb.AppendLine($"<li><a href=\"#\">{categoryName}</a>");
-            sb.AppendLine("  <ul>");
+            _ = sb.AppendLine($"<li><a href=\"#\">{categoryName}</a>");
+            _ = sb.AppendLine("  <ul>");
             foreach (var command in commandNames)
             {
-                sb.AppendLine($"    <li><a href=\"/man-{command}.html\">{command}</a></li>");
+                _ = sb.AppendLine($"    <li><a href=\"/man-{command}.html\">{command}</a></li>");
             }
-            sb.AppendLine("  </ul>");
-            sb.AppendLine("</li>");
+            _ = sb.AppendLine("  </ul>");
+            _ = sb.AppendLine("</li>");
         }
         return sb.ToString();
     }
@@ -100,12 +100,12 @@ internal sealed class ManualRequestHandler : IRequestHandler
         }
 
         var tempate = new Template(Helpers.GetResourceString(ResourceNames.ManualHtml));
-        tempate.ApplyTag("menu", _menu);
-        tempate.ApplyTag(Template.Title, title);
+        _ = tempate.ApplyTag("menu", _menu);
+        _ = tempate.ApplyTag(Template.Title, title);
 
         if (!string.IsNullOrEmpty(entry.Value))
         {
-            tempate.ApplyTag(Template.Content, RenderHelp(entry.Value));
+            _ = tempate.ApplyTag(Template.Content, RenderHelp(entry.Value));
         }
 
 
@@ -116,9 +116,9 @@ internal sealed class ManualRequestHandler : IRequestHandler
     private bool RenderStaticFile(HttpListenerContext context, KeyValuePair<string, string> staticFile)
     {
         var tempate = new Template(Helpers.GetResourceString(ResourceNames.ManualHtml));
-        tempate.ApplyTag("menu", _menu);
-        tempate.ApplyTag(Template.Title, staticFile.Key);
-        tempate.ApplyTag(Template.Content, staticFile.Value);
+        _ = tempate.ApplyTag("menu", _menu);
+        _ = tempate.ApplyTag(Template.Title, staticFile.Key);
+        _ = tempate.ApplyTag(Template.Content, staticFile.Value);
         context.Transfer(tempate.Render(), MediaTypeNames.Text.Html, HttpStatusCode.OK);
         return true;
 

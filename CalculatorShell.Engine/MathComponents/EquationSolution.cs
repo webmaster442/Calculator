@@ -30,7 +30,7 @@ public class EquationSolution : ICalculatorFormattable, IEnumerable<Complex>
     {
         foreach (var item in items)
         {
-            _solutions.Add(Normalize(item));
+            _ = _solutions.Add(Normalize(item));
         }
     }
 
@@ -44,7 +44,7 @@ public class EquationSolution : ICalculatorFormattable, IEnumerable<Complex>
         StringBuilder sb = new();
         foreach (var item in _solutions)
         {
-            sb.AppendLine(Format(item, culture, thousandsGrouping));
+            _ = sb.AppendLine(Format(item, culture, thousandsGrouping));
         }
         return sb.ToString();
     }

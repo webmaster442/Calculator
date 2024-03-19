@@ -22,74 +22,74 @@ internal sealed class TestTerminalOutput : ITerminalOutput
 
     public void BlankLine()
     {
-        _buffer.AppendLine();
+        _ = _buffer.AppendLine();
     }
 
     public void BreakDown(IReadOnlyDictionary<string, double> items)
     {
         foreach (var item in items)
         {
-            _buffer.AppendFormat("{0} - {1}\r\n", item.Key, item.Value);
+            _ = _buffer.AppendFormat("{0} - {1}\r\n", item.Key, item.Value);
         }
     }
 
     public void Clear()
     {
-        _buffer.Clear();
+        _ = _buffer.Clear();
     }
 
     public void Error(Exception ex)
     {
-        _buffer.AppendLine(ex.ToString());
+        _ = _buffer.AppendLine(ex.ToString());
     }
 
     public void Error(string message)
     {
-        _buffer.AppendLine(message);
+        _ = _buffer.AppendLine(message);
     }
 
     public void List(string header, IEnumerable<string> data)
     {
-        _buffer.AppendLine(header);
+        _ = _buffer.AppendLine(header);
         foreach (var item in data)
         {
-            _buffer.AppendLine(item);
+            _ = _buffer.AppendLine(item);
         }
     }
 
     public void Markup(string markup)
     {
-        _buffer.Append(markup);
+        _ = _buffer.Append(markup);
     }
 
     public void MarkupLine(string markup)
     {
-        _buffer.AppendLine(markup);
+        _ = _buffer.AppendLine(markup);
     }
 
     public void Result(string message)
     {
-        _buffer.AppendLine(message);
+        _ = _buffer.AppendLine(message);
     }
 
     public void Result(double value)
     {
-        _buffer.AppendLine(value.ToString(CultureInfo.InvariantCulture));
+        _ = _buffer.AppendLine(value.ToString(CultureInfo.InvariantCulture));
     }
 
     public void Result(Number value)
     {
-        _buffer.AppendLine(value.ToString(CultureInfo.InvariantCulture));
+        _ = _buffer.AppendLine(value.ToString(CultureInfo.InvariantCulture));
     }
 
     public void Result(decimal value)
     {
-        _buffer.AppendLine(value.ToString(CultureInfo.InvariantCulture));
+        _ = _buffer.AppendLine(value.ToString(CultureInfo.InvariantCulture));
     }
 
     public void Result(ICalculatorFormattable value)
     {
-        _buffer.AppendLine(value.ToString(CultureInfo.InvariantCulture, false));
+        _ = _buffer.AppendLine(value.ToString(CultureInfo.InvariantCulture, false));
     }
 
     public void Table(TableData tabledata)
@@ -97,7 +97,7 @@ internal sealed class TestTerminalOutput : ITerminalOutput
         foreach (var item in tabledata)
         {
             string row = string.Join(';', item);
-            _buffer.AppendLine(row);
+            _ = _buffer.AppendLine(row);
         }
     }
 

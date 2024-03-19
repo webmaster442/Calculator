@@ -4,7 +4,6 @@
 //-----------------------------------------------------------------------------
 
 using Calculator.Configuration;
-using Calculator.Internal;
 using Calculator.Messages;
 
 using CalculatorShell.Core;

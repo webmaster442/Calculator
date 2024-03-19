@@ -39,6 +39,6 @@ internal class TestHost : IHost
 
     public string OutputText => Output.ToString()!;
 
-    public DateTime Now() 
-        => new DateTime(2024, 01, 04);
+    public DateTime Now()
+        => new(2024, 01, 04);
 }

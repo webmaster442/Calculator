@@ -49,7 +49,7 @@ public sealed class WebServices : IWebServices
     {
         using (var reader = XmlReader.Create(new StringReader(text)))
         {
-            XmlSerializer xs = new XmlSerializer(typeof(T));
+            XmlSerializer xs = new(typeof(T));
             return xs.Deserialize(reader) as T;
         }
     }

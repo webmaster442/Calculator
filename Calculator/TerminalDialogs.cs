@@ -229,7 +229,7 @@ internal sealed class TerminalDialogs : IDialogs, INotifyTarget<HttpServerPort>
             .UseConverter(item => item.Description)
             .Title(title);
 
-        selector.AddChoices(items);
+        _ = selector.AddChoices(items);
 
         return await selector.ShowAsync(AnsiConsole.Console, cancellationToken);
     }

@@ -40,11 +40,11 @@ public class HashCalculator
 
             if (readAheadBytesRead == 0)
             {
-                hashAlgorithm.TransformFinalBlock(buffer, 0, bytesRead);
+                _ = hashAlgorithm.TransformFinalBlock(buffer, 0, bytesRead);
             }
             else
             {
-                hashAlgorithm.TransformBlock(buffer, 0, bytesRead, buffer, 0);
+                _ = hashAlgorithm.TransformBlock(buffer, 0, bytesRead, buffer, 0);
             }
 
             if (totalBytesRead > lastReported + reportSize)

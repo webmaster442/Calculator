@@ -26,8 +26,8 @@ internal static class ImplicantStringFactory
         for (int i = 0; i < mask.Length; i++)
         {
 
-            if (mask[i] == '0') builder.AppendFormat("!{0} &", variables[i]);
-            else if (mask[i] == '1') builder.AppendFormat("{0} &", variables[i]);
+            if (mask[i] == '0') _ = builder.AppendFormat("!{0} &", variables[i]);
+            else if (mask[i] == '1') _ = builder.AppendFormat("{0} &", variables[i]);
 
         }
         return builder.ToString();

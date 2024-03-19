@@ -53,7 +53,7 @@ public class Number :
     }
 
     public static Number FromInteger(long n)
-        => new Number((Int128)n);
+        => new((Int128)n);
 
     public Complex ToComplex()
     {

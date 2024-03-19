@@ -3,7 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
 using Calculator.Configuration.Validators;
@@ -16,7 +15,7 @@ public sealed class Config
 {
     [YamlMember(Description = "Show or hide files with hidden attribute in file related commands")]
     public bool ShowHiddenFiles { get; set; }
-    
+
     [YamlMember(Description = "Show numbers with thoudand seperators")]
     public bool ThousandGroupping { get; set; }
 

@@ -57,7 +57,7 @@ internal sealed class LogicTokenizer
         while (_index < _expression.Length &&
             IsAllowedToken(_expression[_index]))
         {
-            temp.Append(_expression[_index++]);
+            _ = temp.Append(_expression[_index++]);
         }
 
         string identifier = temp.ToString();

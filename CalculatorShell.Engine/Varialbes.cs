@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Text.Json;
-
 namespace CalculatorShell.Engine;
 
 public class Varialbes : IVariables
@@ -85,9 +83,9 @@ public class Varialbes : IVariables
             throw new EngineException($"Can't unset constant: {name}");
 
         if (_variables.ContainsKey(name))
-            _variables.Remove(name);
+            _ = _variables.Remove(name);
     }
 
-    public void UnsetAll() 
+    public void UnsetAll()
         => _variables.Clear();
 }

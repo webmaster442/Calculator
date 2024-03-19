@@ -7,9 +7,8 @@ using Calculator.ArgumentCompleters;
 
 using CalculatorShell.Core;
 using CalculatorShell.Engine.MathComponents;
-using CommandLine;
 
-using static Calculator.Commands.Simplify;
+using CommandLine;
 
 namespace Calculator.Commands;
 internal class SolveCommand : ShellCommand
@@ -20,7 +19,7 @@ internal class SolveCommand : ShellCommand
 
     public override string[] Names => ["solve"];
 
-    public override string Category 
+    public override string Category
         => CommandCategories.Calculation;
 
     public override string Synopsys

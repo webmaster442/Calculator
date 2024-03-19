@@ -43,7 +43,7 @@ internal class ExpressionParser
         {
             throw new EngineException("Missing: " + type);
         }
-        Next();
+        _ = Next();
     }
 
     private bool Check(TokenSet tokens)
@@ -85,7 +85,7 @@ internal class ExpressionParser
         while (_currentToken.Type != TokenType.Eof)
         {
             leftover += _currentToken.Value;
-            Next();
+            _ = Next();
         }
 
         return !string.IsNullOrEmpty(leftover)
@@ -270,7 +270,7 @@ internal class ExpressionParser
         IExpression? exp = null;
         do
         {
-            IExpression? right = null;
+            IExpression? right;
             switch (_currentToken.Type)
             {
                 case TokenType.Variable:

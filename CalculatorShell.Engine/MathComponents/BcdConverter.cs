@@ -13,8 +13,8 @@ public static class BcdConverter
         StringBuilder result = new();
         foreach (var chr in number.ToString())
         {
-            result.Append(Encode(chr));
-            result.Append(' ');
+            _ = result.Append(Encode(chr));
+            _ = result.Append(' ');
         }
         return result.ToString().Trim();
     }
@@ -24,7 +24,7 @@ public static class BcdConverter
         StringBuilder result = new();
         foreach (var digit in str.Split(new char[] { ' ', '_', '\t', '-' }, StringSplitOptions.RemoveEmptyEntries))
         {
-            result.Append(Decode(digit));
+            _ = result.Append(Decode(digit));
         }
         return result.ToString();
     }

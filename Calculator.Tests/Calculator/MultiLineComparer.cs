@@ -16,11 +16,11 @@ internal class MultiLineComparer : IEqualityComparer<string>
         if (s == null)
             return null;
 
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new();
         foreach (var c in s)
         {
             if (c != '\r')
-                builder.Append(c);
+                _ = builder.Append(c);
         }
 
         return builder.ToString();

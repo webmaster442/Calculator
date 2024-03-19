@@ -4,12 +4,10 @@
 //-----------------------------------------------------------------------------
 
 using System.Globalization;
-using System.ServiceModel.Channels;
 
 using Calculator.Configuration;
 
 using CalculatorShell.Core;
-using CalculatorShell.Core.Mediator;
 using CalculatorShell.Engine;
 
 using Spectre.Console;

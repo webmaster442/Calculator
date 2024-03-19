@@ -20,7 +20,7 @@ public sealed class ExpenseItemDb
         _folder = folder;
 
         if (!Directory.Exists(_folder))
-            Directory.CreateDirectory(_folder);
+            _ = Directory.CreateDirectory(_folder);
 
         _cache = new List<ExpenseItem>();
         DatabaseFile = Path.Combine(_folder, $"{DateTime.Now.Year}-{DateTime.Now.Month}.csv");
@@ -83,7 +83,7 @@ public sealed class ExpenseItemDb
         {
             p.StartInfo.FileName = DatabaseFile;
             p.StartInfo.UseShellExecute = true;
-            p.Start();
+            _ = p.Start();
         }
     }
 

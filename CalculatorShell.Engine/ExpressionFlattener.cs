@@ -38,7 +38,7 @@ internal static class ExpressionFlattener
                 if (t != null)
                     ret.Add(t);
             });
-            visitor.Visit(expr);
+            _ = visitor.Visit(expr);
             return ret;
         }
     }

@@ -25,13 +25,13 @@ public static class FileSizeCalculator
             msg = $"{(double)value / EiB:N3} EiB";
         else if (value > PiB)
             msg = $"{(double)value / PiB:N3} PiB";
-        else if(value > TiB)
+        else if (value > TiB)
             msg = $"{(double)value / TiB:N3} TiB";
-        else if(value > GiB)
+        else if (value > GiB)
             msg = $"{(double)value / GiB:N3} GiB";
-        else if(value > MiB)
+        else if (value > MiB)
             msg = $"{(double)value / MiB:N3} MiB";
-        else if(value > KiB)
+        else if (value > KiB)
             msg = $"{(double)value / KiB:N3} KiB";
         else
             msg = $"{value} byte(s)";

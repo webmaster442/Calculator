@@ -78,7 +78,7 @@ public static class Extensions
 
     public static HSL ToHsl(this RGB rGB)
     {
-        double h = 0, s = 0, l = 0;
+        double h = 0, s = 0;
 
         // normalizes red-green-blue values
         double nRed = rGB.R / 255.0;
@@ -111,7 +111,7 @@ public static class Extensions
         }
 
         // luminance
-        l = (max + min) / 2.0;
+        double l = (max + min) / 2.0;
 
         // saturation
         if (l == 0 || max == min)

@@ -16,7 +16,7 @@ public sealed class ConfigurationEditor : ConfigHandlerBase
         using var p = new Process();
         p.StartInfo.FileName = "notepad.exe";
         p.StartInfo.Arguments = FilePath;
-        p.Start();
+        _ = p.Start();
         await p.WaitForExitAsync(cancellationToken);
 
         try

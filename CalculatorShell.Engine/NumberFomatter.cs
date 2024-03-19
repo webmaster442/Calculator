@@ -61,7 +61,7 @@ public static class NumberFomatter
 
         bool containsDecimal = textForm.Contains(cultureInfo.NumberFormat.NumberDecimalSeparator);
 
-        foreach (var chr in textForm.Reverse()) 
+        foreach (var chr in textForm.Reverse())
         {
             if (chr == cultureInfo.NumberFormat.NumberDecimalSeparator[0])
             {

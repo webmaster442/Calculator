@@ -41,9 +41,9 @@ internal static class Utilities
         for (int i = 0; i < a.Length; i++)
         {
             if (a[i] != b[i])
-                final.Append('-');
+                _ = final.Append('-');
             else
-                final.AppendFormat("{0}", a[i]);
+                _ = final.AppendFormat("{0}", a[i]);
         }
 
         return final.ToString();

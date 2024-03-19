@@ -35,7 +35,7 @@ public sealed class NumberSystemConverter
 
     private string ConvertToTargetSystem(Int128 baseTen, int targetSystem)
     {
-        Stack<char> symbols = new Stack<char>();
+        Stack<char> symbols = new();
         while (baseTen > Int128.Zero)
         {
             Int128 digit = baseTen % targetSystem;
@@ -51,7 +51,7 @@ public sealed class NumberSystemConverter
         StringBuilder sb = new();
         while (symbols.Count > 0)
         {
-            sb.Append(symbols.Pop());
+            _ = sb.Append(symbols.Pop());
         }
         return sb.ToString();
     }

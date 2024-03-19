@@ -222,12 +222,12 @@ internal sealed class App :
             {
                 foreach (var name in command.Value.Names)
                 {
-                    items[command.Value.Category].Add(name);
+                    _ = items[command.Value.Category].Add(name);
                 }
             }
         }
         foreach (var exitcommand in _exitCommands)
-            items[CommandCategories.Program].Add(exitcommand);
+            _ = items[CommandCategories.Program].Add(exitcommand);
 
         return items;
     }
@@ -240,22 +240,22 @@ internal sealed class App :
         var cmd = _loader.Commands
             .Where(x => string.Compare(x.Key, message.Command, true) == 0)
             .Select(x => new
-        {
-            x.Value.Synopsys,
-            HelpMessage = x.Value.HelpMessage.TrimEnd()
-        }).FirstOrDefault();
+            {
+                x.Value.Synopsys,
+                HelpMessage = x.Value.HelpMessage.TrimEnd()
+            }).FirstOrDefault();
 
         if (cmd == null)
             return $"No help was found for command: {message.Command}";
 
         StringBuilder final = new();
-        final.AppendLine(cmd.Synopsys);
-        final.AppendLine();
-        final.Append(cmd.HelpMessage);
+        _ = final.AppendLine(cmd.Synopsys);
+        _ = final.AppendLine();
+        _ = final.Append(cmd.HelpMessage);
 
         if (cmd.HelpMessage == ArgumentExtensions.ArgumentHeader)
         {
-            final.AppendLine(" This command doesn't require any parameters");
+            _ = final.AppendLine(" This command doesn't require any parameters");
         }
 
         return final.ToString();

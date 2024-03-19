@@ -24,10 +24,10 @@ public abstract class ApiRequestHandler<THandlerType> : IRequestHandler
         }
 
         public static ApiRoute ToApiRoute(PostRouteAttribute postRouteAttribute)
-            => new ApiRoute("POST", postRouteAttribute.Url);
+            => new("POST", postRouteAttribute.Url);
 
         public static ApiRoute ToApiRoute(GetRouteAttribute getRouteAttribute)
-            => new ApiRoute("GET", getRouteAttribute.Url);
+            => new("GET", getRouteAttribute.Url);
     }
 
 
@@ -41,11 +41,11 @@ public abstract class ApiRequestHandler<THandlerType> : IRequestHandler
         Log = log;
         _apiRoutes = Load<ApiMethod>(typeof(ApiResponse));
         _lowLevels = Load<LowLevelApiMethod>(typeof(void));
-        
+
     }
 
     private Dictionary<ApiRoute, TDelegate> Load<TDelegate>(Type delegateReturnType)
-        where TDelegate: Delegate
+        where TDelegate : Delegate
     {
         Dictionary<ApiRoute, TDelegate> results = new();
 

@@ -18,7 +18,7 @@ public sealed class Template
 
     public Template ApplyTag(string tag, string value)
     {
-        _stringBuilder.Replace($"<!--{{{tag}}}-->", value);
+        _ = _stringBuilder.Replace($"<!--{{{tag}}}-->", value);
         return this;
     }
 

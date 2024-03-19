@@ -20,7 +20,7 @@ internal class HistoryCommand : ShellCommandAsync
 
     public override string[] Names => ["history"];
 
-    public override string Synopsys 
+    public override string Synopsys
         => "Acces command history";
 
 
@@ -71,7 +71,7 @@ internal class HistoryCommand : ShellCommandAsync
             await File.WriteAllLinesAsync(options.ExportFile, data, cancellationToken);
             return;
         }
-       
+
         if (!data.Any())
         {
             Host.Output.Result("No command has been executed");

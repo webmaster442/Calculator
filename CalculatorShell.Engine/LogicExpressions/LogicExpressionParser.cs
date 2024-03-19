@@ -36,7 +36,7 @@ internal class LogicExpressionParser
         {
             throw new EngineException("Missing: " + type);
         }
-        Next();
+        _ = Next();
     }
 
     private bool Check(LogicTokenSet tokens)
@@ -81,7 +81,7 @@ internal class LogicExpressionParser
         while (_currentToken.Type != LogicTokenType.Eof)
         {
             leftover += _currentToken.Value;
-            Next();
+            _ = Next();
         }
         if (!string.IsNullOrEmpty(leftover))
         {
@@ -210,7 +210,7 @@ internal class LogicExpressionParser
         ILogicExpression? exp = null;
         do
         {
-            ILogicExpression? right = null;
+            ILogicExpression? right;
             switch (_currentToken.Type)
             {
                 case LogicTokenType.Variable:

@@ -10,7 +10,7 @@ using CalculatorShell.Core.Mediator;
 namespace Calculator.Internal;
 internal class History
     : IRequestProvider<IEnumerable<string>, HistoryRequestMessage>,
-      INotifyTarget<AddHistory>, 
+      INotifyTarget<AddHistory>,
       INotifyTarget<DeleteHistory>
 {
     private readonly IMediator _mediator;

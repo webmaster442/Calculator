@@ -58,11 +58,11 @@ internal class ArithmeticEngineTests
     }
 
     [TestCaseSource(nameof(ValidTestCases))]
-    public async Task SimplifiedExpression_Compile_ReturnsNumber_WhenOk(string input, string expected) 
+    public async Task SimplifiedExpression_Compile_ReturnsNumber_WhenOk(string input, string expected)
     {
         var lambdaBody = (await _engine.ParseAsync(input)).Simplify().Compile();
 
-        var parameters =  ExpressionFlattener.Flatten(lambdaBody).OfType<ParameterExpression>().ToArray();
+        var parameters = ExpressionFlattener.Flatten(lambdaBody).OfType<ParameterExpression>().ToArray();
 
         if (parameters.Length == 0)
         {
@@ -103,7 +103,7 @@ internal class ArithmeticEngineTests
     [TestCase("y/0")]
     public void Parse_Simplify_Throws_WhenInvalid(string input)
     {
-        Assert.ThrowsAsync<EngineException>(async () => await _engine.ParseAsync(input));
+        _ = Assert.ThrowsAsync<EngineException>(async () => await _engine.ParseAsync(input));
     }
 
     [TestCase("0/y", "0")]

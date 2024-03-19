@@ -24,7 +24,7 @@ internal sealed class LoadConfigAutoExec : IAutoExec
 
         var configReader = new ConfigurationReader();
 
-        Config config = new Config(); //create default;
+        Config config = new(); //create default;
         try
         {
             config = configReader.Deserialize();

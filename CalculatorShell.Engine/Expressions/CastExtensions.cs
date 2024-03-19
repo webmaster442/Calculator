@@ -28,7 +28,7 @@ internal static class CastExtensions
             : (double)int128;
     }
 
-    public static long ToLong(this Int128 int128) 
+    public static long ToLong(this Int128 int128)
     {
         return int128 > long.MaxValue
             || int128 < long.MinValue

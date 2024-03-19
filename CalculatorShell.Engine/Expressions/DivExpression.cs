@@ -69,7 +69,7 @@ internal sealed class DivExpression : BinaryExpression
         return new DivExpression(newLeft, newRight);
     }
 
-    public override Expression Compile() 
+    public override Expression Compile()
         => Expression.MakeBinary(ExpressionType.Divide, Left.Compile(), Right.Compile());
 
     public override string ToString(CultureInfo cultureInfo)

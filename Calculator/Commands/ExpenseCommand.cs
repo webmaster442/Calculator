@@ -52,7 +52,7 @@ internal class ExpenseCommand : ShellCommand
         }
     }
 
-    public override IArgumentCompleter? ArgumentCompleter 
+    public override IArgumentCompleter? ArgumentCompleter
         => new OptionClassCompleter<ExpenseOptons>(Host);
 
     protected ExpenseItem Create(Arguments args, bool income)

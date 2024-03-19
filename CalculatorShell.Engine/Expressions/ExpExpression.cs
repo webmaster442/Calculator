@@ -51,7 +51,7 @@ internal sealed class ExpExpression : BinaryExpression
         return new ExpExpression(newLeft, newRight);
     }
 
-    public override Expression Compile() 
+    public override Expression Compile()
         => Expression.Call(typeof(NumberMath).GetMethod(nameof(NumberMath.Pow))!, Left.Compile(), Right.Compile());
 
     public override string ToString(CultureInfo cultureInfo)

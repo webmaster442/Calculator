@@ -30,7 +30,7 @@ internal sealed class UnSetCommand : ShellCommand
     public override string HelpMessage
         => this.BuildHelpMessage<UnSetOptions>();
 
-    public override IArgumentCompleter? ArgumentCompleter 
+    public override IArgumentCompleter? ArgumentCompleter
         => new OptionClassCompleter<UnSetOptions>(Host);
 
     internal class UnSetOptions

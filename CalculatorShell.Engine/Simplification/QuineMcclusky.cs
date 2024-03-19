@@ -56,7 +56,7 @@ internal static class QuineMcclusky
                 if (r.A.Equals(m) || r.B.Equals(m)) rmList.Add(m);
             }
 
-            foreach (Implicant m in rmList) implicants.Remove(m);
+            foreach (Implicant m in rmList) _ = implicants.Remove(m);
 
             var mask = Utilities.GetMask(r.A.Mask, r.B.Mask);
 
@@ -117,10 +117,10 @@ internal static class QuineMcclusky
                 if (add)
                 {
                     final.Add(m);
-                    foreach (int r in m.Minterms) lstToRemove.Remove(r);
+                    foreach (int r in m.Minterms) _ = lstToRemove.Remove(r);
                 }
             }
-            foreach (Implicant? item in final) implicants.Remove(item); //ami benne van már 1x, az még 1x ne
+            foreach (Implicant? item in final) _ = implicants.Remove(item); //ami benne van már 1x, az még 1x ne
             ++runnumber;
         }
 
@@ -138,8 +138,8 @@ internal static class QuineMcclusky
         for (int i = implicants.Count - 1; i >= 0; i--)
         {
             string s = ImplicantStringFactory.Create(implicants[i], longest, variables);
-            final.Append(s);
-            final.Append(" | ");
+            _ = final.Append(s);
+            _ = final.Append(" | ");
         }
 
         string ret = final.Length > 3 ? final.ToString()[0..^3] : final.ToString();
@@ -163,7 +163,7 @@ internal static class QuineMcclusky
             {
                 Mask = Utilities.GetBinaryValue(item, variables.Length),
             };
-            m.Minterms.Add(item);
+            _ = m.Minterms.Add(item);
             implicants.Add(m);
         }
 

@@ -3,8 +3,6 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
-using System.Globalization;
-
 using CalculatorShell.Core;
 
 namespace Calculator.Tests.Core;

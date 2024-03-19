@@ -22,7 +22,7 @@ internal sealed class WinterminalRemove : ShellCommand
         => this.BuildHelpMessage<OptionsBase>();
 
     public override string Category
-        => CommandCategories.WinTerminal; 
+        => CommandCategories.WinTerminal;
 
 
     public override void ExecuteInternal(Arguments args)

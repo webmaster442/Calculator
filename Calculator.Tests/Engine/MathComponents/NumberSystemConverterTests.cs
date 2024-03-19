@@ -34,27 +34,27 @@ public class NumberSystemConverterTests
     [TestCase("1", 2, 99)]
     public void Convert_ThrowsArgumentOutOfRangeException_InvalidSystems(string input, int source, int target)
     {
-        Assert.Throws<EngineException>(() =>
+        _ = Assert.Throws<EngineException>(() =>
         {
-            _sut.Convert(input, source, target);
+            _ = _sut.Convert(input, source, target);
         });
     }
 
     [Test]
     public void Convert_ThrowsArgumentException_EmptyInput()
     {
-        Assert.Throws<EngineException>(() =>
+        _ = Assert.Throws<EngineException>(() =>
         {
-            _sut.Convert("", 2, 8);
+            _ = _sut.Convert("", 2, 8);
         });
     }
 
     [Test]
     public void Convert_InvalidOperationException_InvalidSymbol_ForSystem()
     {
-        Assert.Throws<EngineException>(() =>
+        _ = Assert.Throws<EngineException>(() =>
         {
-            _sut.Convert("01012", 2, 8);
+            _ = _sut.Convert("01012", 2, 8);
         });
     }
 }

@@ -26,7 +26,7 @@ internal sealed class NegateExpression : UnaryExpression
         return new NegateExpression(newChild);
     }
 
-    public override Expression Compile() 
+    public override Expression Compile()
         => Expression.Negate(Child.Compile());
 
     public override string ToString(CultureInfo cultureInfo)

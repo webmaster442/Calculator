@@ -36,7 +36,7 @@ internal sealed class Func2Expression : BinaryExpression
         }
     }
 
-    public override Expression Compile() 
+    public override Expression Compile()
         => Expression.Call(_function.MethodInfo, Left.Compile(), Right.Compile());
 
     public override string ToString(CultureInfo cultureInfo)

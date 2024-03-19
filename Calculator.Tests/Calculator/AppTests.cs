@@ -28,11 +28,11 @@ internal class AppTests
         _input = new TestTerminalInput();
         _writableHost = Substitute.For<IWritableHost>();
         _timeProvider = Substitute.For<TimeProvider>();
-        _timeProvider.GetUtcNow().Returns(new DateTimeOffset(new DateTime(2024, 01, 01, 12, 00, 0)));
-        _timeProvider.LocalTimeZone.Returns(TimeZoneInfo.Utc);
+        _ = _timeProvider.GetUtcNow().Returns(new DateTimeOffset(new DateTime(2024, 01, 01, 12, 00, 0)));
+        _ = _timeProvider.LocalTimeZone.Returns(TimeZoneInfo.Utc);
         _currentDirectoryProvider = Substitute.For<ICurrentDirectoryProvider>();
 
-        _currentDirectoryProvider.CurrentDirectory.Returns(@"/test");
+        _ = _currentDirectoryProvider.CurrentDirectory.Returns(@"/test");
 
         _sut = new App(_host, _input, _writableHost, _timeProvider, _currentDirectoryProvider);
     }

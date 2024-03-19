@@ -5,7 +5,6 @@
 
 using System.Net;
 using System.Net.Mime;
-using System.Text;
 
 namespace Calculator.Web.Server;
 

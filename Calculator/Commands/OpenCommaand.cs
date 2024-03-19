@@ -30,7 +30,7 @@ internal sealed class OpenCommaand : ShellCommandAsync
     public override string HelpMessage
         => this.BuildHelpMessage<OpenOptions>();
 
-    public override IArgumentCompleter? ArgumentCompleter 
+    public override IArgumentCompleter? ArgumentCompleter
         => new FileNameCompleter(Host);
 
     internal class OpenOptions
@@ -66,6 +66,6 @@ internal sealed class OpenCommaand : ShellCommandAsync
         using var process = new Process();
         process.StartInfo.FileName = options.FileName;
         process.StartInfo.UseShellExecute = extension is not ".exe" and not ".com";
-        process.Start();
+        _ = process.Start();
     }
 }

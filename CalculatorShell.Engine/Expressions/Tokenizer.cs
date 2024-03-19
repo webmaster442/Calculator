@@ -24,7 +24,7 @@ internal sealed class Tokenizer
         _knownFunctions = functions.ToHashSet(StringComparer.InvariantCultureIgnoreCase);
     }
 
-    public async IAsyncEnumerable<Token> Tokenize([EnumeratorCancellation]CancellationToken cancellationToken)
+    public async IAsyncEnumerable<Token> Tokenize([EnumeratorCancellation] CancellationToken cancellationToken)
     {
         for (int i = 0; i < _expression.Length; i++)
         {
@@ -76,7 +76,7 @@ internal sealed class Tokenizer
                     default:
                         throw new EngineException($"Invalid token '{comparison}' in function: {_expression}");
                 }
-                i += (comparison.Length -1);
+                i += (comparison.Length - 1);
                 continue;
             }
 
@@ -135,7 +135,7 @@ internal sealed class Tokenizer
         while (i < _expression.Length
             && IsComparisionOperatorChar(_expression[i]))
         {
-            op.Append(_expression[i]);
+            _ = op.Append(_expression[i]);
             ++i;
         }
         return Task.FromResult(op.ToString());
@@ -149,7 +149,7 @@ internal sealed class Tokenizer
         while (i < _expression.Length
             && IsIdentifierChar(_expression[i], previous, _culture.NumberFormat))
         {
-            identifier.Append(_expression[i]);
+            _ = identifier.Append(_expression[i]);
             ++i;
             previous = _expression[i - 1];
         }

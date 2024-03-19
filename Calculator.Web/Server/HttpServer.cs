@@ -66,7 +66,7 @@ public sealed class HttpServer : IDisposable
     {
         IPGlobalProperties ipGlobalProperties = IPGlobalProperties.GetIPGlobalProperties();
         var portsInUse = ipGlobalProperties.GetActiveTcpConnections().Select(x => x.LocalEndPoint.Port).ToHashSet();
-        for (int port=startPort; port<=endPort; port++)
+        for (int port = startPort; port <= endPort; port++)
         {
             if (!portsInUse.Contains(port))
             {
@@ -80,7 +80,7 @@ public sealed class HttpServer : IDisposable
 
     public void Stop()
     {
-        _stop.Set();
+        _ = _stop.Set();
         _listenerThread.Join();
         foreach (Thread worker in _workers)
         {
@@ -109,7 +109,7 @@ public sealed class HttpServer : IDisposable
             lock (_queue)
             {
                 _queue.Enqueue(_listener.EndGetContext(ar));
-                _ready.Set();
+                _ = _ready.Set();
             }
         }
         catch { return; }
@@ -129,7 +129,7 @@ public sealed class HttpServer : IDisposable
                 }
                 else
                 {
-                    _ready.Reset();
+                    _ = _ready.Reset();
                     continue;
                 }
             }
@@ -150,7 +150,7 @@ public sealed class HttpServer : IDisposable
                 if (!handled)
                 {
                     _log.Warning($"No handler found for request: {context.ToLogMessage()}");
-                    _defaultHandler.HandleRequest(context);
+                    _ = _defaultHandler.HandleRequest(context);
                 }
 
             }

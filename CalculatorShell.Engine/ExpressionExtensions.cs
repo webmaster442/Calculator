@@ -6,8 +6,6 @@
 using CalculatorShell.Engine.LogicExpressions;
 using CalculatorShell.Engine.Simplification;
 
-using System.Linq.Expressions;
-
 namespace CalculatorShell.Engine;
 
 public static class ExpressionExtensions
@@ -59,7 +57,7 @@ public static class ExpressionExtensions
             SetVariable(variables, i);
             if (expression.Evaluate(variables))
             {
-                minterms.Add(i);
+                _ = minterms.Add(i);
             }
         }
         LogicExpressionParser parser = new();
