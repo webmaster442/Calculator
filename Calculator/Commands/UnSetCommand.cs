@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Calculator.ArgumentCompleters;
 using Calculator.Messages;
 
 using CalculatorShell.Core;
@@ -28,6 +29,9 @@ internal sealed class UnSetCommand : ShellCommand
 
     public override string HelpMessage
         => this.BuildHelpMessage<UnSetOptions>();
+
+    public override IArgumentCompleter? ArgumentCompleter 
+        => new OptionClassCompleter<UnSetOptions>(Host);
 
     internal class UnSetOptions
     {

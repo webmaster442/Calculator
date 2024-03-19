@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Calculator.ArgumentCompleters;
 using Calculator.Messages;
 
 using CalculatorShell.Core;
@@ -50,6 +51,9 @@ internal class ExpenseCommand : ShellCommand
             Date = new DateOnly(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
         }
     }
+
+    public override IArgumentCompleter? ArgumentCompleter 
+        => new OptionClassCompleter<ExpenseOptons>(Host);
 
     protected ExpenseItem Create(Arguments args, bool income)
     {

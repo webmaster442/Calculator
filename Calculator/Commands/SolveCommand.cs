@@ -3,10 +3,13 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Calculator.ArgumentCompleters;
+
 using CalculatorShell.Core;
 using CalculatorShell.Engine.MathComponents;
-
 using CommandLine;
+
+using static Calculator.Commands.Simplify;
 
 namespace Calculator.Commands;
 internal class SolveCommand : ShellCommand
@@ -28,6 +31,9 @@ internal class SolveCommand : ShellCommand
 
     public override string HelpMessage
         => this.BuildHelpMessage<SolveOptions>();
+
+    public override IArgumentCompleter? ArgumentCompleter
+        => new OptionClassCompleter<SolveOptions>(Host);
 
     internal class SolveOptions
     {

@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Calculator.ArgumentCompleters;
+
 using CalculatorShell.Core;
 using CalculatorShell.Engine;
 
@@ -28,6 +30,9 @@ internal class Simplify : ShellCommand
 
     public override string HelpMessage
         => this.BuildHelpMessage<SimplifyOptions>();
+
+    public override IArgumentCompleter? ArgumentCompleter
+        => new OptionClassCompleter<SimplifyOptions>(Host);
 
     internal class SimplifyOptions
     {

@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using Calculator.ArgumentCompleters;
 using Calculator.Messages;
 
 using CalculatorShell.Core;
@@ -28,6 +29,10 @@ internal class HistoryCommand : ShellCommandAsync
 
     public override string HelpMessage
         => this.BuildHelpMessage<HistoryOptions>();
+
+
+    public override IArgumentCompleter? ArgumentCompleter
+        => new OptionClassCompleter<HistoryOptions>(Host);
 
     internal class HistoryOptions
     {
