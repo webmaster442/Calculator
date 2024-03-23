@@ -28,8 +28,11 @@ internal class OptionClassCompleter<TOptions> : BaseCompleter
             var option = prop.GetCustomAttribute<OptionAttribute>();
             if (option != null)
             {
-                _options.Add($"-{option.ShortName}", option.HelpText);
-                _options.Add($"--{option.LongName}", option.HelpText);
+                if (!string.IsNullOrEmpty(option.ShortName))
+                    _options.TryAdd($"-{option.ShortName}", option.HelpText);
+
+                if (!string.IsNullOrEmpty(option.LongName))
+                    _options.TryAdd($"--{option.LongName}", option.HelpText);
             }
         }
     }
