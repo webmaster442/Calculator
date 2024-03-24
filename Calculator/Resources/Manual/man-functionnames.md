@@ -30,6 +30,10 @@ The following functions can be used in expression, when using the `eval` command
 
     Works on numbers that can be converted to double. Result is affected by current angle system.
 
+* `Binomial(n; k)`
+
+    Computes the binomial coefficient of two numbers. n and k must be integers and n must be greater than or equal to k. Result is a double.
+
 * `Ceil(x)`
 
     Returns the smallest integral value that is greater than or equal to the specified number. Works on numbers that can be converted to double.

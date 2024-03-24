@@ -151,4 +151,10 @@ internal static class NumberMath
         var max = maximum.ToInt128().ToLong();
         return new((Int128)System.Random.Shared.NextInt64(min, max));
     }
+
+    [EngineFunction]
+    public static Number Binomial(Number n, Number k)
+    {
+        return new Number(Probability.Binomial(n.ToInt128(), k.ToInt128()));
+    }
 }
