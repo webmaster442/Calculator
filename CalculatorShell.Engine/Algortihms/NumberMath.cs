@@ -153,8 +153,11 @@ internal static class NumberMath
     }
 
     [EngineFunction]
-    public static Number Binomial(Number n, Number k)
-    {
-        return new Number(Probability.Binomial(n.ToInt128(), k.ToInt128()));
-    }
+    public static Number Binomial(Number n, Number k) 
+        => new Number(Probability.Binomial(n.ToInt128(), k.ToInt128()));
+
+    [EngineFunction]
+    public static Number Float(Number n)
+        => new(n.ToDouble());
+    
 }
