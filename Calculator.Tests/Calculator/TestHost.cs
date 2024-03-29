@@ -12,7 +12,7 @@ using NSubstitute;
 
 namespace Calculator.Tests.Calculator;
 
-internal class TestHost : IHost
+internal sealed class TestHost : IHost
 {
     public TestHost()
     {

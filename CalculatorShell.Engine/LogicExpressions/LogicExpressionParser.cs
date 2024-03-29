@@ -7,7 +7,7 @@ using CalculatorShell.Engine.Simplification;
 
 namespace CalculatorShell.Engine.LogicExpressions;
 
-internal class LogicExpressionParser
+internal sealed class LogicExpressionParser
 {
     private LogicTokenizer _tokenizer;
     private LogicToken _currentToken;

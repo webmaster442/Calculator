@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace CalculatorShell.Engine.Expressions;
 
-internal class ExpressionParser
+internal sealed class ExpressionParser
 {
     private Token[] _tokens;
     private Token _currentToken;

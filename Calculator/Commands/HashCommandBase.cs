@@ -47,7 +47,7 @@ internal abstract class HashCommandBase : ShellCommandAsync, IDisposable, IProgr
     public override string Category
         => CommandCategories.Hash;
 
-    internal class HashOptions
+    internal sealed class HashOptions
     {
         [Value(0, HelpText = "File name")]
         public string FileName { get; set; }

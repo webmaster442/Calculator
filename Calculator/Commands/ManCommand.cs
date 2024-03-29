@@ -7,7 +7,7 @@ using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 
-internal class ManCommand : ShellCommand
+internal sealed class ManCommand : ShellCommand
 {
     public ManCommand(IHost host) : base(host)
     {

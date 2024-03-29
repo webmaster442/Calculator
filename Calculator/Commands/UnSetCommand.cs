@@ -33,7 +33,7 @@ internal sealed class UnSetCommand : ShellCommand
     public override IArgumentCompleter? ArgumentCompleter
         => new OptionClassCompleter<UnSetOptions>(Host);
 
-    internal class UnSetOptions
+    internal sealed class UnSetOptions
     {
         [Value(0, HelpText = "Variable name to unset")]
         public string VariableName { get; set; }

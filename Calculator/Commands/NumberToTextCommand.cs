@@ -28,7 +28,7 @@ internal sealed class NumberToTextCommand : ShellCommand
     public override string HelpMessage 
         => this.BuildHelpMessage<NumberToTextArguments>();
 
-    internal class NumberToTextArguments
+    internal sealed class NumberToTextArguments
     {
         [Value(0, Required = true, HelpText = "The number to convert to text")]
         public long Number { get; set; }

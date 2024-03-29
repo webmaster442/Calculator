@@ -7,7 +7,7 @@ using CalculatorShell.Core;
 
 namespace Calculator.Tests.Calculator;
 
-internal class TestTerminalInput : ITerminalInput
+internal sealed class TestTerminalInput : ITerminalInput
 {
     public string InputText { get; set; }
 

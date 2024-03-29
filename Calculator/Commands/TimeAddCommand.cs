@@ -49,7 +49,7 @@ internal sealed class TimeAddCommand : TimeCommand
     public override string HelpMessage
         => this.BuildHelpMessage<TimeAddOptions>();
 
-    internal class TimeAddOptions
+    internal sealed class TimeAddOptions
     {
         [Value(0, HelpText = "Date and time for the basis of calculation", Required = true)]
         public DateTime Start { get; set; }

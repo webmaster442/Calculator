@@ -7,6 +7,6 @@ using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
 
-internal class VariableListRequest : PayloadBase
+internal sealed class VariableListRequest : PayloadBase
 {
 }

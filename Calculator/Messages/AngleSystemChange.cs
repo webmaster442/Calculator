@@ -7,7 +7,7 @@ using CalculatorShell.Core.Mediator;
 using CalculatorShell.Engine;
 
 namespace Calculator.Messages;
-internal class AngleSystemChange : PayloadBase
+internal sealed class AngleSystemChange : PayloadBase
 {
     public AngleSystemChange(AngleSystem angleSystem)
     {

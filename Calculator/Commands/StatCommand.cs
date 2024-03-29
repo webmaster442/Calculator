@@ -9,7 +9,7 @@ using CalculatorShell.Engine.MathComponents.Stat;
 using CommandLine;
 
 namespace Calculator.Commands;
-internal class StatCommand : ShellCommand
+internal sealed class StatCommand : ShellCommand
 {
     public StatCommand(IHost host) : base(host)
     {
@@ -26,7 +26,7 @@ internal class StatCommand : ShellCommand
     public override string HelpMessage
         => this.BuildHelpMessage<StatOptions>();
 
-    internal class StatOptions
+    internal sealed class StatOptions
     {
         [Value(0, HelpText = "Numbers that will be used to calculate statistics", Required = true)]
         public IEnumerable<double> Numbers { get; set; }

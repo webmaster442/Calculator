@@ -10,7 +10,7 @@ using CommandLine;
 
 namespace Calculator.Commands;
 
-internal class BcdDecodeCommand : ShellCommand
+internal sealed class BcdDecodeCommand : ShellCommand
 {
     public BcdDecodeCommand(IHost host) : base(host)
     {
@@ -27,7 +27,7 @@ internal class BcdDecodeCommand : ShellCommand
     public override string HelpMessage
         => this.BuildHelpMessage<BcdDecodeOptions>();
 
-    internal class BcdDecodeOptions
+    internal sealed class BcdDecodeOptions
     {
         [Value(0, HelpText = "Number to decode", Required = true)]
         public string Value { get; set; }

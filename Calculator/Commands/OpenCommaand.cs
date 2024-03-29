@@ -33,7 +33,7 @@ internal sealed class OpenCommaand : ShellCommandAsync
     public override IArgumentCompleter? ArgumentCompleter
         => new FileNameCompleter(Host);
 
-    internal class OpenOptions
+    internal sealed class OpenOptions
     {
         [Value(0, HelpText = "File name to open", Required = true)]
         public string FileName { get; set; }

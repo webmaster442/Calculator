@@ -8,7 +8,7 @@ using System.Text;
 using CalculatorShell.Core;
 
 namespace Calculator.Commands;
-internal class LsCommand : ShellCommand
+internal sealed class LsCommand : ShellCommand
 {
     public LsCommand(IHost host) : base(host)
     {

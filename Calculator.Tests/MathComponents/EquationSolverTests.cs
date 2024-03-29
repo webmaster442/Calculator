@@ -10,7 +10,7 @@ using CalculatorShell.Engine.MathComponents;
 namespace Calculator.Tests.MathComponents;
 
 [TestFixture]
-internal class EquationSolverTests
+public class EquationSolverTests
 {
     public static IEnumerable<TestCaseData> TestCases
     {

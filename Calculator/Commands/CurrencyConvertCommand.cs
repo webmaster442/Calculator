@@ -70,7 +70,7 @@ internal sealed class CurrencyConvertCommand : ShellCommandAsync
     public override IArgumentCompleter? ArgumentCompleter
         => new DelegatedCompleter(ProvideAutoCompleteItems);
 
-    internal class CurrencyConvertOptions
+    internal sealed class CurrencyConvertOptions
     {
         [Value(0, HelpText = "Target currency", Required = true)]
         public decimal Ammount { get; set; }

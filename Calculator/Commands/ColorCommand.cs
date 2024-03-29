@@ -10,7 +10,7 @@ using CommandLine;
 
 namespace Calculator.Commands;
 
-internal class ColorCommand : ShellCommand
+internal sealed class ColorCommand : ShellCommand
 {
     public ColorCommand(IHost host) : base(host)
     {
@@ -27,7 +27,7 @@ internal class ColorCommand : ShellCommand
     public override string HelpMessage
         => this.BuildHelpMessage<ColorOptions>();
 
-    internal class ColorOptions
+    internal sealed class ColorOptions
     {
         [Value(0, HelpText = "Color value to parse", Required = true)]
         public string ColorValue { get; set; }

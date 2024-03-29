@@ -7,7 +7,7 @@ using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
 
-internal class GetExpenseBallance : PayloadBase
+internal sealed class GetExpenseBallance : PayloadBase
 {
     public decimal Ballance { get; }
 

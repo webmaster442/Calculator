@@ -11,7 +11,7 @@ using CalculatorShell.Engine;
 namespace Calculator.Tests.Engine;
 
 [TestFixture]
-internal class ArithmeticEngineTests
+public class ArithmeticEngineTests
 {
     private ArithmeticEngine _engine;
     private Varialbes _variables;

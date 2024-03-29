@@ -10,7 +10,7 @@ using CalculatorShell.Core;
 using CommandLine;
 
 namespace Calculator.Commands;
-internal class HelpCommand : ShellCommand
+internal sealed class HelpCommand : ShellCommand
 {
     public HelpCommand(IHost host) : base(host)
     {
@@ -27,7 +27,7 @@ internal class HelpCommand : ShellCommand
     public override string HelpMessage
         => this.BuildHelpMessage<HelpOptions>();
 
-    internal class HelpOptions
+    internal sealed class HelpOptions
     {
         [Value(0, HelpText = "Command name", Required = true)]
         public string CommandName { get; set; }

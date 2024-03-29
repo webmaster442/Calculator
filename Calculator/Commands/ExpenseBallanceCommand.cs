@@ -9,7 +9,7 @@ using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 
-internal class ExpenseBallanceCommand : ShellCommand
+internal sealed class ExpenseBallanceCommand : ShellCommand
 {
     public ExpenseBallanceCommand(IHost host) : base(host)
     {

@@ -55,7 +55,7 @@ internal sealed class UnitConvertConmmand : ShellCommand
         return UnitConverter.ConvertByName(value, quantityName, fromUnit, toUnit);
     }
 
-    internal class UnitConvertOptions
+    internal sealed class UnitConvertOptions
     {
         [Value(0, HelpText = "Value to convert", Required = true)]
         public double Value { get; set; }

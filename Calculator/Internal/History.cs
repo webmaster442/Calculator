@@ -8,7 +8,7 @@ using Calculator.Messages;
 using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Internal;
-internal class History
+internal sealed class History
     : IRequestProvider<IEnumerable<string>, HistoryRequestMessage>,
       INotifyTarget<AddHistory>,
       INotifyTarget<DeleteHistory>

@@ -12,7 +12,7 @@ using CommandLine;
 
 namespace Calculator.Commands;
 
-internal class HistoryCommand : ShellCommandAsync
+internal sealed class HistoryCommand : ShellCommandAsync
 {
     public HistoryCommand(IHost host) : base(host)
     {
@@ -34,7 +34,7 @@ internal class HistoryCommand : ShellCommandAsync
     public override IArgumentCompleter? ArgumentCompleter
         => new OptionClassCompleter<HistoryOptions>(Host);
 
-    internal class HistoryOptions
+    internal sealed class HistoryOptions
     {
         [Option(
             'e',

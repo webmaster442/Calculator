@@ -9,7 +9,7 @@ using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
 
-internal class SetConfig : PayloadBase
+internal sealed class SetConfig : PayloadBase
 {
     public SetConfig(Config config)
     {

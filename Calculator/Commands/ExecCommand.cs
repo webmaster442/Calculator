@@ -29,7 +29,7 @@ internal sealed class ExecCommand : ShellCommand
     public override string HelpMessage
         => this.BuildHelpMessage<ExecOptions>();
 
-    internal class ExecOptions
+    internal sealed class ExecOptions
     {
         [Value(0, HelpText = "File name to execute", Required = true)]
         public string FileName { get; set; }

@@ -6,7 +6,7 @@
 using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
-internal class EnqueCommands : PayloadBase
+internal sealed class EnqueCommands : PayloadBase
 {
     public EnqueCommands(string[] commands)
     {

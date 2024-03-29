@@ -12,7 +12,7 @@ using CalculatorShell.Engine;
 
 namespace Calculator.Commands;
 
-internal class EvalCommand : ShellCommandAsync,
+internal sealed class EvalCommand : ShellCommandAsync,
     INotifyTarget<AngleSystemChange>,
     INotifyTarget<SetVariable>,
     INotifyTarget<UnsetVariable>,

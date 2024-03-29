@@ -28,7 +28,7 @@ internal sealed class RomanToNumberCommand : ShellCommand
     public override string HelpMessage
         => this.BuildHelpMessage<RomanToNumberArguments>();
 
-    internal class RomanToNumberArguments
+    internal sealed class RomanToNumberArguments
     {
         [Value(0, Required = true, HelpText = "The roman number to convert to integer")]
         public string Roman { get; set; }

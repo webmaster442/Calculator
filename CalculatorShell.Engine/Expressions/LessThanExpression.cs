@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
-internal class LessThanExpression : ComparisonExpression
+internal sealed class LessThanExpression : ComparisonExpression
 {
     public LessThanExpression(IExpression left, IExpression right) : base(left, right)
     {

@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
-internal class EqualExpression : ComparisonExpression
+internal sealed class EqualExpression : ComparisonExpression
 {
     public EqualExpression(IExpression left, IExpression right) : base(left, right)
     {

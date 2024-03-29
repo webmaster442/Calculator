@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace CalculatorShell.Engine.Expressions;
 
-internal class TennaryExpression : IExpression
+internal sealed class TennaryExpression : IExpression
 {
     private readonly IExpression _check;
     private readonly IExpression _true;

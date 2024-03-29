@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
-internal class VariableExpression : IExpression
+internal sealed class VariableExpression : IExpression
 {
     private readonly IVariables _variables;
     private readonly string _idendifier;

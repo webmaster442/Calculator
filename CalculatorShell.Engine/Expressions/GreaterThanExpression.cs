@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 
 namespace CalculatorShell.Engine.Expressions;
 
-internal class GreaterThanExpression : ComparisonExpression
+internal sealed class GreaterThanExpression : ComparisonExpression
 {
     public GreaterThanExpression(IExpression left, IExpression right) : base(left, right)
     {

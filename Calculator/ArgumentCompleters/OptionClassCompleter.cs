@@ -11,7 +11,7 @@ using CommandLine;
 
 namespace Calculator.ArgumentCompleters;
 
-internal class OptionClassCompleter<TOptions> : BaseCompleter
+internal sealed class OptionClassCompleter<TOptions> : BaseCompleter
 {
     private readonly Dictionary<string, string> _options;
 

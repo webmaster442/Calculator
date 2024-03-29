@@ -23,7 +23,7 @@ internal sealed class TimeDiffCommand : TimeCommand
     public override string HelpMessage
         => this.BuildHelpMessage<TimeDiffOptions>();
 
-    internal class TimeDiffOptions
+    internal sealed class TimeDiffOptions
     {
         [Value(0, HelpText = "First date and time", Required = true)]
         public DateTime A { get; set; }

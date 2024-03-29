@@ -11,7 +11,7 @@ using CalculatorShell.Engine;
 using CommandLine;
 
 namespace Calculator.Commands;
-internal class Simplify : ShellCommand
+internal sealed class Simplify : ShellCommand
 {
     private readonly LogicEngine _engine;
 
@@ -34,7 +34,7 @@ internal class Simplify : ShellCommand
     public override IArgumentCompleter? ArgumentCompleter
         => new OptionClassCompleter<SimplifyOptions>(Host);
 
-    internal class SimplifyOptions
+    internal sealed class SimplifyOptions
     {
         [Option('v', "variables", HelpText = "Variable count of function, in minterm mode only", SetName = "miterm")]
         public int VariableCount { get; set; }

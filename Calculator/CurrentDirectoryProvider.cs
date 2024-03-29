@@ -6,7 +6,7 @@
 using CalculatorShell.Core;
 
 namespace Calculator;
-internal class CurrentDirectoryProvider : ICurrentDirectoryProvider
+internal sealed class CurrentDirectoryProvider : ICurrentDirectoryProvider
 {
     public string CurrentDirectory
     {

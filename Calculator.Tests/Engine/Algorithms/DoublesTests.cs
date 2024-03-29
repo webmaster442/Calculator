@@ -8,7 +8,8 @@ using CalculatorShell.Engine.Algortihms;
 
 namespace Calculator.Tests.Engine.Algorithms;
 
-internal class DoublesTests
+[TestFixture]
+public class DoublesTests
 {
     [TestCase(0.0, 0.0, AngleSystem.Deg)]
     [TestCase(90.0, 1.0, AngleSystem.Deg)]

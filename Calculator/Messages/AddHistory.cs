@@ -7,7 +7,7 @@ using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
 
-internal class AddHistory : PayloadBase
+internal sealed class AddHistory : PayloadBase
 {
     public string CommandLine { get; }
 

@@ -10,7 +10,7 @@ using CalculatorShell.Engine;
 namespace Calculator.Tests.Engine;
 
 [TestFixture]
-internal class LogicEngineTests
+public class LogicEngineTests
 {
     private ILogicEngine _engine;
 

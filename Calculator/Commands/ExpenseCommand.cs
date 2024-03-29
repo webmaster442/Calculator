@@ -30,7 +30,7 @@ internal class ExpenseCommand : ShellCommand
     public override string HelpMessage
         => this.BuildHelpMessage<ExpenseOptons>();
 
-    internal class ExpenseOptons
+    internal sealed class ExpenseOptons
     {
         [Value(0, HelpText = "Expense or income value")]
         public decimal Ammount { get; set; }

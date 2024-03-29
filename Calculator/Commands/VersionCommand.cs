@@ -9,7 +9,7 @@ using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 
-internal class VersionCommand : ShellCommand
+internal sealed class VersionCommand : ShellCommand
 {
     public VersionCommand(IHost host) : base(host)
     {

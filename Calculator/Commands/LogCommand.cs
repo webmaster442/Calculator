@@ -7,7 +7,7 @@ using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 
-internal class LogCommand : ShellCommand
+internal sealed class LogCommand : ShellCommand
 {
     public LogCommand(IHost host) : base(host)
     {

@@ -14,7 +14,7 @@ using Spectre.Console;
 
 namespace Calculator;
 
-internal class TerminalOutput : ITerminalOutput
+internal sealed class TerminalOutput : ITerminalOutput
 {
     internal CultureInfo CultureInfo { get; set; }
     private readonly Color[] _palette;

@@ -32,7 +32,7 @@ internal sealed class CdCommand : ShellCommandAsync
     public override string HelpMessage
         => this.BuildHelpMessage<CdOptions>();
 
-    internal class CdOptions
+    internal sealed class CdOptions
     {
         [Value(0, HelpText = "Directory path")]
         public string Path { get; set; }

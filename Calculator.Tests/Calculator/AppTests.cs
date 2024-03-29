@@ -8,7 +8,9 @@ using CalculatorShell.Core;
 using NSubstitute;
 
 namespace Calculator.Tests.Calculator;
-internal class AppTests
+
+[TestFixture]
+public class AppTests
 {
     private TestTerminalInput _input;
     private TestHost _host;

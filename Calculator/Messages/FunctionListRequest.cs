@@ -7,6 +7,6 @@ using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
 
-internal class FunctionListRequest : PayloadBase
+internal sealed class FunctionListRequest : PayloadBase
 {
 }

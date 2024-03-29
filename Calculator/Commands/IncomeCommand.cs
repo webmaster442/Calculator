@@ -9,7 +9,7 @@ using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 
-internal class IncomeCommand : ExpenseCommand
+internal sealed class IncomeCommand : ExpenseCommand
 {
     public IncomeCommand(IHost host) : base(host)
     {

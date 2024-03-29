@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Calculator.Tests.Calculator;
 
-internal class MultiLineComparer : IEqualityComparer<string>
+internal sealed class MultiLineComparer : IEqualityComparer<string>
 {
     [return: NotNullIfNotNull(nameof(s))]
     private static string? Normalize(string? s)

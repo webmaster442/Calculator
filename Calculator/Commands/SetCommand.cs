@@ -28,7 +28,7 @@ internal sealed class SetCommand : ShellCommand
     public override string Category
         => CommandCategories.Calculation;
 
-    internal class SetOptions
+    internal sealed class SetOptions
     {
         [Value(0, HelpText = "Variable name to set", Required = true)]
         public string Name { get; set; }

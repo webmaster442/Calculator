@@ -11,7 +11,7 @@ using CalculatorShell.Engine.MathComponents;
 using CommandLine;
 
 namespace Calculator.Commands;
-internal class SolveCommand : ShellCommand
+internal sealed class SolveCommand : ShellCommand
 {
     public SolveCommand(IHost host) : base(host)
     {
@@ -34,7 +34,7 @@ internal class SolveCommand : ShellCommand
     public override IArgumentCompleter? ArgumentCompleter
         => new OptionClassCompleter<SolveOptions>(Host);
 
-    internal class SolveOptions
+    internal sealed class SolveOptions
     {
         [Option("x0", HelpText = ">The constant term. (X^0)")]
         public double X0 { get; set; }

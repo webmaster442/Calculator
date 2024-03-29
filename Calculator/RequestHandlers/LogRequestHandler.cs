@@ -12,7 +12,7 @@ using Calculator.Web.Server;
 using CalculatorShell.Core;
 
 namespace Calculator.RequestHandlers;
-internal class LogRequestHandler : HtmlRequestHandler
+internal sealed class LogRequestHandler : HtmlRequestHandler
 {
     private readonly IHost _host;
 

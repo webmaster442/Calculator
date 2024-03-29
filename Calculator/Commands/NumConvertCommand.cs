@@ -30,7 +30,7 @@ internal sealed class NumConvertCommand : ShellCommand
     public override string HelpMessage
         => this.BuildHelpMessage<NumConvertOptions>();
 
-    internal class NumConvertOptions
+    internal sealed class NumConvertOptions
     {
         [Value(0, HelpText = "Number to convert", Required = true)]
         public string Value { get; set; }

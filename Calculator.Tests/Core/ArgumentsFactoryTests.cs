@@ -8,7 +8,7 @@ using CalculatorShell.Core;
 namespace Calculator.Tests.Core;
 
 [TestFixture]
-internal class ArgumentsFactoryTests
+public class ArgumentsFactoryTests
 {
     [Test]
     public void Test_Create_NoQutes()

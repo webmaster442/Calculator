@@ -6,6 +6,6 @@
 using CalculatorShell.Core.Mediator;
 
 namespace Calculator.Messages;
-internal class ConfigRequest : PayloadBase
+internal sealed class ConfigRequest : PayloadBase
 {
 }

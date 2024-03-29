@@ -6,6 +6,6 @@
 namespace CalculatorShell.Engine.Algortihms;
 
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-internal class EngineFunctionAttribute : Attribute
+internal sealed class EngineFunctionAttribute : Attribute
 {
 }

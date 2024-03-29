@@ -13,7 +13,7 @@ using CalculatorShell.Engine.MathComponents;
 using CommandLine;
 
 namespace Calculator.Commands;
-internal class FileSizeCommand : ShellCommand
+internal sealed class FileSizeCommand : ShellCommand
 {
     private readonly Dictionary<string, long> _units;
 
@@ -39,7 +39,7 @@ internal class FileSizeCommand : ShellCommand
     public override string HelpMessage
         => this.BuildHelpMessage<FileSizeOptions>();
 
-    internal class FileSizeOptions
+    internal sealed class FileSizeOptions
     {
         [Value(0, HelpText = "File size value", Required = true)]
         public double Value { get; set; }

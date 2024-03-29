@@ -10,7 +10,7 @@ using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 
-internal class ConfigCommand : ShellCommandAsync
+internal sealed class ConfigCommand : ShellCommandAsync
 {
     public ConfigCommand(IHost host) : base(host)
     {
