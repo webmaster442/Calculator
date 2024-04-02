@@ -4,6 +4,8 @@
 //-----------------------------------------------------------------------------
 
 using System.Data;
+using System.Reflection;
+using System.Reflection.Metadata;
 
 namespace CalculatorShell.Core;
 
@@ -90,6 +92,13 @@ public sealed class CommandLoader : IDisposable
         {
             try
             {
+                if (TryGetPlatformsupportCheckValue(commandType, out bool isSupported)
+                    && !isSupported)
+                {
+                    host.Log.Warning($"Command {commandType.Name} is not supported on this platform");
+                    continue;
+                }
+
                 if (Activator.CreateInstance(commandType, new object[] { host }) is IShellCommand cmd)
                 {
                     foreach (var name in cmd.Names)
@@ -105,8 +114,27 @@ public sealed class CommandLoader : IDisposable
             catch (Exception ex)
             {
                 host.Output.Error(ex);
+                host.Log.Exception(ex);
             }
         }
+    }
+
+    private bool TryGetPlatformsupportCheckValue(Type commandType, out bool isSupported)
+    {
+        if (commandType.IsAssignableTo(typeof(IPlatformSupportCheck)))
+        {
+            var method = commandType.GetMethod(nameof(IPlatformSupportCheck.IsSupported), BindingFlags.Public | BindingFlags.Static);
+            if (method == null)
+            {
+                //should not happen, but anyway
+                isSupported = false;
+                return false;
+            }
+            isSupported = (bool)method?.Invoke(null, null)!;
+            return true;
+        }
+        isSupported = false;
+        return false;
     }
 
     private static IEnumerable<Type> GetTypesFromAssembly<TInterface>(Type atypeFromAssembly)
