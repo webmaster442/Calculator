@@ -4,35 +4,34 @@
 //-----------------------------------------------------------------------------
 
 using CalculatorShell.Core;
-using CalculatorShell.Engine.MathComponents;
 
 using CommandLine;
 
 namespace Calculator.Commands;
 
-internal sealed class BcdDecodeCommand : ShellCommand
+public class Base64Encode : ShellCommand
 {
-    public BcdDecodeCommand(IHost host) : base(host)
+    public Base64Encode(IHost host) : base(host)
     {
     }
 
-    public override string[] Names => ["bcddecode"];
+    public override string[] Names => ["base64-encode"];
 
     public override string Category
         => CommandCategories.Conversions;
 
     public override string Synopsys
-        => "Decode a number from binary coded decimal to decimal";
+        => "Converts a string to it's base64 encoded equivalent";
 
-    public override string HelpMessage
-        => this.BuildHelpMessage<BcdDecodeOptions>();
+    public override string HelpMessage 
+        => this.BuildHelpMessage<Base64EncodeOptions>();
 
-    internal sealed class BcdDecodeOptions
+    internal class Base64EncodeOptions
     {
-        [Value(0, HelpText = "Number to decode", Required = true)]
+        [Value(0, HelpText = "String to encode", Required = true)]
         public string Value { get; set; }
 
-        public BcdDecodeOptions()
+        public Base64EncodeOptions()
         {
             Value = string.Empty;
         }
@@ -40,9 +39,9 @@ internal sealed class BcdDecodeCommand : ShellCommand
 
     public override void ExecuteInternal(Arguments args)
     {
-        var options = args.Parse<BcdDecodeOptions>(Host);
+        var options = args.Parse<Base64EncodeOptions>(Host);
 
-        string result = BcdConverter.BcdDecode(options.Value);
+        string result = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(options.Value));
 
         Host.Output.Result(result);
     }
