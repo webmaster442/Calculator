@@ -3,9 +3,11 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Globalization;
+
 namespace CalculatorShell.Engine.MathComponents;
 
-public sealed class HashResult : IEquatable<HashResult?>
+public sealed class HashResult : IEquatable<HashResult?>, ICalculatorFormattable
 {
     private readonly byte[] _hash;
 
@@ -46,7 +48,7 @@ public sealed class HashResult : IEquatable<HashResult?>
         return h.ToHashCode();
     }
 
-    public override string ToString()
+    public string ToString(CultureInfo culture, bool thousandsGrouping)
     {
         return $"hex: {Convert.ToHexString(_hash)}\r\nbase64: {Convert.ToBase64String(_hash)}";
     }

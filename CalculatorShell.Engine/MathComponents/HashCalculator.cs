@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Security.Cryptography;
+using System.Text;
 
 namespace CalculatorShell.Engine.MathComponents;
 
@@ -16,6 +17,12 @@ public class HashCalculator
     public HashCalculator(IProgress<long> progressReporter)
     {
         _progressReporter = progressReporter;
+    }
+
+    public HashResult ComputeHash(HashAlgorithm hashAlgorithm, string data)
+    {
+        byte[] hash = hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes(data));
+        return new HashResult(hash);
     }
 
     public async Task<HashResult> ComputeHashAsync(HashAlgorithm hashAlgorithm,

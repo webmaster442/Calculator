@@ -49,12 +49,15 @@ internal abstract class HashCommandBase : ShellCommandAsync, IDisposable, IProgr
 
     internal sealed class HashOptions
     {
-        [Value(0, HelpText = "File name")]
-        public string FileName { get; set; }
+        [Value(0, HelpText = "File name or string to hash")]
+        public string Data { get; set; }
+
+        [Option('s', "string", HelpText = "Treats input as string, istead of file")]
+        public bool IsString { get; set; }
 
         public HashOptions()
         {
-            FileName = string.Empty;
+            Data = string.Empty;
         }
     }
 
@@ -67,20 +70,33 @@ internal abstract class HashCommandBase : ShellCommandAsync, IDisposable, IProgr
 
         var options = args.Parse<HashOptions>(Host);
 
+
+        if (options.IsString)
+        {
+            if (string.IsNullOrEmpty(options.Data))
+            {
+                throw new CommandException("No input is specified");
+            }
+
+            HashResult stringResult = hc.ComputeHash(_algorithm, options.Data);
+            Host.Output.Result(stringResult);
+            return;
+        }
+
         Stream stream = null!;
         try
         {
-            if (!string.IsNullOrEmpty(options.FileName))
+            if (!string.IsNullOrEmpty(options.Data))
             {
-                stream = File.OpenRead(options.FileName);
+                stream = File.OpenRead(options.Data);
             }
             else
             {
                 var name = await Host.Dialogs.SelectFile(cancellationToken);
                 stream = File.OpenRead(name);
             }
-            var result = await hc.ComputeHashAsync(_algorithm, stream, cancellationToken);
-            Host.Output.Result(result.ToString());
+            HashResult result = await hc.ComputeHashAsync(_algorithm, stream, cancellationToken);
+            Host.Output.Result(result);
         }
         finally
         {
