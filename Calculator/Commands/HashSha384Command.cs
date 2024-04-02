@@ -11,7 +11,7 @@ using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 
-internal sealed class HashSha384Command : CryptoHashCommandBase
+internal sealed class HashSha384Command : HashCommandBaseCrypto
 {
     public HashSha384Command(IHost host) : base(host, SHA384.Create())
     {
@@ -23,5 +23,5 @@ internal sealed class HashSha384Command : CryptoHashCommandBase
     public override string[] Names => ["sha-384"];
 
     public override string Synopsys
-        => "Computes the SHA-384 hash of a file";
+        => "Computes the SHA-384 hash of a file or string";
 }

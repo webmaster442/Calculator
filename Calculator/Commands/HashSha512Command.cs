@@ -11,7 +11,7 @@ using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 
-internal sealed class HashSha512Command : CryptoHashCommandBase
+internal sealed class HashSha512Command : HashCommandBaseCrypto
 {
     public HashSha512Command(IHost host) : base(host, SHA512.Create())
     {
@@ -23,5 +23,5 @@ internal sealed class HashSha512Command : CryptoHashCommandBase
     public override string[] Names => ["sha-512"];
 
     public override string Synopsys
-        => "Computes the SHA-512 hash of a file";
+        => "Computes the SHA-512 hash of a file or string";
 }

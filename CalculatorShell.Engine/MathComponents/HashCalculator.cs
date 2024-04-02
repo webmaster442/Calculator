@@ -3,6 +3,7 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.IO.Hashing;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -25,9 +26,41 @@ public class HashCalculator
         return new HashResult(hash);
     }
 
-    public async Task<HashResult> ComputeHashAsync(HashAlgorithm hashAlgorithm,
+    public HashResult ComputeHash(NonCryptographicHashAlgorithm hashAlgorithm,
+                                  string data)
+    {
+        hashAlgorithm.Append(Encoding.UTF8.GetBytes(data));
+        return new HashResult(hashAlgorithm.GetHashAndReset());
+    }
+
+    public async Task<HashResult> ComputeHashAsync(NonCryptographicHashAlgorithm hashAlgorithm,
                                                    Stream stream,
                                                    CancellationToken cancellationToken)
+    {
+        byte[] buffer = new byte[4096];
+        long totalBytesRead = 0;
+        long lastReported = 0;
+        int bytesRead;
+        do
+        {
+            bytesRead = await stream.ReadAsync(buffer, cancellationToken);
+            totalBytesRead += bytesRead;
+            hashAlgorithm.Append(buffer.AsSpan(0..bytesRead));
+            if (totalBytesRead > lastReported + reportSize)
+            {
+                _progressReporter.Report(totalBytesRead);
+                lastReported = totalBytesRead;
+            }
+            cancellationToken.ThrowIfCancellationRequested();
+        }
+        while (bytesRead != 0);
+
+        return new HashResult(hashAlgorithm.GetHashAndReset());
+    }
+
+    public async Task<HashResult> ComputeHashAsync(HashAlgorithm hashAlgorithm,
+                                               Stream stream,
+                                               CancellationToken cancellationToken)
     {
         byte[] buffer;
         int readAheadBytesRead, bytesRead;
