@@ -25,7 +25,7 @@ internal sealed class NumberToRomanCommand : ShellCommand
     public override string Synopsys
         => "Converts an integer to a roman number";
 
-    public override string HelpMessage 
+    public override string HelpMessage
         => this.BuildHelpMessage<NumberToRomanArguments>();
 
     internal sealed class NumberToRomanArguments

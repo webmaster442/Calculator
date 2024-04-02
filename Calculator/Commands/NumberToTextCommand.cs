@@ -25,7 +25,7 @@ internal sealed class NumberToTextCommand : ShellCommand
     public override string Synopsys
         => "Converts a number to a string";
 
-    public override string HelpMessage 
+    public override string HelpMessage
         => this.BuildHelpMessage<NumberToTextArguments>();
 
     internal sealed class NumberToTextArguments
