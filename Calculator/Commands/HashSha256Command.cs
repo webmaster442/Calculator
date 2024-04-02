@@ -11,7 +11,7 @@ using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 
-internal sealed class HashSha256Command : HashCommandBase
+internal sealed class HashSha256Command : CryptoHashCommandBase
 {
     public HashSha256Command(IHost host) : base(host, SHA256.Create())
     {

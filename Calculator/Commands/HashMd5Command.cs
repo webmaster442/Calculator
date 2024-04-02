@@ -11,7 +11,7 @@ using CalculatorShell.Core;
 
 namespace Calculator.Commands;
 
-internal sealed class HashMd5Command : HashCommandBase
+internal sealed class HashMd5Command : CryptoHashCommandBase
 {
     public HashMd5Command(IHost host) : base(host, MD5.Create())
     {

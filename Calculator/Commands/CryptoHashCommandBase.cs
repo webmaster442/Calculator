@@ -11,12 +11,12 @@ using CalculatorShell.Engine.MathComponents;
 using CommandLine;
 
 namespace Calculator.Commands;
-internal abstract class HashCommandBase : ShellCommandAsync, IDisposable, IProgress<long>
+internal abstract class CryptoHashCommandBase : ShellCommandAsync, IDisposable, IProgress<long>
 {
     private readonly HashAlgorithm _algorithm;
     private bool _disposed;
 
-    protected HashCommandBase(IHost host, HashAlgorithm algorithm) : base(host)
+    protected CryptoHashCommandBase(IHost host, HashAlgorithm algorithm) : base(host)
     {
         _algorithm = algorithm;
     }
@@ -39,7 +39,7 @@ internal abstract class HashCommandBase : ShellCommandAsync, IDisposable, IProgr
         GC.SuppressFinalize(this);
     }
 
-    ~HashCommandBase()
+    ~CryptoHashCommandBase()
     {
         Dispose(false);
     }
