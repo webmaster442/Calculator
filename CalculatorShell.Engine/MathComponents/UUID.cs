@@ -1,8 +1,11 @@
-﻿using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace CalculatorShell.Engine.MathComponents;
 
-public sealed class UUID
+public sealed partial class UUID : ICalculatorFormattable, IParsable<UUID>
 {
 
     internal byte[] Bytes { get; }
@@ -43,4 +46,42 @@ public sealed class UUID
         }
         return sb.ToString();
     }
+
+    public string ToString(CultureInfo culture, bool thousandsGrouping)
+    {
+        return
+            $"""
+            UUID: {ToString()}
+            Base64: {Convert.ToBase64String(Bytes)}
+            """;
+    }
+
+
+
+    public static UUID Parse(string s, IFormatProvider? provider)
+    {
+        if (UUIDMatch().IsMatch(s))
+        {
+            string hex = s.Replace("-", "");
+            return new UUID(Convert.FromHexString(hex), true);
+        }
+        throw new FormatException("Invalid UUID format");
+    }
+
+    public static bool TryParse([NotNullWhen(true)] string? s, IFormatProvider? provider, [MaybeNullWhen(false)] out UUID result)
+    {
+        try
+        {
+            result = Parse(s, provider);
+            return true;
+        }
+        catch (FormatException)
+        {
+            result = null;
+            return false;
+        }
+    }
+
+    [GeneratedRegex(" ^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$")]
+    private static partial Regex UUIDMatch();
 }
