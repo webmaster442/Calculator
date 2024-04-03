@@ -6,7 +6,7 @@
 using System.Security.Cryptography;
 
 using CalculatorShell.Core;
-using CalculatorShell.Engine.MathComponents;
+using CalculatorShell.Engine.MathComponents.Hashing;
 
 namespace Calculator.Commands;
 

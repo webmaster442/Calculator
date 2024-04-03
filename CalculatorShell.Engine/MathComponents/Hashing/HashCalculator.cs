@@ -7,7 +7,7 @@ using System.IO.Hashing;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace CalculatorShell.Engine.MathComponents;
+namespace CalculatorShell.Engine.MathComponents.Hashing;
 
 public class HashCalculator
 {

@@ -5,7 +5,7 @@
 
 using System.Globalization;
 
-namespace CalculatorShell.Engine.MathComponents;
+namespace CalculatorShell.Engine.MathComponents.Hashing;
 
 public sealed class HashResult : IEquatable<HashResult?>, ICalculatorFormattable
 {
