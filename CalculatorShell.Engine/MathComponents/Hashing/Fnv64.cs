@@ -1,4 +1,9 @@
-﻿using System.IO.Hashing;
+﻿//-----------------------------------------------------------------------------
+// (c) 2024 Ruzsinszki Gábor
+// This code is licensed under MIT license (see LICENSE for details)
+//-----------------------------------------------------------------------------
+
+using System.IO.Hashing;
 
 namespace CalculatorShell.Engine.MathComponents.Hashing;
 
