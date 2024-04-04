@@ -17,11 +17,11 @@ public sealed class HttpServer : IDisposable
     private readonly Thread[] _workers;
     private readonly ManualResetEvent _stop, _ready;
     private readonly Queue<HttpListenerContext> _queue;
-    private readonly ILog _log;
+    private readonly IStructuredLog _log;
     private IReadOnlyCollection<IRequestHandler> _handlers;
     private readonly DefaultRequestHandler _defaultHandler;
 
-    public HttpServer(ILog log,
+    public HttpServer(IStructuredLog log,
                       int maxThreads = 2)
     {
         _defaultHandler = new DefaultRequestHandler();
@@ -42,7 +42,7 @@ public sealed class HttpServer : IDisposable
 
         if (port == -1)
         {
-            _log.Error($"Failed to start server, because no avaliable port can be found in range {startPort} {endPort}");
+            _log.Error("Failed to start server, because no avaliable port can be found in range", new { MinimumPort = startPort, MaximumPort = endPort });
             return -1;
         }
 
@@ -57,7 +57,11 @@ public sealed class HttpServer : IDisposable
             _workers[i] = new Thread(Worker);
             _workers[i].Start();
         }
-        _log.Info($"Server started on http://localhost:{port}/");
+
+        _log.Info($"Server started", new {
+            Host = "http://localhost",
+            Port = port
+        });
 
         return port;
     }
@@ -137,11 +141,12 @@ public sealed class HttpServer : IDisposable
             try
             {
                 bool handled = false;
+                _log.Info("Incoming request", context.ToLog());
                 foreach (var handler in _handlers)
                 {
                     if (handler.HandleRequest(context))
                     {
-                        _log.Info($"Handling: {context.ToLogMessage()} with {handler.GetType().Name}");
+                        _log.Info("Request handled", handler.GetType().Name);
                         handled = true;
                         break;
                     }
@@ -149,14 +154,14 @@ public sealed class HttpServer : IDisposable
 
                 if (!handled)
                 {
-                    _log.Warning($"No handler found for request: {context.ToLogMessage()}");
+                    _log.Warning("No handler found for request");
                     _ = _defaultHandler.HandleRequest(context);
                 }
 
             }
             catch (Exception e)
             {
-                _log.Error($"{e.Message}");
+                _log.Exception(e);
             }
         }
     }

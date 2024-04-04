@@ -50,9 +50,9 @@ public static class Extensions
         content.CopyTo(context.Response.OutputStream);
     }
 
-    public static string ToLogMessage(this HttpListenerContext context)
+    public static LogHttpContext ToLog(this HttpListenerContext context)
     {
-        return $"{context.Request.HttpMethod} {context.Request.Url}";
+        return new LogHttpContext(context);
     }
 
     public static bool IsMatch(this HttpListenerContext context, string method, string url)

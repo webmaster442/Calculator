@@ -11,7 +11,7 @@ Console.OutputEncoding = Encoding.UTF8;
 
 var dirProvider = new CurrentDirectoryProvider();
 
-var host = new TerminalHost(dirProvider);
+var host = new TerminalHost(dirProvider, TimeProvider.System);
 
 using (var app = new App(host,
                          host.Input,

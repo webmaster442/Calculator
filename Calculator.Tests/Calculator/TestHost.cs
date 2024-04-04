@@ -20,7 +20,7 @@ internal sealed class TestHost : IHost
         Mediator = new Mediator();
         WebServices = Substitute.For<IWebServices>();
         Dialogs = Substitute.For<IDialogs>();
-        Log = Substitute.For<ILog>();
+        Log = Substitute.For<IStructuredLog>();
     }
 
     public CultureInfo CultureInfo { get; set; } = CultureInfo.InvariantCulture;
@@ -33,7 +33,7 @@ internal sealed class TestHost : IHost
 
     public IDialogs Dialogs { get; }
 
-    public ILog Log { get; }
+    public IStructuredLog Log { get; }
 
     public string CurrentDirectory { get; } = @"c:\test";
 

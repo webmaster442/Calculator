@@ -91,7 +91,7 @@ internal sealed class App :
             {
                 try
                 {
-                    _host.Log.Info($"Executing: {cmdAndArgs.cmd} {cmdAndArgs.Arguments.Text}");
+                    _host.Log.Info($"Executing: {cmdAndArgs.cmd}", cmdAndArgs);
                     if (!singleRun)
                         Console.CancelKeyPress += OnCancelKeyPress;
                     _currentTokenSource = new CancellationTokenSource();

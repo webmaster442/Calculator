@@ -21,7 +21,7 @@ internal sealed class TerminalHost : IHost, IWritableHost
     private readonly ICurrentDirectoryProvider _currentDirectoryProvider;
     private CultureInfo _culture;
 
-    public TerminalHost(ICurrentDirectoryProvider currentDirectoryProvider)
+    public TerminalHost(ICurrentDirectoryProvider currentDirectoryProvider, TimeProvider provider)
     {
         _currentDirectoryProvider = currentDirectoryProvider;
         _culture = CultureInfo.InvariantCulture;
@@ -29,7 +29,7 @@ internal sealed class TerminalHost : IHost, IWritableHost
         _output = new TerminalOutput(ConfigAccessor);
         Mediator = new Mediator();
         WebServices = new WebServices();
-        Log = new MemoryLog();
+        Log = new MemoryLog(provider);
         Dialogs = new TerminalDialogs(this);
     }
 
@@ -51,7 +51,7 @@ internal sealed class TerminalHost : IHost, IWritableHost
 
     public IDialogs Dialogs { get; }
 
-    public ILog Log { get; }
+    public IStructuredLog Log { get; }
 
     public string CurrentDirectory
         => _currentDirectoryProvider.CurrentDirectory;

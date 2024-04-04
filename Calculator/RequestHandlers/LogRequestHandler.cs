@@ -39,11 +39,11 @@ internal sealed class LogRequestHandler : HtmlRequestHandler
         foreach (var item in _host.Log.Entries.OrderBy(x => x.Key))
         {
             if (item.Value.Contains(" Warning: "))
-                _ = sb.AppendLine($"<li class=\"monospaced yellow\">{item.Key} {item.Value}</li>");
+                _ = sb.AppendLine($"<li><pre class=\"monospaced yellow\">{item.Key} {item.Value}</pre></li>");
             else if (item.Value.Contains(" Error: ") || item.Value.Contains(" Exception: "))
-                _ = sb.AppendLine($"<li class=\"monospaced red\">{item.Key} {item.Value}</li>");
+                _ = sb.AppendLine($"<li><pre class=\"monospaced yellow\">{item.Key} {item.Value}</pre></li>");
             else
-                _ = sb.AppendLine($"<li>{item.Key} {item.Value}</li>");
+                _ = sb.AppendLine($"<li><pre>{item.Key} {item.Value}</pre></li>");
         }
         _ = sb.AppendLine("</ol>");
         return sb.ToString();

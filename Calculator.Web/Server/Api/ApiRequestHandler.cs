@@ -34,9 +34,9 @@ public abstract class ApiRequestHandler<THandlerType> : IRequestHandler
     private readonly Dictionary<ApiRoute, ApiMethod> _apiRoutes;
     private readonly Dictionary<ApiRoute, LowLevelApiMethod> _lowLevels;
 
-    public ILog Log { get; }
+    public IStructuredLog Log { get; }
 
-    protected ApiRequestHandler(ILog log)
+    protected ApiRequestHandler(IStructuredLog log)
     {
         Log = log;
         _apiRoutes = Load<ApiMethod>(typeof(ApiResponse));

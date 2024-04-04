@@ -37,7 +37,7 @@ public interface IHost
     /// <summary>
     /// Debug log
     /// </summary>
-    ILog Log { get; }
+    IStructuredLog Log { get; }
     /// <summary>
     /// Current directory
     /// </summary>

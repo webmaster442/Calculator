@@ -6,9 +6,9 @@
 namespace CalculatorShell.Core;
 
 /// <summary>
-/// Log
+/// Interface for structured logging
 /// </summary>
-public interface ILog
+public interface IStructuredLog
 {
     /// <summary>
     /// Log an exception
@@ -19,17 +19,20 @@ public interface ILog
     /// Log an infromation message
     /// </summary>
     /// <param name="text">message to log</param>
-    void Info(FormattableString text);
+    /// <param name="context">an additonal object as contexct information</param>
+    void Info(string text, object? context = null);
     /// <summary>
     /// Log a warning message
     /// </summary>
     /// <param name="text">message to log</param>
-    void Warning(FormattableString text);
+    /// <param name="context">an additonal object as contexct information</param>
+    void Warning(string text, object? context = null);
     /// <summary>
     /// Log an error message
     /// </summary>
     /// <param name="text">message to log</param>
-    void Error(FormattableString text);
+    /// /// <param name="context">an additonal object as contexct information</param>
+    void Error(string text, object? context = null);
     /// <summary>
     /// Log entries
     /// </summary>
