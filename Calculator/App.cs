@@ -163,8 +163,11 @@ internal sealed class App :
     {
         foreach (var cmd in CommandLoader.LoadAdditionalTypes<IAutoExec>(typeof(App), _host).OrderBy(x => x.Priority))
         {
-            if (cmd is IntroAutoExec && singleRun)
+            if (singleRun 
+                && cmd is IntroAutoExec or WindowsTerminalProfileAutoExec)
+            {
                 continue;
+            }
 
             _host.Log.Info($"{cmd.LogMessage}");
             cmd.Execute(_host, _writableHost);
