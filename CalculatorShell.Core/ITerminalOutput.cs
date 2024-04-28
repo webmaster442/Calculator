@@ -77,7 +77,7 @@ public interface ITerminalOutput
     /// Display a markup string
     /// </summary>
     /// <param name="markup">Markup to display</param>
-    void Markup(string markup);
+    void Write(string markup);
     /// <summary>
     /// Display a table
     /// </summary>
@@ -88,4 +88,10 @@ public interface ITerminalOutput
     /// </summary>
     /// <param name="items">breakdownchart items</param>
     void BreakDown(IReadOnlyDictionary<string, double> items);
+    
+    /// <summary>
+    /// Display a single ASCII character
+    /// </summary>
+    /// <param name="c">ASCII character to display</param>
+    void Write(byte c);
 }

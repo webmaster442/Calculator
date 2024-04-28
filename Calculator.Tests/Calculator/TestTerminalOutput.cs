@@ -57,7 +57,7 @@ internal sealed class TestTerminalOutput : ITerminalOutput
         }
     }
 
-    public void Markup(string markup)
+    public void Write(string markup)
     {
         _ = _buffer.Append(markup);
     }
@@ -104,5 +104,10 @@ internal sealed class TestTerminalOutput : ITerminalOutput
     public override string ToString()
     {
         return _buffer.ToString();
+    }
+
+    public void Write(byte c)
+    {
+        _buffer.Append((char)c);
     }
 }

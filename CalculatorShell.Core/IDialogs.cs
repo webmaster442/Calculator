@@ -51,4 +51,10 @@ public interface IDialogs
     /// <param name="cancellationToken">A cancellationToken</param>
     /// <returns>true, if yes was selected</returns>
     Task<bool> Confirm(string message, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Read a single ascii character from the user
+    /// </summary>
+    /// <returns>an ascii character</returns>
+    byte ReadChar();
 }

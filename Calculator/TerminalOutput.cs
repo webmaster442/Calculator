@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Globalization;
+using System.Text;
 
 using Calculator.Configuration;
 
@@ -118,8 +119,13 @@ internal sealed class TerminalOutput : ITerminalOutput
         AnsiConsole.Write(b);
     }
 
-    public void Markup(string markup)
+    public void Write(string markup)
     {
         Console.Write(markup);
+    }
+
+    public void Write(byte c)
+    {
+        Console.Write(Encoding.ASCII.GetChars([c]));
     }
 }

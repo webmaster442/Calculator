@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 
 using System.Diagnostics;
+using System.Text;
 
 using Calculator.Messages;
 
@@ -260,5 +261,16 @@ internal sealed class TerminalDialogs : IDialogs, INotifyTarget<HttpServerPort>
     void INotifyTarget<HttpServerPort>.OnNotify(HttpServerPort message)
     {
         _serverPort = message.Port;
+    }
+
+    public byte ReadChar()
+    {
+        int chr = Console.Read();
+        if (chr == -1)
+        {
+            return 0;
+        }
+
+        return Encoding.ASCII.GetBytes(new char[Convert.ToChar(chr)])[0];
     }
 }

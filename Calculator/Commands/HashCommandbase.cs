@@ -37,6 +37,6 @@ internal abstract class HashCommandbase : ShellCommandAsync, IProgress<long>
 
     public virtual void Report(long value)
     {
-        Host.Output.Markup($"Processed: {value} bytes\r");
+        Host.Output.Write($"Processed: {value} bytes\r");
     }
 }
