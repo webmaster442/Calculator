@@ -35,10 +35,10 @@ internal sealed class NumConvertCommand : ShellCommand
         [Value(0, HelpText = "Number to convert", Required = true)]
         public string Value { get; set; }
 
-        [Value(1, HelpText = "Source number system", Required = true, Min = 2, Max = 36)]
+        [Value(1, HelpText = "Source number system", Required = true)]
         public int Source { get; set; }
 
-        [Value(1, HelpText = "Target number system", Required = true, Min = 2, Max = 36)]
+        [Value(2, HelpText = "Target number system", Required = true)]
         public int Target { get; set; }
 
         public NumConvertOptions()
@@ -50,6 +50,12 @@ internal sealed class NumConvertCommand : ShellCommand
     public override void ExecuteInternal(Arguments args)
     {
         var options = args.Parse<NumConvertOptions>(Host);
+
+        if (options.Source < 2 || options.Source > 36)
+            throw new CommandException("Source base must be between 2 and 36");
+
+        if (options.Target < 2 || options.Target > 36)
+            throw new CommandException("Target base must be between 2 and 36");
 
         string result = _converter.Convert(options.Value, options.Source, options.Target);
 
