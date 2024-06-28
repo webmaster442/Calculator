@@ -24,26 +24,40 @@ public abstract class HtmlRequestHandler : IRequestHandler
 
     public bool HandleRequest(HttpListenerContext context)
     {
-        if (!context.IsMatch("GET", _url))
-            return false;
-
-        if (_cancache)
+        if (context.IsMatch("GET", _url))
         {
-            if (_cache == null)
+            if (_cancache)
             {
-                var template = new Template(_templateContent);
-                _cache = RenderContent(template);
+                return ServeCached(context);
             }
-            context.Transfer(_cache, MediaTypeNames.Text.Html, HttpStatusCode.OK);
-            return true;
+            return ServeNonCached(context);
         }
+        if (context.IsMatch("POST", _url))
+        {
+            return ServeNonCached(context);
+        }
+        return false;
+    }
 
+    private bool ServeCached(HttpListenerContext context)
+    {
+        if (_cache == null)
+        {
+            var template = new Template(_templateContent);
+            _cache = RenderContent(template, Parameters.Create(context));
+        }
+        context.Transfer(_cache, MediaTypeNames.Text.Html, HttpStatusCode.OK);
+        return true;
+    }
+
+    private bool ServeNonCached(HttpListenerContext context)
+    {
         var nonCachedTemplate = new Template(_templateContent);
         context.Response.Headers.Add(HttpResponseHeader.CacheControl, "no-store");
-        var content = RenderContent(nonCachedTemplate);
+        var content = RenderContent(nonCachedTemplate, Parameters.Create(context));
         context.Transfer(content, MediaTypeNames.Text.Html, HttpStatusCode.OK);
         return true;
     }
 
-    protected abstract string RenderContent(Template template);
+    protected abstract string RenderContent(Template template, Parameters parameters);
 }

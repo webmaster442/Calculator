@@ -22,7 +22,7 @@ internal sealed class LogRequestHandler : HtmlRequestHandler
         _host = host;
     }
 
-    protected override string RenderContent(Template template)
+    protected override string RenderContent(Template template, Parameters parameters)
     {
         var logstring = RenderLog();
 

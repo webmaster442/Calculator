@@ -22,6 +22,7 @@
     <None Remove="Resources\Manual\man-constants.md" />
     <None Remove="Resources\Manual\man-functionnames.md" />
     <None Remove="Resources\Manual\man-numberformats.md" />
+    <None Remove="Resources\plot.html" />
     <None Remove="Resources\script.js" />
     <None Remove="Resources\Start.html" />
     <None Remove="Resources\style.css" />
@@ -42,6 +43,7 @@
     <EmbeddedResource Include="Resources\Manual\man-constants.md" />
     <EmbeddedResource Include="Resources\Manual\man-functionnames.md" />
     <EmbeddedResource Include="Resources\Manual\man-numberformats.md" />
+    <EmbeddedResource Include="Resources\plot.html" />
     <EmbeddedResource Include="Resources\script.js" />
     <EmbeddedResource Include="Resources\start.html" />
     <EmbeddedResource Include="Resources\style.css" />
