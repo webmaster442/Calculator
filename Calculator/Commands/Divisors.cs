@@ -17,8 +17,8 @@ internal class Divisors : ShellCommandAsync
     public override string Synopsys 
         => "Return the divisors of a given iteger number";
 
-    public override string HelpMessage 
-        => throw new NotImplementedException();
+    public override string HelpMessage
+        => this.BuildHelpMessage<DivisorsOptions>();
 
     internal class DivisorsOptions
     {

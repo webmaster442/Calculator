@@ -23,6 +23,7 @@
     <None Remove="Resources\Manual\man-functionnames.md" />
     <None Remove="Resources\Manual\man-numberformats.md" />
     <None Remove="Resources\script.js" />
+    <None Remove="Resources\Start.html" />
     <None Remove="Resources\style.css" />
     <None Remove="Resources\Template.html" />
     <None Remove="Resources\uikit-icons.min.js" />
@@ -42,6 +43,7 @@
     <EmbeddedResource Include="Resources\Manual\man-functionnames.md" />
     <EmbeddedResource Include="Resources\Manual\man-numberformats.md" />
     <EmbeddedResource Include="Resources\script.js" />
+    <EmbeddedResource Include="Resources\start.html" />
     <EmbeddedResource Include="Resources\style.css" />
     <EmbeddedResource Include="Resources\Manual.html" />
     <EmbeddedResource Include="Resources\Template.html" />

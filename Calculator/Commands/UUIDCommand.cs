@@ -24,7 +24,8 @@ internal class UUIDCommand : ShellCommand
     public override string Synopsys 
         => "Generates a Universally Unique Identifier (UUID)";
 
-    public override string HelpMessage => throw new NotImplementedException();
+    public override string HelpMessage 
+        => this.BuildHelpMessage<UUIDOptions>();
 
     internal class UUIDOptions
     {

@@ -132,3 +132,19 @@ button {
     clear: both;
     width: 100%;
 }
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 40%;
+    border-radius: 5px;
+    float: left;
+    margin: 10px;
+    text-align: center;
+}
+    .card svg {
+        width: 256px;
+        height: 256px;
+        fill: #2196f3;
+        margin: 0 auto;
+    }

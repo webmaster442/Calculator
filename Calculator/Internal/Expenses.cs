@@ -66,7 +66,7 @@ internal sealed class Expenses :
         table.AddRow("Expense", sumExpense.ToString(_host.CultureInfo));
         table.AddRow("Ballance", ballance.ToString(_host.CultureInfo));
         table.AddRow("Days with expenses", days.ToString(_host.CultureInfo));
-        table.AddRow("Average spending / day", (sumExpense / days).ToString(_host.CultureInfo));
+        table.AddRow("Average spending / day", (sumExpense / (days < 1 ? 1 : days)).ToString(_host.CultureInfo));
 
         return table;
     }

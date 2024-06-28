@@ -3,6 +3,8 @@
 // This code is licensed under MIT license (see LICENSE for details)
 //-----------------------------------------------------------------------------
 
+using System.Reflection.Emit;
+
 namespace Calculator.Resources;
 
 internal static class ResourceNames
@@ -15,6 +17,7 @@ internal static class ResourceNames
     public const string Icon = "Calculator.Calculator.ico";
     public const string StyleCss = "Calculator.Resources.style.css";
     public const string ScriptJs = "Calculator.Resources.script.js";
+    public const string StartHtml = "Calculator.Resources.start.html";
 
     public const string ManColors = "Calculator.Resources.Manual.man-colors.md";
     public const string ManConstants = "Calculator.Resources.Manual.man-constants.md";

@@ -25,6 +25,8 @@ internal sealed class BuiltInFilesRequestHandler : IRequestHandler
         else if (context.IsMatch("GET", "/script.js"))
             return Serve(context, ResourceNames.ScriptJs, MediaTypeNames.Text.JavaScript);
 
+        else if (context.IsMatch("GET", "/start.html") || context.IsMatch("GET", "/"))
+            return Serve(context, ResourceNames.StartHtml, MediaTypeNames.Text.Html);
 
         return false;
     }
