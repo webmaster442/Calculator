@@ -10,6 +10,8 @@ using CalculatorShell.Core;
 using CalculatorShell.Core.Mediator;
 using CalculatorShell.Engine;
 
+using OxyPlot;
+
 namespace Calculator.Commands;
 
 internal sealed class EvalCommand : ShellCommandAsync,
@@ -17,7 +19,8 @@ internal sealed class EvalCommand : ShellCommandAsync,
     INotifyTarget<SetVariable>,
     INotifyTarget<UnsetVariable>,
     IRequestProvider<IEnumerable<string>, FunctionListRequest>,
-    IRequestProvider<IEnumerable<KeyValuePair<string, Number>>, VariableListRequest>
+    IRequestProvider<IEnumerable<KeyValuePair<string, Number>>, VariableListRequest>,
+    IRequestProvider<List<DataPoint>, PlotRenderInput>
 {
     private readonly ArithmeticEngine _engine;
     private readonly Varialbes _varialbes;
@@ -102,4 +105,13 @@ internal sealed class EvalCommand : ShellCommandAsync,
 
     IEnumerable<KeyValuePair<string, Number>> IRequestProvider<IEnumerable<KeyValuePair<string, Number>>, VariableListRequest>.OnRequest(VariableListRequest message)
         => _varialbes.AsEnumerable();
+
+    List<DataPoint> IRequestProvider<List<DataPoint>, PlotRenderInput>.OnRequest(PlotRenderInput message)
+    {
+        return _engine.Iterate(message.Formula, message.Start, message.End, message.Step, CancellationToken.None)
+            .Select(item => new DataPoint(item.x, item.y))
+            .ToListAsync()
+            .GetAwaiter()
+            .GetResult();
+    }
 }

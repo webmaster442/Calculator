@@ -16,6 +16,7 @@ internal static class ServerDoucmentExtensions
         {
             ServerDocument.Manual => $"http://localhost:{port}/manual.html",
             ServerDocument.Log => $"http://localhost:{port}/log.html",
+            ServerDocument.Plot => $"http://localhost:{port}/plot.html",
             _ => throw new UnreachableException(),
         };
     }

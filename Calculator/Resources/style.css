@@ -49,12 +49,24 @@ button {
     color: #f44336 !important;
 }
 
+.red-bg {
+    background-color: #f44336 !important;
+}
+
 .green {
     color: #4caf50 !important;
 }
 
+.green-bg {
+    background-color: #4caf50 !important;
+}
+
 .yellow {
     color: #ffeb3b !important;
+}
+
+.yellow-bg {
+    background-color: #ffeb3b !important;
 }
 
 .monospaced {
@@ -142,9 +154,26 @@ button {
     margin: 10px;
     text-align: center;
 }
+
     .card svg {
         width: 256px;
         height: 256px;
         fill: #2196f3;
         margin: 0 auto;
     }
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-control {
+    width: 50%;
+    height: 25px;
+}
+
+.button {
+    padding: 6px 12px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+}

@@ -18,4 +18,8 @@ public enum ServerDocument
     /// Log
     /// </summary>
     Log,
+    /// <summary>
+    /// Plot UI
+    /// </summary>
+    Plot,
 }

@@ -5,16 +5,77 @@
     <meta charset="utf-8">
     <title>Plot</title>
     <link rel="stylesheet" type="text/css" href="style.css" />
+    <style>
+        .plotform {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            grid-column-gap: 0px;
+            grid-row-gap: 0px;
+        }
+
+        .div1 {
+            grid-area: 1 / 1 / 2 / 2;
+        }
+
+        .div2 {
+            grid-area: 2 / 1 / 3 / 4;
+        }
+
+        .div3 {
+            grid-area: 3 / 1 / 4 / 2;
+        }
+
+        .div4 {
+            grid-area: 3 / 2 / 4 / 3;
+        }
+
+        .div5 {
+            grid-area: 3 / 3 / 4 / 4;
+        }
+
+        .div6 {
+            grid-area: 4 / 3 / 5 / 4;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <form action="plot.html" method="post" enctype="multipart/form-data">
-            <input type="text" name="formula" value="1/x"/>
-            <input type="number" name="min" value="0"/>
-            <input type="number" name="max" value="1"/>
-            <input type="number" name="step" value="0.1"/>
-            <input type="submit" value="Plot"/>
+            <fieldset class="plotform">
+                <legend>Plot options</legend>
+                <div class="form-group div1">
+                    <label for="preset">Preset:</label>
+                    <select class="form-control" id="preset" name="preset">
+                        <option value="1">Option one</option>
+                        <option value="2">Option two</option>
+                    </select>
+                </div>
+                <div class="form-group div2">
+                    <label for="Formula">Formula to plot:</label>
+                    <input class="form-control" id="Formula" name="Formula" type="text" placeholder="1/x">
+                </div>
+                <div class="form-group div3">
+                    <label for="Start">Start value:</label>
+                    <input class="form-control" id="Start" name="Start" type="number" placeholder="0">
+                </div>
+                <div class="form-group div4">
+                    <label for="End">End value:</label>
+                    <input class="form-control" id="End" name="End" type="number" placeholder="1">
+                </div>
+                <div class="form-group div5">
+                    <label for="Step">Step value:</label>
+                    <input class="form-control" id="Step" name="Step" type="number" placeholder="0.1">
+                </div>
+                <div class="form-group div6">
+                    <input type="submit" class="green-bg button" value="Plot" />
+                    <input type="reset" class="red-bg button" value="Reset" />
+                </div>
+            </fieldset>
         </form>
+        <div>
+            <!--{content}-->
+        </div>
     </div>
 </body>
 </html>
