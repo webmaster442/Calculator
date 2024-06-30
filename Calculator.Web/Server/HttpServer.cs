@@ -161,6 +161,7 @@ public sealed class HttpServer : IDisposable
             }
             catch (Exception e)
             {
+                _ = _defaultHandler.HandleException(context, e);
                 _log.Exception(e);
             }
         }
