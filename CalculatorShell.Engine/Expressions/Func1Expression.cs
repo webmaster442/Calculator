@@ -33,7 +33,7 @@ internal sealed class Func1Expression : UnaryExpression
 
     public override Expression Compile()
     {
-        return Expression.Call(Child.Compile(), _function.MethodInfo);
+        return Expression.Call(_function.MethodInfo, Child.Compile());
     }
 
     public override string ToString(CultureInfo cultureInfo)

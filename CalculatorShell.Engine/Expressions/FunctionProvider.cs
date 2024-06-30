@@ -24,7 +24,7 @@ internal sealed class FunctionProvider : IFunctionProvider
     private void Fill(Type type)
     {
         var candidates = type
-            .GetMethods()
+            .GetMethods(BindingFlags.Public | BindingFlags.Static)
             .Where(m => m.IsStatic && m.GetCustomAttribute<EngineFunctionAttribute>() != null);
 
         foreach (var candidate in candidates)
