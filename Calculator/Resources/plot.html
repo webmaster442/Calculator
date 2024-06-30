@@ -38,6 +38,62 @@
             grid-area: 4 / 3 / 5 / 4;
         }
     </style>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            let presets = [
+                {
+                    "Formula": "1/x",
+                    "Start": 0,
+                    "End": 10,
+                    "Step": 100
+                },
+                {
+                    "Formula": "x^2",
+                    "Start": -10,
+                    "End": 10,
+                    "Step": 100
+                },
+                {
+                    "Formula": "x^3",
+                    "Start": -10,
+                    "End": 10,
+                    "Step": 100
+                },
+                {
+                    "Formula": "sin(x)",
+                    "Start": -180,
+                    "End": 180,
+                    "Step": 720
+                },
+                {
+                    "Formula": "cos(x)",
+                    "Start": -180,
+                    "End": 180,
+                    "Step": 720
+                },
+                {
+                    "Formula": "tan(x)",
+                    "Start": -180,
+                    "End": 180,
+                    "Step": 720
+                }
+            ];
+            let presetSelector = document.getElementById("preset");
+            for (let i = 0; i < presets.length; i++) {
+                let option = document.createElement("option");
+                option.value = i;
+                option.text = presets[i].Formula;
+                presetSelector.appendChild(option);
+            }
+            presetSelector.onchange = function () {
+                let selectedPreset = presets[presetSelector.value];
+                document.getElementById("Formula").value = selectedPreset.Formula;
+                document.getElementById("Start").value = selectedPreset.Start;
+                document.getElementById("End").value = selectedPreset.End;
+                document.getElementById("Step").value = selectedPreset.Step;
+            };
+        });
+    </script>
 </head>
 <body>
     <div class="container">
@@ -47,8 +103,7 @@
                 <div class="form-group div1">
                     <label for="preset">Preset:</label>
                     <select class="form-control" id="preset" name="preset">
-                        <option value="1">Option one</option>
-                        <option value="2">Option two</option>
+                        <option value="">Select a preset</option>
                     </select>
                 </div>
                 <div class="form-group div2">
@@ -57,15 +112,15 @@
                 </div>
                 <div class="form-group div3">
                     <label for="Start">Start value:</label>
-                    <input class="form-control" id="Start" name="Start" type="number" placeholder="0">
+                    <input class="form-control" id="Start" name="Start" type="number" placeholder="-10">
                 </div>
                 <div class="form-group div4">
                     <label for="End">End value:</label>
-                    <input class="form-control" id="End" name="End" type="number" placeholder="1">
+                    <input class="form-control" id="End" name="End" type="number" placeholder="10">
                 </div>
                 <div class="form-group div5">
-                    <label for="Step">Step value:</label>
-                    <input class="form-control" id="Step" name="Step" type="number" placeholder="0.1">
+                    <label for="Step"># of steps:</label>
+                    <input class="form-control" id="Step" name="Step" type="number" placeholder="100">
                 </div>
                 <div class="form-group div6">
                     <input type="submit" class="green-bg button" value="Plot" />
